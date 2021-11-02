@@ -2,6 +2,9 @@ import { DataService } from './../../shared/services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { Persona } from 'src/app/shared/models/Persona';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -9,8 +12,12 @@ import { Persona } from 'src/app/shared/models/Persona';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  myControl = new FormControl();
+  options: Persona[] = [];
+  filteredOptions!: Observable<Persona[]>;
 
   invitados!: Persona[];
+  invitadosFake!: Persona[];
   navExtras: NavigationExtras = {
     state: {
       persona: null
@@ -44,14 +51,20 @@ export class HomeComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router) { }
 
   async ngOnInit(): Promise<void> {
+    this.invitadosFake = [{nombre: "nada", apellidos: "de nada", parentesco: "Amigo/a", sexo: "Hombre", ubicacion: "Madrid", invitado: false, confirmado: false}]
     await this.getInvitados();
+
+    
   }
 
   async getInvitados(){
     await this.dataService.invitados.subscribe((invitados: Persona[]) => {
       this.invitados = invitados;
-      console.log(invitados);
-      
+      this.options = invitados
+      this.filteredOptions = this.myControl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
       this.fillTable(invitados);
     });
   }
@@ -71,5 +84,15 @@ export class HomeComponent implements OnInit {
 
   fillTable(ELEMENT_DATA: Persona[]){
     this.displayedColumns = this.columns.map(c => c.columnDef);
+  }
+
+  private _filter(value: string): Persona[] {
+    const filterValue = value.toLowerCase();   
+    return this.invitados.filter(option => option.nombre.toLowerCase().includes(filterValue));
+  }
+
+  filterInvitados(e: any){
+    console.log(e);
+    this.invitados = this.invitados.filter(x => x.id === e);
   }
 }

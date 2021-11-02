@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { Persona } from '../../models/Persona';
 
 @Component({
   selector: 'app-form',
@@ -28,6 +29,7 @@ export class FormComponent implements OnInit {
   ) {
     var navi = this.router.getCurrentNavigation();
     this.persona = navi?.extras?.state;
+    console.log("🚀 ~ file: form.component.ts ~ line 32 ~ FormComponent ~ this.persona", this.persona)
     this.states = { new: 1, edit: 2 };
     this.stateForm = this.getState();
     this.sexoList = ["Hombre", "Mujer"];
@@ -40,9 +42,7 @@ export class FormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.stateForm === this.states.new){
-      //this.router.navigate(['home']);
-    } else if(this.stateForm === this.states.edit){
+    if(this.stateForm === this.states.edit){
       this.invitadoForm.patchValue(this.persona);
     }
   }
@@ -50,15 +50,15 @@ export class FormComponent implements OnInit {
   async onSave(): Promise<void> {
     if (this.invitadoForm.valid) {
       try {
-        const invitado = this.invitadoForm.value;
-        const invitadoId = this.persona?.id || null;
-        await this.dataService.addInvitado(invitado, invitadoId);
+        const invitado: Persona = this.invitadoForm.value;
+        invitado.id = this.persona?.id || null
+        await this.dataService.addInvitado(invitado);
 
         if(this.stateForm == this.states.new){          
           Swal.fire('Invitado añadido', 'Puedes verlo en la lista', 'success');
           this.invitadoForm.reset();
         } else if(this.stateForm == this.states.edit){
-          Swal.fire('Invitado editado', 'Volviendo a la lista', 'success');
+          Swal.fire('Invitado editado', 'Pulsa Ok Para volver a la lista', 'success');
           this.router.navigate(['home']);
         }
       } catch (e) {
@@ -103,6 +103,7 @@ export class FormComponent implements OnInit {
   }
 
   async goToDelete(id: string){
+    console.log("🚀 ~ file: form.component.ts ~ line 105 ~ FormComponent ~ goToDelete ~ id", id)
     try {
       await this.dataService.deleteInvitado(id);
       Swal.fire('Invitado eliminado', 'Se ha eliminado el invitado correctamente', 'success');

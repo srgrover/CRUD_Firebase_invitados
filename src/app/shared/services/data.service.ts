@@ -22,12 +22,13 @@ export class DataService {
     this.getInvitados();
   }
 
-  addInvitado(invitado: Persona, invitadoId: string): Promise<void> {
+  addInvitado(invitado: Persona): Promise<void> {
+    console.log("🚀 ~ file: data.service.ts ~ line 26 ~ DataService ~ invitado", invitado)
     return new Promise(async (resolve, reject) => {
       try {
-        const id = invitadoId || this.afs.createId();
-        const data = { id, ...invitado };
-        const result = await this.invitadoCollection.doc(id).set(data);
+        invitado.id = invitado.id || this.afs.createId();
+        console.log("🚀 ~ file: data.service.ts ~ line 31 ~ DataService ~ returnnewPromise ~ invitado.id", invitado.id)
+        const result = await this.invitadoCollection.doc(invitado.id).set(invitado);
         resolve(result);
       } catch (err) {
         reject(err);
