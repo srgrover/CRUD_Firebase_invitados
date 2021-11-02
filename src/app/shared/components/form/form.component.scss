@@ -1,0 +1,9 @@
+*{
+    overflow-y: unset;
+}
+
+button.mat-focus-indicator.mat-flat-button.mat-button-base.mat-primary, button.mat-focus-indicator.mat-flat-button.mat-button-base.mat-accent, button.mat-focus-indicator.mat-flat-button.mat-button-base.mat-warn{
+    width: 100%;
+    position: sticky;
+    bottom: 0;
+}

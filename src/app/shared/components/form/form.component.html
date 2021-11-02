@@ -1,0 +1,65 @@
+<div>
+    <button mat-icon-button aria-label="Example icon button with a vertical three dot icon" (click)="goBack()">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+</div>
+<form class="row g-3 mx-3" (ngSubmit)="onSave()" [formGroup]="invitadoForm">
+    <div class="col-md-6">
+        <label for="inputNombre" class="form-label">Nombre</label>
+        <input formControlName="nombre" [class]="isValidField('nombre')" type="text" class="form-control"
+            id="inputNombre" placeholder="ej. Harry">
+        <div class="invalid-feedback">
+            <span *ngIf="invitadoForm.get('nombre')?.errors?.required">
+                Introduce el nombre del invitado
+            </span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label for="inoputApellido" class="form-label">Apellidos</label>
+        <input formControlName="apellidos" [class]="notRequiredHasValue('apellidos')" type="text" class="form-control"
+            id="inoputApellido" placeholder="ej. Potter">
+    </div>
+    <div class="col-md-4">
+        <label for="selParentesco" class="form-label">Parentesco</label>
+        <select formControlName="parentesco" id="selParentesco" class="form-select" [(ngModel)]="parentescoInvitado">
+            <option *ngFor="let item of parentescoList" [value]="item">{{item}}</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label for="inputSexo" class="form-label">Sexo</label>
+        <select formControlName="sexo" id="inputSexo" class="form-select" [(ngModel)]="sexoInvitado">
+            <option *ngFor="let item of sexoList" [value]="item">{{item}}</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label for="inputUbicacion" class="form-label">Ubicacion</label>
+        <input formControlName="ubicacion" [class]="isValidField('ubicacion')" type="text" class="form-control"
+            id="inputUbicacion" placeholder="ej. Hogwarts">
+        <div class="invalid-feedback">
+            <span *ngIf="invitadoForm.get('ubicacion')?.errors?.required">
+                Introduce la ubicacion de residencia de tu invitado
+            </span>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-check">
+            <input formControlName="invitado" class="form-check-input" type="checkbox" id="gridCheckInvitado">
+            <label class="form-check-label" for="gridCheckInvitado">
+                Invitado
+            </label>
+        </div>
+        <div class="form-check">
+            <input formControlName="confirmado" class="form-check-input" type="checkbox" id="gridCheckConfirmado">
+            <label class="form-check-label" for="gridCheckConfirmado">
+                Confirmado
+            </label>
+        </div>
+    </div>
+    <div class="col-12">
+        <button type="submit" mat-flat-button *ngIf="stateForm === states.new" color="primary">Añadir invitado</button>
+        <button type="submit" mat-flat-button *ngIf="stateForm === states.edit" color="accent">Editar invitado</button>
+    </div>
+    <div class="col-12">
+        <button type="button" mat-flat-button *ngIf="stateForm === states.edit" color="warn" (click)=goToDelete(persona.id)>Borrar invitado</button>
+    </div>
+</form>

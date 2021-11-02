@@ -1,0 +1,110 @@
+nav.navbar {
+  background-color: #3e3f3a;
+  color: #fff;
+  height: 64px;
+  display: flex;
+  align-items: center;
+
+  a {
+    bottom: 0;
+    display: block;
+    font-family: "Google Sans", "Product Sans", Roboto, sans-serif;
+    font-size: 20px;
+    left: 52px;
+    line-height: 50px;
+    margin: auto;
+    margin-left: 0.5rem;
+    //position: absolute;
+    right: 152px;
+    text-align: left;
+    text-overflow: ellipsis;
+    top: 0;
+  }
+
+  .brand-box {
+    min-width: 238px;
+    a.navbar-brand {
+      color: #444746;
+      margin: 0 0.125rem;
+    }
+  }
+
+  .form-search {
+    width: 100%;
+    align-items: center;
+    background: #f1f3f4;
+    border: 1px solid transparent;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 720px;
+    position: relative;
+    -webkit-transition: background 100ms ease-in, width 100ms ease-out;
+    transition: background 100ms ease-in, width 100ms ease-out;
+
+    input {
+        border: none;
+        padding: 0px;
+        margin: 0px;
+        height: auto;
+        width: 100%;
+        background: url(data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw%3D%3D) transparent;
+        position: absolute;
+        z-index: 6;
+        left: 4em;
+        
+        &:focus-visible {
+            border: none;
+            outline: none;
+        }
+    }
+
+    .box-button-search{
+        height: 46px;
+        width: 56px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        button.btn-search {
+            transition: all .05s;
+            background-color: transparent;
+            border: none;
+            height: 40px;
+            width: 40px;
+            &:hover {
+                background-color: #e3e5e6;
+                border-radius: 50%;
+            }
+        }
+    }
+  }
+
+  .search {
+    left: 5rem;
+  }
+}
+
+ul {
+  display: flex;
+  margin: 0;
+  list-style-type: none;
+  li {
+    margin: 0;
+    height: 100%;
+    margin: 0 0.125rem;
+    border-radius: 8px;
+    background-color: #bb6b03;
+    &:hover {
+      background-color: #bb6b03;
+      transition: all 0.2s;
+    }
+  }
+
+  a {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px;
+    margin: 0 5px;
+  }
+}

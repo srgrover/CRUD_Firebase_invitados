@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "invitados-be0bd": {
+      "hosting": {
+        "Firebase-Invitados": [
+          "invitados-be0bd"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "invitados-be0bd"
+  }
+}
