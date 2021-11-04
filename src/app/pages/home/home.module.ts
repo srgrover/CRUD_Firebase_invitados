@@ -1,4 +1,4 @@
-
+import { BottomNavModule } from './../../shared/components/bottom-nav/bottom-nav.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -27,6 +27,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
+    BottomNavModule
   ],
 })
 export class HomeModule {}

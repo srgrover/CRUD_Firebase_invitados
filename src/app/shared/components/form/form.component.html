@@ -41,25 +41,15 @@
             </span>
         </div>
     </div>
-    <div class="col-12">
-        <div class="form-check">
-            <input formControlName="invitado" class="form-check-input" type="checkbox" id="gridCheckInvitado">
-            <label class="form-check-label" for="gridCheckInvitado">
-                Invitado
-            </label>
-        </div>
-        <div class="form-check">
-            <input formControlName="confirmado" class="form-check-input" type="checkbox" id="gridCheckConfirmado">
-            <label class="form-check-label" for="gridCheckConfirmado">
-                Confirmado
-            </label>
-        </div>
+    <div class="col-12 d-flex justify-content-between">
+        <mat-slide-toggle formControlName="invitado">Invitado</mat-slide-toggle>
+        <mat-slide-toggle formControlName="confirmado">Confirmado</mat-slide-toggle>
     </div>
-    <div class="col-12">
+    <div class="col-12 mt-5">
         <button type="submit" mat-flat-button *ngIf="stateForm === states.new" color="primary">Añadir invitado</button>
         <button type="submit" mat-flat-button *ngIf="stateForm === states.edit" color="accent">Editar invitado</button>
     </div>
-    <div class="col-12">
+    <div class="col-12 mt-5">
         <button type="button" mat-flat-button *ngIf="stateForm === states.edit" color="warn" (click)=goToDelete(persona.id)>Borrar invitado</button>
     </div>
 </form>

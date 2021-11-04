@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 // ANGULAR MATERIAL
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 
@@ -18,7 +19,8 @@ import { MatIconModule } from '@angular/material/icon';
     FormRoutingModule,
     ReactiveFormsModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatSlideToggleModule
   ],
   providers: [FormGuard],
   exports: [FormComponent]
