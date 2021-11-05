@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
-  Action,
   AngularFirestore,
   AngularFirestoreCollection,
-  DocumentSnapshot,
 } from '@angular/fire/compat/firestore';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Persona } from '../models/Persona';
-import { async } from '@firebase/util';
 
 @Injectable({
   providedIn: 'root',

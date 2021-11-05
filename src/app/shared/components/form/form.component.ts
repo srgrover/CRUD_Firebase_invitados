@@ -34,7 +34,6 @@ export class FormComponent implements OnInit {
     this.stateForm = this.getState();
     this.sexoList = ["Hombre", "Mujer"];
     this.parentescoList = ["Padre", "Madre", "Hermano/a", "Tio/a", "Primo/a", "Abuelo/a", "Amigo/a", "Otro"];
-
     this.sexoInvitado = this.persona?.sexo || "";
     this.parentescoInvitado = this.persona?.parentesco || "";
 
@@ -103,14 +102,12 @@ export class FormComponent implements OnInit {
   }
 
   async goToDelete(id: string){
-    console.log("🚀 ~ file: form.component.ts ~ line 105 ~ FormComponent ~ goToDelete ~ id", id)
     try {
       await this.dataService.deleteInvitado(id);
       Swal.fire('Invitado eliminado', 'Se ha eliminado el invitado correctamente', 'success');
       this.router.navigate(['home']);
     } catch (err) {
       Swal.fire('Oops...', 'Hubo un error al eliminar al invitado', 'error');
-    }
-    
+    } 
   }
 }

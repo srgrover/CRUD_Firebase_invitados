@@ -1,3 +1,4 @@
+import { HeaderModule } from './shared/components/header/header.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -19,7 +20,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     MenuComponent,
   ],
   imports: [
@@ -32,6 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     provideFunctions(() => getFunctions()),
     RouterModule,
     BrowserAnimationsModule,
+    HeaderModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent],
