@@ -24,16 +24,18 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
+
   columns = [
-    {
-      columnDef: 'nombre',
-      header: 'Nombre',
-      cell: (element: Persona) => `${element.nombre} ${element.apellidos}`
-    },
     {
       columnDef: 'parentesco',
       header: 'Parentesco',
       cell: (element: Persona) => `${element.parentesco}`
+    },
+    {
+      columnDef: 'nombre',
+      header: 'Nombre',
+      cell: (element: Persona) => `${element.nombre} ${element.apellidos}`
     },
     {
       columnDef: 'invitado',
@@ -51,10 +53,7 @@ export class HomeComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router) { }
 
   async ngOnInit(): Promise<void> {
-    this.invitadosFake = [{nombre: "nada", apellidos: "de nada", parentesco: "Amigo/a", sexo: "Hombre", ubicacion: "Madrid", invitado: false, confirmado: false}]
     await this.getInvitados();
-
-    
   }
 
   async getInvitados(){

@@ -3,15 +3,18 @@
         <mat-label> Buscar invitado </mat-label>
         <input type="text" placeholder="Invitado" aria-label="Invitado" matInput [formControl]="myControl"
             [matAutocomplete]="auto">
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)='filterInvitados($event.option.value)'>
+        <mat-autocomplete autocapitalize="true" autoActiveFirstOption #auto="matAutocomplete" (optionSelected)='filterInvitados($event.option.value)'>
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option.id" >
                 {{ option.nombre }} {{ option.apellidos }}
             </mat-option>
         </mat-autocomplete>
+        <button mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
+            <mat-icon>close</mat-icon>
+          </button>
     </mat-form-field>
 </form>
 
-<table mat-table [dataSource]="invitados" class="mat-elevation-z8 table-list col-12">
+<!--<table mat-table [dataSource]="invitados" class="mat-elevation-z8 table-list col-12">
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
         <th mat-header-cell *matHeaderCellDef>
             {{column.header}}
@@ -23,6 +26,19 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+</table>-->
 
+<mat-selection-list #persona [multiple]="false">
+    <mat-list-option *ngFor="let invitado of invitados" [value]="invitado" (click)="goToEdit(invitado)">
+        <mat-list-item>
+            <mat-icon mat-list-icon *ngIf="invitado.invitado" class="text-info">
+                forward_to_inbox
+            </mat-icon>
+            <mat-icon mat-list-icon *ngIf="invitado.confirmado" class="text-success">verified</mat-icon>
+            <div mat-line>{{ invitado.nombre }} {{ invitado.apellidos }}</div>
+            <div mat-line> {{invitado.parentesco}} </div>
+          </mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list-option>
+  </mat-selection-list>
 <app-bottom-nav></app-bottom-nav>
