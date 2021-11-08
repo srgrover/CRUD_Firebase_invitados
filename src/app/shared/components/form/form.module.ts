@@ -8,9 +8,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 // ANGULAR MATERIAL
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [FormComponent],
@@ -20,9 +21,12 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatInputModule,
+    MatSelectModule,
+    MatSnackBarModule
   ],
-  providers: [FormGuard],
-  exports: [FormComponent]
+  providers: [FormGuard, MatSnackBarModule],
+  exports: [FormComponent],
 })
-export class FormModule { }
+export class FormModule {}

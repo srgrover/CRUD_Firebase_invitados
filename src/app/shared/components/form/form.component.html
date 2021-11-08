@@ -1,40 +1,40 @@
-<form class="row g-3 mx-3" (ngSubmit)="onSave()" [formGroup]="invitadoForm">
+<form class="row g-3 mx-3 my-3" (ngSubmit)="onSave()" [formGroup]="invitadoForm">
     <div class="col-md-6">
-        <label for="inputNombre" class="form-label">Nombre</label>
-        <input formControlName="nombre" [class]="isValidField('nombre')" type="text" class="form-control"
-            id="inputNombre" placeholder="ej. Harry">
-        <div class="invalid-feedback">
-            <span *ngIf="invitadoForm.get('nombre')?.errors?.required">
-                Introduce el nombre del invitado
-            </span>
-        </div>
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input type="text" matInput formControlName="nombre" placeholder="Ej. Harry" id="inputNombre">
+            <mat-error *ngIf="invitadoForm.get('nombre')?.errors?.required">
+                El nombre es <strong>requerido</strong>
+            </mat-error>
+        </mat-form-field>
     </div>
     <div class="col-md-6">
-        <label for="inoputApellido" class="form-label">Apellidos</label>
-        <input formControlName="apellidos" [class]="notRequiredHasValue('apellidos')" type="text" class="form-control"
-            id="inoputApellido" placeholder="ej. Potter">
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Apellidos</mat-label>
+            <input type="text" matInput formControlName="apellidos" placeholder="Ej. Potter" id="inputApellido">
+        </mat-form-field>
     </div>
     <div class="col-md-4">
-        <label for="selParentesco" class="form-label">Parentesco</label>
-        <select formControlName="parentesco" id="selParentesco" class="form-select" [(ngModel)]="parentescoInvitado">
-            <option *ngFor="let item of parentescoList" [value]="item">{{item}}</option>
-        </select>
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Parentesco</mat-label>
+            <mat-select formControlName="parentesco" id="inputParentesco" [(ngModel)]="parentescoInvitado">
+                <mat-option *ngFor="let item of parentescoList" [value]="item">{{ item }}</mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
     <div class="col-md-4">
-        <label for="inputSexo" class="form-label">Sexo</label>
-        <select formControlName="sexo" id="inputSexo" class="form-select" [(ngModel)]="sexoInvitado">
-            <option *ngFor="let item of sexoList" [value]="item">{{item}}</option>
-        </select>
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Sexo</mat-label>
+            <mat-select formControlName="sexo" id="inputSexo" [(ngModel)]="sexoInvitado">
+                <mat-option *ngFor="let item of sexoList" [value]="item">{{ item }}</mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
     <div class="col-md-4">
-        <label for="inputUbicacion" class="form-label">Ubicacion</label>
-        <input formControlName="ubicacion" [class]="isValidField('ubicacion')" type="text" class="form-control"
-            id="inputUbicacion" placeholder="ej. Hogwarts">
-        <div class="invalid-feedback">
-            <span *ngIf="invitadoForm.get('ubicacion')?.errors?.required">
-                Introduce la ubicacion de residencia de tu invitado
-            </span>
-        </div>
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Ubicacion</mat-label>
+            <input type="text" matInput formControlName="ubicacion" placeholder="Ej. Hogwarts" id="inputUbicacion">
+        </mat-form-field>
     </div>
     <div class="col-12 d-flex justify-content-between">
         <mat-slide-toggle formControlName="invitado">Invitado</mat-slide-toggle>
@@ -45,6 +45,7 @@
         <button type="submit" mat-flat-button *ngIf="stateForm === states.edit" color="accent">Editar invitado</button>
     </div>
     <div class="col-12 mt-5">
-        <button type="button" mat-flat-button *ngIf="stateForm === states.edit" color="warn" (click)=goToDelete(persona.id)>Borrar invitado</button>
+        <button type="button" mat-flat-button *ngIf="stateForm === states.edit" color="warn"
+            (click)=goToDelete(persona.id)>Borrar invitado</button>
     </div>
 </form>

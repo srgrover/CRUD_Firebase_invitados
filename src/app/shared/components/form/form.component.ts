@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { Persona } from '../../models/Persona';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CustomSnackBarComponent } from '../custom-snack-bar/custom-snack-bar.component';
 
 @Component({
   selector: 'app-form',
@@ -25,11 +27,11 @@ export class FormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dataService: DataService,
-    private router: Router
+    private router: Router,
+    private _snackBar: MatSnackBar
   ) {
     var navi = this.router.getCurrentNavigation();
     this.persona = navi?.extras?.state;
-    console.log("🚀 ~ file: form.component.ts ~ line 32 ~ FormComponent ~ this.persona", this.persona)
     this.states = { new: 1, edit: 2 };
     this.stateForm = this.getState();
     this.sexoList = ["Hombre", "Mujer"];
@@ -54,17 +56,25 @@ export class FormComponent implements OnInit {
         await this.dataService.addInvitado(invitado);
 
         if(this.stateForm == this.states.new){          
-          Swal.fire('Invitado añadido', 'Puedes verlo en la lista', 'success');
+          //Swal.fire('Invitado añadido', 'Puedes verlo en la lista', 'success');
+          this.openSnackBar('Invitado añadido correctamente','Ok','bg-success')
           this.invitadoForm.reset();
+          this.initForm();
         } else if(this.stateForm == this.states.edit){
-          Swal.fire('Invitado editado', 'Pulsa Ok Para volver a la lista', 'success');
+          //Swal.fire('Invitado editado', 'Pulsa Ok Para volver a la lista', 'success');
+          this.openSnackBar('Invitado Editado correctamente','Ok','bg-success')
           this.router.navigate(['home']);
         }
+
+        this.invitadoForm.controls['invitado'].markAsTouched();
+        console.log("🚀 ~ file: form.component.ts ~ line 65 ~ FormComponent ~ onSave ~ this.invitadoForm.controls['invitado']", this.invitadoForm.controls['invitado'])
+        this.invitadoForm.controls['confirmado'].markAsTouched();
       } catch (e) {
         console.error(e);
       }
     } else {
-      Swal.fire('Oops...', 'Comprueba los datos del formulario', 'error');
+      //Swal.fire('Oops...', 'Comprueba los datos del formulario', 'error');
+      this.openSnackBar('Oops... Comprueba los datos del formulario','Ok','bg-danger')
     }
   }
 
@@ -97,17 +107,24 @@ export class FormComponent implements OnInit {
     return this.persona && typeof(this.persona !== undefined) ? 2 : 1;
   }
 
-  goBack(){
-    this.router.navigate(['home']);
-  }
-
   async goToDelete(id: string){
     try {
       await this.dataService.deleteInvitado(id);
-      Swal.fire('Invitado eliminado', 'Se ha eliminado el invitado correctamente', 'success');
+      //Swal.fire('Invitado eliminado', 'Se ha eliminado el invitado correctamente', 'success');
+      this.openSnackBar('Invitado eliminado correctamente','Ok','bg-success')
       this.router.navigate(['home']);
     } catch (err) {
-      Swal.fire('Oops...', 'Hubo un error al eliminar al invitado', 'error');
+      //Swal.fire('Oops...', 'Hubo un error al eliminar al invitado', 'error');
+      this.openSnackBar('Oops...Hubo un error al eliminar al invitado','Ok','bg-danger')
     } 
   }
+
+  openSnackBar(message: string, action: string, type: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+      panelClass: [type]
+    });
+  }
 }
+
+

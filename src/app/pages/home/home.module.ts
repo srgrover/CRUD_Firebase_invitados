@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -32,6 +33,7 @@ import { MatDividerModule } from '@angular/material/divider';
     BottomNavModule,
     MatListModule,
     MatDividerModule,
+    MatChipsModule,
   ],
 })
 export class HomeModule {}

@@ -1,10 +1,10 @@
+import { CustomSnackBarComponent } from './shared/components/custom-snack-bar/custom-snack-bar.component';
 import { HeaderModule } from './shared/components/header/header.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './shared/components/header/header.component';
 import { MenuComponent } from './shared/components/menu/menu.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { AngularFireModule } from '@angular/fire/compat';
@@ -21,7 +21,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   declarations: [
     AppComponent,
     MenuComponent,
+    CustomSnackBarComponent
   ],
+  entryComponents: [CustomSnackBarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -32,7 +34,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     provideFunctions(() => getFunctions()),
     RouterModule,
     BrowserAnimationsModule,
-    HeaderModule
+    HeaderModule,
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent],

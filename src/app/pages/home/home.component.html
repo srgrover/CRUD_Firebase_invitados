@@ -3,32 +3,48 @@
         <mat-label> Buscar invitado </mat-label>
         <input type="text" placeholder="Invitado" aria-label="Invitado" matInput [formControl]="myControl"
             [matAutocomplete]="auto">
-        <mat-autocomplete autocapitalize="true" autoActiveFirstOption #auto="matAutocomplete" (optionSelected)='filterInvitados($event.option.value)'>
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.id" >
+        <mat-autocomplete autocapitalize="true" autoActiveFirstOption #auto="matAutocomplete"
+            (optionSelected)='filterInvitados($event.option.value)'>
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.id">
                 {{ option.nombre }} {{ option.apellidos }}
             </mat-option>
         </mat-autocomplete>
         <button mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
             <mat-icon>close</mat-icon>
-          </button>
+        </button>
     </mat-form-field>
 </form>
 
-<!--<table mat-table [dataSource]="invitados" class="mat-elevation-z8 table-list col-12">
-    <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
-        <th mat-header-cell *matHeaderCellDef>
-            {{column.header}}
-        </th>
-        <td mat-cell *matCellDef="let row" (click)="goToEdit(row)">
-            {{column.cell(row)}}
-        </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>-->
+<div class="p-2 d-flex justify-content-between">
+    <mat-chip-list aria-label="Fish selection">
+        <mat-chip>
+            <mat-icon mat-list-icon>wc</mat-icon>
+            {{ numInvitados }}
+        </mat-chip>
+        <mat-chip color="accent" selected>
+            <mat-icon mat-list-icon>man</mat-icon>
+            {{ numInvitadosHombre }}
+        </mat-chip>
+        <mat-chip color="primary" selected>
+            <mat-icon mat-list-icon>woman</mat-icon>
+            {{ numInvitadosMujer }}
+        </mat-chip>
+    </mat-chip-list>
+    <mat-chip-list aria-label="Fish selection">
+        <mat-chip>
+            <mat-icon mat-list-icon>forward_to_inbox</mat-icon>
+            {{ numInvitadosEnviado }}
+        </mat-chip>
+        <mat-chip>
+            <mat-icon mat-list-icon>verified</mat-icon>
+            {{ numInvitadosConfirmado }}
+        </mat-chip>
+    </mat-chip-list>
+</div>
 
 <mat-selection-list #persona [multiple]="false">
+    <div mat-subheader>Folders</div>
+    <mat-divider></mat-divider>
     <mat-list-option *ngFor="let invitado of invitados" [value]="invitado" (click)="goToEdit(invitado)">
         <mat-list-item>
             <mat-icon mat-list-icon *ngIf="invitado.invitado" class="text-info">
@@ -37,8 +53,9 @@
             <mat-icon mat-list-icon *ngIf="invitado.confirmado" class="text-success">verified</mat-icon>
             <div mat-line>{{ invitado.nombre }} {{ invitado.apellidos }}</div>
             <div mat-line> {{invitado.parentesco}} </div>
-          </mat-list-item>
-      <mat-divider></mat-divider>
+        </mat-list-item>
+        <mat-divider></mat-divider>
     </mat-list-option>
-  </mat-selection-list>
+</mat-selection-list>
+
 <app-bottom-nav></app-bottom-nav>

@@ -17,6 +17,11 @@ export class HomeComponent implements OnInit {
   filteredOptions!: Observable<Persona[]>;
 
   invitados!: Persona[];
+  numInvitados: number = 0;
+  numInvitadosHombre: number = 0;
+  numInvitadosMujer: number = 0;
+  numInvitadosEnviado: number = 0;
+  numInvitadosConfirmado: number = 0;
   invitadosFake!: Persona[];
   navExtras: NavigationExtras = {
     state: {
@@ -59,6 +64,12 @@ export class HomeComponent implements OnInit {
   async getInvitados(){
     await this.dataService.invitados.subscribe((invitados: Persona[]) => {
       this.invitados = invitados;
+      this.numInvitados = invitados.length;
+      this.numInvitadosHombre = invitados.filter(x => x.sexo == "Hombre").length;
+      this.numInvitadosMujer = invitados.filter(x => x.sexo == "Mujer").length;
+      this.numInvitadosEnviado = invitados.filter(x => x.invitado == true).length;
+      this.numInvitadosConfirmado = invitados.filter(x => x.confirmado == true).length;
+
       this.options = invitados
       this.filteredOptions = this.myControl.valueChanges.pipe(
         startWith(''),

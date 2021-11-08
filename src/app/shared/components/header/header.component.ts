@@ -1,6 +1,7 @@
 import { DataService } from './../../services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Persona } from '../../models/Persona';
 
 @Component({
   selector: 'app-header',
