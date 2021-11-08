@@ -1,5 +1,18 @@
 .form-filter-full-width{
   width: 100%;
+  background-color: #fff;
+}
+
+.mt-70{
+  margin-top: 70.5px;
+}
+
+.sticky{
+  position: fixed;
+  top: 0;
+  overflow: hidden;
+  z-index: 10;
+  width: 100%;
 }
 
 .table-list {

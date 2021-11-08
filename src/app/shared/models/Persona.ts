@@ -4,7 +4,8 @@ export interface Persona {
     apellidos?: string;
     parentesco: string;
     sexo: string;
-    ubicacion: string;
+    ubicacion?: string;
     invitado: boolean;
     confirmado: boolean;
+    grupo: number
   }

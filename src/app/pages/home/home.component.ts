@@ -1,10 +1,12 @@
 import { DataService } from './../../shared/services/data.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { Persona } from 'src/app/shared/models/Persona';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { Grupos } from 'src/assets/grupos';
+import { MatFormField } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-home',
@@ -13,10 +15,18 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit {
   myControl = new FormControl();
+
+  @ViewChild('formSearch')
+  menuElement!: MatFormField;
+
+  elementPosition: any;
+  sticky: boolean = false;
+
   options: Persona[] = [];
   filteredOptions!: Observable<Persona[]>;
 
   invitados!: Persona[];
+  grupos: any;
   numInvitados: number = 0;
   numInvitadosHombre: number = 0;
   numInvitadosMujer: number = 0;
@@ -29,33 +39,25 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
-
-  columns = [
-    {
-      columnDef: 'parentesco',
-      header: 'Parentesco',
-      cell: (element: Persona) => `${element.parentesco}`
-    },
-    {
-      columnDef: 'nombre',
-      header: 'Nombre',
-      cell: (element: Persona) => `${element.nombre} ${element.apellidos}`
-    },
-    {
-      columnDef: 'invitado',
-      header: 'Invitado',
-      cell: (element: Persona) => element.invitado == true ? `SI` : ""
-    },
-    {
-      columnDef: 'confirmado',
-      header: 'Confirmado',
-      cell: (element: Persona) => element.confirmado  == true ? `SI` : ""
+  @HostListener('window:scroll', ['$event'])
+  handleScroll(){
+    const windowScroll = window.pageYOffset;
+    if(windowScroll >= this.elementPosition){
+      this.sticky = true;
+    } else {
+      this.sticky = false;
     }
-  ];
-  displayedColumns: any
+  }
 
-  constructor(private dataService: DataService, private router: Router) { }
+  constructor(private dataService: DataService, private router: Router) {
+    this.grupos = Grupos;
+  }
+
+  ngAfterViewInit(){
+    console.log("🚀 ~ file: home.component.ts ~ line 57 ~ HomeComponent ~ ngAfterViewInit ~ this.menuElement.nativeElement", this.menuElement.underlineRef.nativeElement.offsetTop)
+
+    this.elementPosition = this.menuElement.underlineRef.nativeElement.offsetTop;
+  }
 
   async ngOnInit(): Promise<void> {
     await this.getInvitados();
@@ -75,7 +77,6 @@ export class HomeComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value))
       );
-      this.fillTable(invitados);
     });
   }
 
@@ -90,10 +91,6 @@ export class HomeComponent implements OnInit {
 
   onDelete(id: string){
     this.dataService.deleteInvitado(id)
-  }
-
-  fillTable(ELEMENT_DATA: Persona[]){
-    this.displayedColumns = this.columns.map(c => c.columnDef);
   }
 
   private _filter(value: string): Persona[] {

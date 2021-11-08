@@ -1,11 +1,11 @@
 import { DataService } from '../../services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import Swal from 'sweetalert2';
+//import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { Persona } from '../../models/Persona';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CustomSnackBarComponent } from '../custom-snack-bar/custom-snack-bar.component';
+import { Grupos } from 'src/assets/grupos';
 
 @Component({
   selector: 'app-form',
@@ -20,9 +20,11 @@ export class FormComponent implements OnInit {
   stateForm: number = 0
   sexoInvitado: string;
   parentescoInvitado: string;
+  grupoInvitado: number;
   invitadoForm!: FormGroup;
   urlTree: any;
   persona: any;
+  grupos: any;
 
   constructor(
     private fb: FormBuilder,
@@ -38,6 +40,8 @@ export class FormComponent implements OnInit {
     this.parentescoList = ["Padre", "Madre", "Hermano/a", "Tio/a", "Primo/a", "Abuelo/a", "Amigo/a", "Otro"];
     this.sexoInvitado = this.persona?.sexo || "";
     this.parentescoInvitado = this.persona?.parentesco || "";
+    this.grupoInvitado = this.persona?.grupo || "";
+    this.grupos = Grupos;
 
     this.initForm();
   }
@@ -96,10 +100,11 @@ export class FormComponent implements OnInit {
       nombre: ['', [Validators.required]],
       apellidos: [''],
       sexo: ['Hombre', [Validators.required]],
-      parentesco: ['', [Validators.required]],
-      ubicacion: ['', [Validators.required]],
+      parentesco: ['Padre', [Validators.required]],
+      ubicacion: [''],
       invitado: [false, [Validators.required]],
       confirmado: [false, [Validators.required]],
+      grupo: [1, [Validators.required]],
     });
   }
 

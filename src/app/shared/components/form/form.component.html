@@ -36,6 +36,14 @@
             <input type="text" matInput formControlName="ubicacion" placeholder="Ej. Hogwarts" id="inputUbicacion">
         </mat-form-field>
     </div>
+    <div class="col-md-4">
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Familia</mat-label>
+            <mat-select formControlName="grupo" id="selectGrupo" [(ngModel)]="grupoInvitado">
+                <mat-option *ngFor="let item of grupos" [value]="item.id">{{ item.descripcion }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
     <div class="col-12 d-flex justify-content-between">
         <mat-slide-toggle formControlName="invitado">Invitado</mat-slide-toggle>
         <mat-slide-toggle formControlName="confirmado">Confirmado</mat-slide-toggle>

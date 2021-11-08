@@ -1,5 +1,5 @@
 <form class="form-filter">
-    <mat-form-field class="form-filter-full-width" appearance="fill">
+    <mat-form-field class="form-filter-full-width" appearance="fill" #formSearch [class.sticky] = "sticky">
         <mat-label> Buscar invitado </mat-label>
         <input type="text" placeholder="Invitado" aria-label="Invitado" matInput [formControl]="myControl"
             [matAutocomplete]="auto">
@@ -15,7 +15,7 @@
     </mat-form-field>
 </form>
 
-<div class="p-2 d-flex justify-content-between">
+<div class="p-2 d-flex justify-content-between" [class.mt-70] = "sticky">
     <mat-chip-list aria-label="Fish selection">
         <mat-chip>
             <mat-icon mat-list-icon>wc</mat-icon>
@@ -43,19 +43,23 @@
 </div>
 
 <mat-selection-list #persona [multiple]="false">
-    <div mat-subheader>Folders</div>
     <mat-divider></mat-divider>
-    <mat-list-option *ngFor="let invitado of invitados" [value]="invitado" (click)="goToEdit(invitado)">
-        <mat-list-item>
-            <mat-icon mat-list-icon *ngIf="invitado.invitado" class="text-info">
-                forward_to_inbox
-            </mat-icon>
-            <mat-icon mat-list-icon *ngIf="invitado.confirmado" class="text-success">verified</mat-icon>
-            <div mat-line>{{ invitado.nombre }} {{ invitado.apellidos }}</div>
-            <div mat-line> {{invitado.parentesco}} </div>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-    </mat-list-option>
+    <div *ngFor="let grupo of grupos">
+        <div mat-subheader>{{grupo.descripcion}}</div>
+        <div *ngFor="let invitado of invitados">
+            <mat-list-option *ngIf="invitado.grupo == grupo.id" [value]="invitado" (click)="goToEdit(invitado)">
+                <mat-list-item>
+                    <mat-icon mat-list-icon *ngIf="invitado.invitado" class="text-info">
+                        forward_to_inbox
+                    </mat-icon>
+                    <mat-icon mat-list-icon *ngIf="invitado.confirmado" class="text-success">verified</mat-icon>
+                    <div mat-line>{{ invitado.nombre }} {{ invitado.apellidos }}</div>
+                    <div mat-line>{{invitado.parentesco}}</div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+            </mat-list-option>
+        </div>
+    </div>
 </mat-selection-list>
 
 <app-bottom-nav></app-bottom-nav>
