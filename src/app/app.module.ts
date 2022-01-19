@@ -1,11 +1,11 @@
-import { CustomSnackBarComponent } from './shared/components/custom-snack-bar/custom-snack-bar.component';
+import { FormModule } from 'src/app/shared/components/form/form.module';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { HeaderModule } from './shared/components/header/header.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MenuComponent } from './shared/components/menu/menu.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '../environments/environment';
@@ -15,15 +15,16 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideFunctions, getFunctions } from '@angular/fire/functions';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
- 
+import { MatListModule } from '@angular/material/list';
+import { DialogConfirmComponent } from './shared/components/dialog-confirm/dialog-confirm.component';
+import { DialogConfirmModule } from './shared/components/dialog-confirm/dialog-confirm.module'
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
-    CustomSnackBarComponent
+    DialogConfirmComponent,
   ],
-  entryComponents: [CustomSnackBarComponent],
+  entryComponents: [],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -32,9 +33,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideFunctions(() => getFunctions()),
+    FormModule,
     RouterModule,
     BrowserAnimationsModule,
     HeaderModule,
+    MatSidenavModule,
+    MatListModule,
+    DialogConfirmModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent],

@@ -32,7 +32,6 @@ export class HomeComponent implements OnInit {
   numInvitadosMujer: number = 0;
   numInvitadosEnviado: number = 0;
   numInvitadosConfirmado: number = 0;
-  invitadosFake!: Persona[];
   navExtras: NavigationExtras = {
     state: {
       persona: null
@@ -66,6 +65,7 @@ export class HomeComponent implements OnInit {
   async getInvitados(){
     await this.dataService.invitados.subscribe((invitados: Persona[]) => {
       this.invitados = invitados;
+      console.log("🚀 ~ file: home.component.ts ~ line 68 ~ HomeComponent ~ awaitthis.dataService.invitados.subscribe ~ this.invitados", this.invitados)
       this.numInvitados = invitados.length;
       this.numInvitadosHombre = invitados.filter(x => x.sexo == "Hombre").length;
       this.numInvitadosMujer = invitados.filter(x => x.sexo == "Mujer").length;

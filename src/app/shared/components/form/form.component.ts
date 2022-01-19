@@ -1,11 +1,15 @@
+import { Grupo } from './../../models/Grupo';
 import { DataService } from '../../services/data.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { Persona } from '../../models/Persona';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Grupos } from 'src/assets/grupos';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatSelectionList } from '@angular/material/list';
+import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component';
 
 @Component({
   selector: 'app-form',
@@ -20,36 +24,56 @@ export class FormComponent implements OnInit {
   stateForm: number = 0
   sexoInvitado: string;
   parentescoInvitado: string;
-  grupoInvitado: number;
+  grupoInvitado: any;
   invitadoForm!: FormGroup;
   urlTree: any;
   persona: any;
-  grupos: any;
+  grupos: Grupo[] = [];
+  grupo2!: Grupo;
+  grupoSelected: Grupo | undefined;
+
+  panelOpenState = false;
+
+  //@ViewChild('groups')
+  //groupsList!: MatSelectionList;
 
   constructor(
     private fb: FormBuilder,
     private dataService: DataService,
     private router: Router,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public dialog: MatDialog,
+    private _bottomSheet: MatBottomSheet
   ) {
     var navi = this.router.getCurrentNavigation();
     this.persona = navi?.extras?.state;
     this.states = { new: 1, edit: 2 };
     this.stateForm = this.getState();
     this.sexoList = ["Hombre", "Mujer"];
-    this.parentescoList = ["Padre", "Madre", "Hermano/a", "Tio/a", "Primo/a", "Abuelo/a", "Amigo/a", "Otro"];
+    this.parentescoList = ["Padre", "Madre", "Hermano/a", "Tio/a", "Primo/a", "Abuelo/a", "Amigo/a", "Cuñado/a", "Otro"];
     this.sexoInvitado = this.persona?.sexo || "";
     this.parentescoInvitado = this.persona?.parentesco || "";
     this.grupoInvitado = this.persona?.grupo || "";
-    this.grupos = Grupos;
-
     this.initForm();
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    console.log("rereer",this.grupoSelected);
+    
     if(this.stateForm === this.states.edit){
       this.invitadoForm.patchValue(this.persona);
+      console.log("🚀 ~ file: form.component.ts ~ line 65 ~ FormComponent ~ ngOnInit ~ this.persona", this.persona)
     }
+
+    await this.getGrupos();
+    this.patchGrupo();
+
+    //console.log(this.groupsList);
+    
+  }
+
+  patchGrupo(){
+    //Seleccionar valor en la lista
   }
 
   async onSave(): Promise<void> {
@@ -71,7 +95,6 @@ export class FormComponent implements OnInit {
         }
 
         this.invitadoForm.controls['invitado'].markAsTouched();
-        console.log("🚀 ~ file: form.component.ts ~ line 65 ~ FormComponent ~ onSave ~ this.invitadoForm.controls['invitado']", this.invitadoForm.controls['invitado'])
         this.invitadoForm.controls['confirmado'].markAsTouched();
       } catch (e) {
         console.error(e);
@@ -104,7 +127,7 @@ export class FormComponent implements OnInit {
       ubicacion: [''],
       invitado: [false, [Validators.required]],
       confirmado: [false, [Validators.required]],
-      grupo: [1, [Validators.required]],
+      grupo: ['hUNpRRMnt5nL3kuz0yiK', [Validators.required]], //Id del grupo 'Sin Grupo' en firestore
     });
   }
 
@@ -130,6 +153,28 @@ export class FormComponent implements OnInit {
       panelClass: [type]
     });
   }
+
+  /*openBottomSheet(): void {
+    this._bottomSheet.open(BottomSheetOverviewExampleSheet);
+  }*/
+
+  SelectGroup(gr: Grupo){
+    this.grupoSelected = gr;
+    this.grupoInvitado = gr.id;
+  }
+
+  async getGrupos(){
+    await this.dataService.grupos.subscribe(grupos => {
+      this.grupos = grupos;
+      this.grupoSelected = grupos.find(x => x.id === this.persona.grupo);
+    })
+  }
+
+  openDialog() {
+    this.dialog.open(DialogConfirmComponent, {
+      data: {
+        animal: 'panda',
+      },
+    });
+  }
 }
-
-

@@ -7,5 +7,5 @@ export interface Persona {
     ubicacion?: string;
     invitado: boolean;
     confirmado: boolean;
-    grupo: number
+    grupo: string
   }
