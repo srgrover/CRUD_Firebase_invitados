@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatSelectionList } from '@angular/material/list';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-form',
@@ -166,39 +167,43 @@ export class FormComponent implements OnInit {
     this.grupoInvitado = gr.id;
   }
 
-  async goToInviteAll(grupo: string){
+  async changeInvite(grupo: string, invite: boolean){
     var invitadosGroup!: Persona[];
 
-    await this.dataService.invitados.subscribe((invitados: Persona[]) => {
-      invitadosGroup = invitados.filter(x => x.grupo == grupo);
-      console.log("FFFFFFFFFFFFFFFFFF");
-      
-      const dialogRef = this.dialog.open(InviteDialogConfirmComponent, {
-        width: '300px',
-        data: {title: "Invitar Grupo", subtitle:"Va a invitar a estas personas: ", data: invitadosGroup},
-      });
-  
-      dialogRef.afterClosed().subscribe(async result => {
-        if(result){
-          try {
-            this.persona.invitado = true;
-            this.invitadoForm.controls['invitado'].setValue(true);
-            invitadosGroup.forEach(async (inviGr) => {
+    this.dataService.invitados
+      .pipe(take(1))
+      .subscribe((invitados) => {
+        invitadosGroup = invitados.filter(x => x.grupo == grupo);
+
+        let dialogRef = this.dialog.open(InviteDialogConfirmComponent, {
+          width: '300px',
+          data: {invite : invite, personas: invitadosGroup},
+        });
+
+        dialogRef
+          .afterClosed()
+          .pipe(take(1))
+          .subscribe((result => {
+            if(result){
               try {
-                inviGr.invitado = true;
-                await this.dataService.addInvitado(inviGr);
-              } catch (e) {
-                this.openSnackBar('Oops...Hubo un error al invitar a ' + inviGr.nombre + " " + inviGr.apellidos, 'Ok', 'bg-danger');
+                this.persona.invitado = invite;
+                this.invitadoForm.controls['invitado'].setValue(invite);
+                invitadosGroup.forEach(async (inviGr) => {
+                  try {
+                    inviGr.invitado = invite;
+                    await this.dataService.addInvitado(inviGr);
+                  } catch (e) {
+                    this.openSnackBar('Oops...Hubo un error al invitar a ' + inviGr.nombre + " " + inviGr.apellidos, 'Ok', 'bg-danger');
+                  }
+                });
+              } catch (err) {
+                //Swal.fire('Oops...', 'Hubo un error al eliminar al invitado', 'error');
+                console.error(err);
+                this.openSnackBar('Oops...Hubo un error al eliminar el invitado','Ok','bg-danger');
               }
-            });
-          } catch (err) {
-            //Swal.fire('Oops...', 'Hubo un error al eliminar al invitado', 'error');
-            console.error(err);
-            this.openSnackBar('Oops...Hubo un error al eliminar el invitado','Ok','bg-danger');
-          }
-        }
-      });    
-    });
+            }
+          }));
+      })
   }
 
   openDialog(): void {

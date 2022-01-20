@@ -72,10 +72,26 @@
     </mat-accordion>
   </div>
 
-  <button type="button" class="col-12 mb-2" mat-flat-button *ngIf="stateForm === states.edit"
-    (click)="goToInviteAll(persona.grupo)">
-    Invitar a todo el grupo
-  </button>
+  <div class="col-12 m-2 d-flex justify-content-between" *ngIf="stateForm === states.edit">
+    <h3 class="m-0 p-0 align-self-center">Invitar a todo el grupo</h3>
+    <button
+      type="button"
+      mat-stroked-button
+      (click)="changeInvite(persona.grupo, true)">
+      Invitar
+    </button>
+  </div>
+
+  <mat-divider *ngIf="stateForm === states.edit"></mat-divider>
+  <div class="col-12 m-2 d-flex justify-content-between" *ngIf="stateForm === states.edit">
+    <h3 class="m-0 p-0 align-self-center">Quitar invitación al grupo</h3>
+    <button
+      type="button"
+      mat-stroked-button
+      (click)="changeInvite(persona.grupo, false)">
+      No invitar
+    </button>
+  </div>
 
   <mat-divider></mat-divider>
   <div class="col-12 m-2 d-flex justify-content-between">
@@ -100,7 +116,7 @@
     </button>
   </div>
 
-  <div class="col-12 mt-5">
+  <div class="col-12 mt-3 mb-3">
     <button type="button" mat-flat-button *ngIf="stateForm === states.edit" color="warn"
       (click)="goToDelete(persona.id)">
       Borrar invitado

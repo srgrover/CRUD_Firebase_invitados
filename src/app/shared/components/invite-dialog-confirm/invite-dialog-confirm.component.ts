@@ -11,10 +11,6 @@ export class InviteDialogConfirmComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<DialogAddComponent>) {}
 
-
   ngOnInit(): void {
-    console.log("🚀 ~ file: invite-dialog-confirm.component.ts ~ line 13 ~ InviteDialogConfirmComponent ~ data", this.data)
-
   }
-
 }
