@@ -50,7 +50,7 @@
                     <div mat-list-icon class="avatar">
                         {{ invitado.nombre[0] }}
                     </div>
-                    <mat-icon *ngIf="invitado.invitado" class="text-info">
+                    <mat-icon *ngIf="invitado.invitado && !invitado.confirmado" class="text-info">
                         forward_to_inbox
                     </mat-icon>
                     <mat-icon *ngIf="invitado.confirmado" class="text-success">verified</mat-icon>

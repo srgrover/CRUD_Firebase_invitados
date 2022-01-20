@@ -16,13 +16,13 @@ import { provideFunctions, getFunctions } from '@angular/fire/functions';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatListModule } from '@angular/material/list';
-import { DialogConfirmComponent } from './shared/components/dialog-confirm/dialog-confirm.component';
-import { DialogConfirmModule } from './shared/components/dialog-confirm/dialog-confirm.module'
+import { DialogConfirmModule } from './shared/components/dialog-confirm/dialog-confirm.module';
+import { DialogAddModule } from './shared/components/dialog-add/dialog-add.module';
+import { SheetModule } from './shared/components/sheet/sheet.module'
 
 @NgModule({
   declarations: [
     AppComponent,
-    DialogConfirmComponent,
   ],
   entryComponents: [],
   imports: [
@@ -39,7 +39,9 @@ import { DialogConfirmModule } from './shared/components/dialog-confirm/dialog-c
     HeaderModule,
     MatSidenavModule,
     MatListModule,
-    DialogConfirmModule
+    DialogConfirmModule,
+    DialogAddModule,
+    SheetModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent],

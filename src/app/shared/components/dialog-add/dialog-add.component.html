@@ -1,0 +1,14 @@
+<h1 mat-dialog-title class="d-flex align-items-center">
+    <mat-icon mat-list-icon>add</mat-icon> Añadir Grupo
+</h1>
+
+<div mat-dialog-content>
+    <mat-form-field appearance="fill">
+        <mat-label>Nombre del grupo</mat-label>
+        <input matInput [(ngModel)]="data.descripcion">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button (click)="addGrupo()" cdkFocusInitial>Añadir</button>
+</div>

@@ -25,6 +25,7 @@ export class DataService {
   }
 
   addInvitado(invitado: Persona): Promise<void> {
+    console.log("🚀 ~ file: data.service.ts ~ line 28 ~ DataService ~ invitado", invitado)
     return new Promise(async (resolve, reject) => {
       try {
         invitado.id = invitado.id || this.afs.createId();

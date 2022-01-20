@@ -1,0 +1,7 @@
+
+
+    <mat-selection-list #groups [multiple]="false">
+        <mat-list-option *ngFor="let gr of grupos" [value]="gr.id" (click)="selectGroup(gr)">
+          {{gr.descripcion}}
+        </mat-list-option>
+      </mat-selection-list>

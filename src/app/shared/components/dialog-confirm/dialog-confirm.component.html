@@ -1,25 +1,8 @@
-<h1 mat-dialog-title>Favorite Animal</h1>
-<div mat-dialog-content>
-  My favorite animal is:
-  <ul>
-    <li>
-      <span *ngIf="data.animal === 'panda'">&#10003;</span> Panda
-    </li>
-    <li>
-      <span *ngIf="data.animal === 'unicorn'">&#10003;</span> Unicorn
-    </li>
-    <li>
-      <span *ngIf="data.animal === 'lion'">&#10003;</span> Lion
-    </li>
-  </ul>
-  <mat-form-field class="w-100" appearance="fill">
-    <mat-label>Apellidos</mat-label>
-    <mat-form-field class="example-form-field" appearance="fill">
-        <mat-label>Clearable input</mat-label>
-        <input matInput type="text">
-        <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-          
-        </button>
-      </mat-form-field>
-  </mat-form-field>
+<h1 mat-dialog-title class="d-flex align-items-center">
+  <mat-icon mat-list-icon>delete</mat-icon> Eliminar invitado
+</h1>
+<p>¿Seguro que quieres eliminar este invitado? Esta acción no se puede deshacer</p>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Cancelar</button>
+  <button mat-button color="danger" [mat-dialog-close]="true" cdkFocusInitial>Eliminar</button>
 </div>

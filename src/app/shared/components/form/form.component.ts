@@ -1,3 +1,6 @@
+import { SheetComponent } from './../sheet/sheet.component';
+import { DialogConfirmComponent } from './../dialog-confirm/dialog-confirm.component';
+import { DialogAddComponent } from './../dialog-add/dialog-add.component';
 import { Grupo } from './../../models/Grupo';
 import { DataService } from '../../services/data.service';
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
@@ -9,7 +12,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatSelectionList } from '@angular/material/list';
-import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component';
 
 @Component({
   selector: 'app-form',
@@ -29,13 +31,9 @@ export class FormComponent implements OnInit {
   urlTree: any;
   persona: any;
   grupos: Grupo[] = [];
-  grupo2!: Grupo;
   grupoSelected: Grupo | undefined;
 
   panelOpenState = false;
-
-  //@ViewChild('groups')
-  //groupsList!: MatSelectionList;
 
   constructor(
     private fb: FormBuilder,
@@ -57,40 +55,39 @@ export class FormComponent implements OnInit {
     this.initForm();
   }
 
-  async ngOnInit(): Promise<void> {
-    console.log("rereer",this.grupoSelected);
-    
+  async ngOnInit(): Promise<void> {    
     if(this.stateForm === this.states.edit){
       this.invitadoForm.patchValue(this.persona);
-      console.log("🚀 ~ file: form.component.ts ~ line 65 ~ FormComponent ~ ngOnInit ~ this.persona", this.persona)
     }
 
-    await this.getGrupos();
-    this.patchGrupo();
-
-    //console.log(this.groupsList);
-    
+    this.patchGrupo();    
   }
 
-  patchGrupo(){
-    //Seleccionar valor en la lista
+  async patchGrupo(){
+    if(this.persona !== undefined){
+      await this.dataService.grupos.subscribe(grupos => {
+        this.grupoSelected =  grupos.find(x => x.id === this.persona.grupo);
+        this.grupoInvitado = this.grupoSelected?.id;
+      }); 
+    }
   }
 
   async onSave(): Promise<void> {
     if (this.invitadoForm.valid) {
       try {
         const invitado: Persona = this.invitadoForm.value;
+        invitado.grupo = this.grupoInvitado;
         invitado.id = this.persona?.id || null
         await this.dataService.addInvitado(invitado);
 
         if(this.stateForm == this.states.new){          
           //Swal.fire('Invitado añadido', 'Puedes verlo en la lista', 'success');
-          this.openSnackBar('Invitado añadido correctamente','Ok','bg-success')
+          this.openSnackBar('Invitado añadido correctamente','Ok','bg-success');
           this.invitadoForm.reset();
           this.initForm();
         } else if(this.stateForm == this.states.edit){
           //Swal.fire('Invitado editado', 'Pulsa Ok Para volver a la lista', 'success');
-          this.openSnackBar('Invitado Editado correctamente','Ok','bg-success')
+          this.openSnackBar('Invitado Editado correctamente','Ok','bg-success');
           this.router.navigate(['home']);
         }
 
@@ -101,7 +98,7 @@ export class FormComponent implements OnInit {
       }
     } else {
       //Swal.fire('Oops...', 'Comprueba los datos del formulario', 'error');
-      this.openSnackBar('Oops... Comprueba los datos del formulario','Ok','bg-danger')
+      this.openSnackBar('Oops... Comprueba los datos del formulario','Ok','bg-danger');
     }
   }
 
@@ -136,15 +133,23 @@ export class FormComponent implements OnInit {
   }
 
   async goToDelete(id: string){
-    try {
-      await this.dataService.deleteInvitado(id);
-      //Swal.fire('Invitado eliminado', 'Se ha eliminado el invitado correctamente', 'success');
-      this.openSnackBar('Invitado eliminado correctamente','Ok','bg-success')
-      this.router.navigate(['home']);
-    } catch (err) {
-      //Swal.fire('Oops...', 'Hubo un error al eliminar al invitado', 'error');
-      this.openSnackBar('Oops...Hubo un error al eliminar al invitado','Ok','bg-danger')
-    } 
+    const dialogRef = this.dialog.open(DialogConfirmComponent, {
+      width: '250px',
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if(result){
+        try {
+          await this.dataService.deleteInvitado(id);
+          //Swal.fire('Invitado eliminado', 'Se ha eliminado el invitado correctamente', 'success');
+          this.openSnackBar('Invitado eliminado correctamente','Ok','bg-success')
+          this.router.navigate(['home']);
+        } catch (err) {
+          //Swal.fire('Oops...', 'Hubo un error al eliminar al invitado', 'error');
+          this.openSnackBar('Oops...Hubo un error al eliminar el invitado','Ok','bg-danger')
+        } 
+      }
+    });    
   }
 
   openSnackBar(message: string, action: string, type: string) {
@@ -154,27 +159,42 @@ export class FormComponent implements OnInit {
     });
   }
 
-  /*openBottomSheet(): void {
-    this._bottomSheet.open(BottomSheetOverviewExampleSheet);
-  }*/
-
   SelectGroup(gr: Grupo){
     this.grupoSelected = gr;
     this.grupoInvitado = gr.id;
   }
 
-  async getGrupos(){
+  /*async getGrupos(){
     await this.dataService.grupos.subscribe(grupos => {
       this.grupos = grupos;
       this.grupoSelected = grupos.find(x => x.id === this.persona.grupo);
     })
+  }*/
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogAddComponent, {
+      width: '250px',
+      data: {persona: this.persona,},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result !== undefined){
+        this.grupoSelected = result;
+        this.grupoInvitado = result.id;  
+      }
+    });
   }
 
-  openDialog() {
-    this.dialog.open(DialogConfirmComponent, {
-      data: {
-        animal: 'panda',
-      },
+  openBottomSheet(): void {
+    const bottomSheet = this._bottomSheet.open(SheetComponent, {
+      data: this.grupoSelected
+    });
+
+    bottomSheet.afterDismissed().subscribe(result => {
+      if(result !== undefined){
+        this.grupoSelected = result;
+        this.grupoInvitado = result.id;  
+      }
     });
   }
 }
