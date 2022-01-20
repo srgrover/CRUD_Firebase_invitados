@@ -18,7 +18,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatListModule } from '@angular/material/list';
 import { DialogConfirmModule } from './shared/components/dialog-confirm/dialog-confirm.module';
 import { DialogAddModule } from './shared/components/dialog-add/dialog-add.module';
-import { SheetModule } from './shared/components/sheet/sheet.module'
+import { SheetModule } from './shared/components/sheet/sheet.module';
+import { InviteDialogConfirmModule } from './shared/components/invite-dialog-confirm/invite-dialog-confirm.module'
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { SheetModule } from './shared/components/sheet/sheet.module'
     MatListModule,
     DialogConfirmModule,
     DialogAddModule,
-    SheetModule
+    SheetModule,
+    InviteDialogConfirmModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent],

@@ -1,3 +1,4 @@
+import { InviteDialogConfirmComponent } from './../invite-dialog-confirm/invite-dialog-confirm.component';
 import { SheetComponent } from './../sheet/sheet.component';
 import { DialogConfirmComponent } from './../dialog-confirm/dialog-confirm.component';
 import { DialogAddComponent } from './../dialog-add/dialog-add.component';
@@ -133,20 +134,21 @@ export class FormComponent implements OnInit {
   }
 
   async goToDelete(id: string){
-    const dialogRef = this.dialog.open(DialogConfirmComponent, {
+    const dialogRefDelete = this.dialog.open(DialogConfirmComponent, {
       width: '250px',
+      data: {title: "Eliminar invitado", subtitle:"¿Seguro que quieres eliminar este invitado? Esta acción no se puede deshacer", isGroup: false, data: null},
     });
 
-    dialogRef.afterClosed().subscribe(async result => {
+    dialogRefDelete.afterClosed().subscribe(async result => {
       if(result){
         try {
           await this.dataService.deleteInvitado(id);
           //Swal.fire('Invitado eliminado', 'Se ha eliminado el invitado correctamente', 'success');
-          this.openSnackBar('Invitado eliminado correctamente','Ok','bg-success')
+          this.openSnackBar('Invitado eliminado correctamente','Ok','bg-success');
           this.router.navigate(['home']);
         } catch (err) {
           //Swal.fire('Oops...', 'Hubo un error al eliminar al invitado', 'error');
-          this.openSnackBar('Oops...Hubo un error al eliminar el invitado','Ok','bg-danger')
+          this.openSnackBar('Oops...Hubo un error al eliminar el invitado','Ok','bg-danger');
         } 
       }
     });    
@@ -164,12 +166,40 @@ export class FormComponent implements OnInit {
     this.grupoInvitado = gr.id;
   }
 
-  /*async getGrupos(){
-    await this.dataService.grupos.subscribe(grupos => {
-      this.grupos = grupos;
-      this.grupoSelected = grupos.find(x => x.id === this.persona.grupo);
-    })
-  }*/
+  async goToInviteAll(grupo: string){
+    var invitadosGroup!: Persona[];
+
+    await this.dataService.invitados.subscribe((invitados: Persona[]) => {
+      invitadosGroup = invitados.filter(x => x.grupo == grupo);
+      console.log("FFFFFFFFFFFFFFFFFF");
+      
+      const dialogRef = this.dialog.open(InviteDialogConfirmComponent, {
+        width: '300px',
+        data: {title: "Invitar Grupo", subtitle:"Va a invitar a estas personas: ", data: invitadosGroup},
+      });
+  
+      dialogRef.afterClosed().subscribe(async result => {
+        if(result){
+          try {
+            this.persona.invitado = true;
+            this.invitadoForm.controls['invitado'].setValue(true);
+            invitadosGroup.forEach(async (inviGr) => {
+              try {
+                inviGr.invitado = true;
+                await this.dataService.addInvitado(inviGr);
+              } catch (e) {
+                this.openSnackBar('Oops...Hubo un error al invitar a ' + inviGr.nombre + " " + inviGr.apellidos, 'Ok', 'bg-danger');
+              }
+            });
+          } catch (err) {
+            //Swal.fire('Oops...', 'Hubo un error al eliminar al invitado', 'error');
+            console.error(err);
+            this.openSnackBar('Oops...Hubo un error al eliminar el invitado','Ok','bg-danger');
+          }
+        }
+      });    
+    });
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddComponent, {

@@ -1,0 +1,18 @@
+<h1 mat-dialog-title class="d-flex align-items-center">
+    Invitar al grupo
+  </h1>
+
+  <mat-list>
+    <div mat-subheader>Se va a invitar a las siguientes personas:</div>
+    <mat-list-item *ngFor="let persona of data.data">
+      <mat-icon mat-list-icon>person</mat-icon>
+      <div mat-line>{{persona.nombre}} {{persona.apellidos}}</div>
+      <div mat-line>{{persona.parentesco}}</div>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+  </mat-list>
+
+  <div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Cancelar</button>
+    <button mat-flat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Invitar</button>
+  </div>
