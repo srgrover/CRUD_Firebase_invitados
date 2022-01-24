@@ -4,28 +4,34 @@ import {
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Persona } from '../models/Persona';
 import { Grupo } from '../models/Grupo';
+
+import { Router } from '@angular/router'
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
+  private ruta!: string;
+  private ruta$!: Subject<string>;
   invitados!: Observable<Persona[]>;
   grupos!: Observable<Grupo[]>;
   private invitadoCollection!: AngularFirestoreCollection<Persona>;
   private grupoCollection!: AngularFirestoreCollection<Grupo>;
+  
 
-  constructor(private readonly afs: AngularFirestore) {
+  constructor(private readonly afs: AngularFirestore, private router: Router) {
+    this.ruta$ = new Subject();
     this.invitadoCollection = afs.collection<Persona>('personas');
     this.grupoCollection = afs.collection<Grupo>('grupos');
+    this.setRuta();
     this.getGrupos();
     this.getInvitados();
   }
 
   addInvitado(invitado: Persona): Promise<void> {
-    console.log("🚀 ~ file: data.service.ts ~ line 28 ~ DataService ~ invitado", invitado)
     return new Promise(async (resolve, reject) => {
       try {
         invitado.id = invitado.id || this.afs.createId();
@@ -87,5 +93,14 @@ export class DataService {
         reject(err)
       }
     });
+  }
+
+  setRuta(){
+    this.ruta = this.router.url;
+    this.ruta$.next(this.ruta);
+  }
+
+  getRuta(): Observable<string>{
+    return this.ruta$.asObservable();
   }
 }

@@ -29,6 +29,17 @@
 
   <div class="col-md-4">
     <mat-form-field class="w-100" appearance="fill">
+      <mat-label>Clasificacion</mat-label>
+      <mat-select formControlName="clasificacion" id="inputClasificacion" [(ngModel)]="clasificacion">
+        <mat-option *ngFor="let item of clasificacionList" [value]="item">{{
+          item
+          }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-4">
+    <mat-form-field class="w-100" appearance="fill">
       <mat-label>Sexo</mat-label>
       <mat-select formControlName="sexo" id="inputSexo" [(ngModel)]="sexoInvitado">
         <mat-option *ngFor="let item of sexoList" [value]="item">{{
@@ -72,7 +83,7 @@
     </mat-accordion>
   </div>
 
-  <div class="col-12 m-2 d-flex justify-content-between" *ngIf="stateForm === states.edit">
+  <div class="col-12 m-2 d-flex justify-content-between" *ngIf="stateForm === states.edit && persona.grupo != 'hUNpRRMnt5nL3kuz0yiK'">
     <h3 class="m-0 p-0 align-self-center">Invitar a todo el grupo</h3>
     <button
       type="button"
@@ -82,8 +93,8 @@
     </button>
   </div>
 
-  <mat-divider *ngIf="stateForm === states.edit"></mat-divider>
-  <div class="col-12 m-2 d-flex justify-content-between" *ngIf="stateForm === states.edit">
+  <mat-divider *ngIf="stateForm === states.edit && persona.grupo != 'hUNpRRMnt5nL3kuz0yiK'"></mat-divider>
+  <div class="col-12 m-2 d-flex justify-content-between" *ngIf="stateForm === states.edit && persona.grupo != 'hUNpRRMnt5nL3kuz0yiK'">
     <h3 class="m-0 p-0 align-self-center">Quitar invitación al grupo</h3>
     <button
       type="button"
@@ -103,6 +114,12 @@
   <div class="col-12 m-2 d-flex justify-content-between">
     <h3 class="m-0 p-0">Confirmado</h3>
     <mat-slide-toggle formControlName="confirmado" color="primary"></mat-slide-toggle>
+  </div>
+
+  <mat-divider></mat-divider>
+  <div class="col-12 m-2 d-flex justify-content-between">
+    <h3 class="m-0 p-0">Rechazado</h3>
+    <mat-slide-toggle formControlName="rechazado" color="warn"></mat-slide-toggle>
   </div>
 
   <mat-divider></mat-divider>

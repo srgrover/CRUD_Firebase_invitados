@@ -54,8 +54,12 @@
       {{ numInvitadosEnviado }}
     </mat-chip>
     <mat-chip>
-      <mat-icon mat-list-icon>verified</mat-icon>
+      <mat-icon mat-list-icon>task_alt</mat-icon>
       {{ numInvitadosConfirmado }}
+    </mat-chip>
+    <mat-chip>
+      <mat-icon mat-list-icon>highlight_off</mat-icon>
+      {{ numInvitacionesRechazadas }}
     </mat-chip>
   </mat-chip-list>
 </div>
@@ -70,10 +74,11 @@
         </div>
         <mat-icon
           color="primary"
-          *ngIf="invitado.invitado && !invitado.confirmado">
+          *ngIf="invitado.invitado && !invitado.confirmado && !invitado.rechazado">
           forward_to_inbox
         </mat-icon>
-        <mat-icon *ngIf="invitado.confirmado" class="text-success">verified</mat-icon>
+        <mat-icon *ngIf="invitado.confirmado && !invitado.rechazado" class="text-success">task_alt</mat-icon>
+        <mat-icon *ngIf="invitado.rechazado" color="warn">highlight_off</mat-icon>
         <div mat-line>{{ invitado.nombre }} {{ invitado.apellidos }}</div>
         <div mat-line>
           <mat-chip (click)="goToEdit(invitado)">{{

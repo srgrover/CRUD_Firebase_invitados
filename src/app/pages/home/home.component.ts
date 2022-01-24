@@ -32,11 +32,13 @@ export class HomeComponent implements OnInit {
   numInvitadosMujer: number = 0;
   numInvitadosEnviado: number = 0;
   numInvitadosConfirmado: number = 0;
+  numInvitacionesRechazadas: number = 0;
   navExtras: NavigationExtras = {
     state: {
       persona: null
     }
   }
+  
 
   @HostListener('window:scroll', ['$event'])
   handleScroll(){
@@ -53,8 +55,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngAfterViewInit(){
-    console.log("🚀 ~ file: home.component.ts ~ line 57 ~ HomeComponent ~ ngAfterViewInit ~ this.menuElement.nativeElement", this.menuElement.underlineRef.nativeElement.offsetTop)
-
     this.elementPosition = this.menuElement.underlineRef.nativeElement.offsetTop;
   }
 
@@ -65,12 +65,12 @@ export class HomeComponent implements OnInit {
   async getInvitados(){
     await this.dataService.invitados.subscribe((invitados: Persona[]) => {
       this.invitados = invitados;
-      console.log("🚀 ~ file: home.component.ts ~ line 68 ~ HomeComponent ~ awaitthis.dataService.invitados.subscribe ~ this.invitados", this.invitados)
       this.numInvitados = invitados.length;
       this.numInvitadosHombre = invitados.filter(x => x.sexo == "Hombre").length;
       this.numInvitadosMujer = invitados.filter(x => x.sexo == "Mujer").length;
       this.numInvitadosEnviado = invitados.filter(x => x.invitado == true).length;
       this.numInvitadosConfirmado = invitados.filter(x => x.confirmado == true).length;
+      this.numInvitacionesRechazadas = invitados.filter(x => x.rechazado == true).length;
 
       this.options = invitados
       this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -95,11 +95,10 @@ export class HomeComponent implements OnInit {
 
   private _filter(value: string): Persona[] {
     const filterValue = value.toLowerCase();   
-    return this.invitados.filter(option => option.nombre.toLowerCase().includes(filterValue));
+    return this.invitados.filter(option => option.nombre.toLowerCase().includes(filterValue) || option.apellidos?.toLowerCase().includes(filterValue));
   }
 
   filterInvitados(e: any){
-    console.log(e);
     this.invitados = this.invitados.filter(x => x.id === e);
   }
 }

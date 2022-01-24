@@ -4,15 +4,14 @@ import { DialogConfirmComponent } from './../dialog-confirm/dialog-confirm.compo
 import { DialogAddComponent } from './../dialog-add/dialog-add.component';
 import { Grupo } from './../../models/Grupo';
 import { DataService } from '../../services/data.service';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { Persona } from '../../models/Persona';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { MatSelectionList } from '@angular/material/list';
+import { MatDialog } from '@angular/material/dialog';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -25,8 +24,9 @@ export class FormComponent implements OnInit {
   sexoList: any = [];
   parentescoList: any = [];
   states: any;
-  stateForm: number = 0
+  stateForm: number = 0;
   sexoInvitado: string;
+  clasificacion: string;
   parentescoInvitado: string;
   grupoInvitado: any;
   invitadoForm!: FormGroup;
@@ -36,6 +36,7 @@ export class FormComponent implements OnInit {
   grupoSelected: Grupo | undefined;
 
   panelOpenState = false;
+  clasificacionList: string[];
 
   constructor(
     private fb: FormBuilder,
@@ -52,6 +53,8 @@ export class FormComponent implements OnInit {
     this.sexoList = ["Hombre", "Mujer"];
     this.parentescoList = ["Padre", "Madre", "Hermano/a", "Tio/a", "Primo/a", "Abuelo/a", "Amigo/a", "Cuñado/a", "Otro"];
     this.sexoInvitado = this.persona?.sexo || "";
+    this.clasificacion = this.persona?.clasificacion || "";
+    this.clasificacionList = ["Adulto", "Joven", "Niño"];
     this.parentescoInvitado = this.persona?.parentesco || "";
     this.grupoInvitado = this.persona?.grupo || "";
     this.initForm();
@@ -121,11 +124,13 @@ export class FormComponent implements OnInit {
     this.invitadoForm = this.fb.group({
       nombre: ['', [Validators.required]],
       apellidos: [''],
+      clasificacion: ['Adulto', [Validators.required]],
       sexo: ['Hombre', [Validators.required]],
       parentesco: ['Padre', [Validators.required]],
       ubicacion: [''],
       invitado: [false, [Validators.required]],
       confirmado: [false, [Validators.required]],
+      rechazado: [false, [Validators.required]],
       grupo: ['hUNpRRMnt5nL3kuz0yiK', [Validators.required]], //Id del grupo 'Sin Grupo' en firestore
     });
   }
@@ -165,6 +170,7 @@ export class FormComponent implements OnInit {
   SelectGroup(gr: Grupo){
     this.grupoSelected = gr;
     this.grupoInvitado = gr.id;
+    this.persona.grupo = gr.id;
   }
 
   async changeInvite(grupo: string, invite: boolean){
@@ -215,7 +221,8 @@ export class FormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined){
         this.grupoSelected = result;
-        this.grupoInvitado = result.id;  
+        this.grupoInvitado = result.id;
+        this.persona.grupo = result.id;
       }
     });
   }
@@ -228,7 +235,8 @@ export class FormComponent implements OnInit {
     bottomSheet.afterDismissed().subscribe(result => {
       if(result !== undefined){
         this.grupoSelected = result;
-        this.grupoInvitado = result.id;  
+        this.grupoInvitado = result.id;
+        this.persona.grupo = result.id;
       }
     });
   }

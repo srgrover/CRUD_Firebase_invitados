@@ -1,9 +1,9 @@
 <mat-toolbar color="primary">
-  <button mat-icon-button class="example-icon" (click)="goBack()" aria-label="Atrás">
+  <button mat-icon-button class="example-icon" (click)="goBack()" aria-label="Atrás" *ngIf="this.ruta != '/'">
     <mat-icon>keyboard_arrow_left</mat-icon>
   </button>
   <span>
-    <a class="navbar-brand text-white">Invitados</a>
+    <a class="navbar-brand text-white">Invitados {{ruta}}</a>
   </span>
   <span class="example-spacer"></span>
   <button mat-icon-button class="example-icon favorite-icon" (click)="goBack()" aria-label="Recargar">

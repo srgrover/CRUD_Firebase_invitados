@@ -5,7 +5,9 @@ export interface Persona {
     parentesco: string;
     sexo: string;
     ubicacion?: string;
+    clasificacion: string;
     invitado: boolean;
     confirmado: boolean;
+    rechazado: boolean;
     grupo: string
   }
