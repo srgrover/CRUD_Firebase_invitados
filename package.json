@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --prod --base-href=/CRUD_Firebase_invitados/"
+    "deploy": "ng build --prod --base-href=/CRUD_Firebase_Invitados/"
   },
   "private": true,
   "dependencies": {
