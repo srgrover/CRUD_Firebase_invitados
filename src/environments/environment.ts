@@ -13,15 +13,6 @@ export const environment = {
     measurementId: 'G-LH05LBYS3Y',
   },
   production: false,
-  firebaseConfig: {
-    apiKey: "AIzaSyBlsp2FTAugv9IkKgA95vwqTBBCIyyU1Fc",
-    authDomain: "invitados-be0bd.firebaseapp.com",
-    projectId: "invitados-be0bd",
-    storageBucket: "invitados-be0bd.appspot.com",
-    messagingSenderId: "1074477651111",
-    appId: "1:1074477651111:web:0dbcd17207d051f40fb782",
-    measurementId: "G-LH05LBYS3Y"
-  }
 };
 
 /*
