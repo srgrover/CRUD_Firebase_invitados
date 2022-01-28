@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface Persona {
     id?: string;
     nombre: string;
@@ -9,5 +11,6 @@ export interface Persona {
     invitado: boolean;
     confirmado: boolean;
     rechazado: boolean;
-    grupo: string
+    grupo: string;
+    fechaCreacion: Timestamp
   }

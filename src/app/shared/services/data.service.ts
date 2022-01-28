@@ -9,6 +9,7 @@ import { Persona } from '../models/Persona';
 import { Grupo } from '../models/Grupo';
 
 import { Router } from '@angular/router'
+import { Timestamp } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +36,7 @@ export class DataService {
     return new Promise(async (resolve, reject) => {
       try {
         invitado.id = invitado.id || this.afs.createId();
+        invitado.fechaCreacion = Timestamp.fromDate(new Date());
         const result = await this.invitadoCollection.doc(invitado.id).set(invitado);
         resolve(result);
       } catch (err) {
