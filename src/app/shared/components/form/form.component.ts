@@ -71,7 +71,7 @@ export class FormComponent implements OnInit {
   async patchGrupo(){
     if(this.persona !== undefined){
       await this.dataService.grupos.subscribe(grupos => {
-        this.grupoSelected =  grupos.find(x => x.id === this.persona.grupo);
+        this.grupoSelected = grupos.find(x => x.id === this.persona.grupo);
         this.grupoInvitado = this.grupoSelected?.id;
       }); 
     }
@@ -81,9 +81,17 @@ export class FormComponent implements OnInit {
     if (this.invitadoForm.valid) {
       try {
         const invitado: Persona = this.invitadoForm.value;
+
         invitado.grupo = this.grupoInvitado;
         invitado.id = this.persona?.id || null
+
+        if(this.grupoSelected?.persona?.find(x => x.id == invitado.id) == undefined)
+          this.grupoSelected?.persona?.push(invitado);
+        
         await this.dataService.addInvitado(invitado);
+        
+        if(this.grupoSelected != undefined)
+          await this.dataService.addGrupo(this.grupoSelected);
 
         if(this.stateForm == this.states.new){          
           //Swal.fire('Invitado añadido', 'Puedes verlo en la lista', 'success');

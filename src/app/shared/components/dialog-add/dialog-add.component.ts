@@ -21,9 +21,9 @@ export class DialogAddComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   async addGrupo(){
     try {
+      this.data.persona = [];
       await this.dataService.addGrupo(this.data);
       this.openSnackBar('Grupo añadido correctamente','Ok','bg-success');
       this.dialogRef.close(this.data);
@@ -43,6 +43,4 @@ export class DialogAddComponent implements OnInit {
       panelClass: [type]
     });
   }
-
-
 }

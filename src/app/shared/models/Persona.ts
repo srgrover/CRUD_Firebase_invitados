@@ -1,3 +1,4 @@
+import { Grupo } from './Grupo';
 import { Timestamp } from "firebase/firestore";
 
 export interface Persona {

@@ -34,32 +34,24 @@
 </form>
 
 <div class="p-2 d-flex justify-content-between" [class.mt-70]="sticky">
-  <mat-chip-list aria-label="Fish selection">
+  <mat-chip-list aria-label="Count">
     <mat-chip>
-      <mat-icon mat-list-icon>wc</mat-icon>
+      <mat-icon mat-list-icon>group_work</mat-icon>
       {{ numInvitados }}
-    </mat-chip>
-    <mat-chip color="accent" selected>
-      <mat-icon mat-list-icon>man</mat-icon>
+      <mat-icon mat-list-icon color="warn">male</mat-icon>
       {{ numInvitadosHombre }}
-    </mat-chip>
-    <mat-chip color="primary" selected>
-      <mat-icon mat-list-icon>woman</mat-icon>
+      <mat-icon mat-list-icon color="primary">female</mat-icon>
       {{ numInvitadosMujer }}
     </mat-chip>
   </mat-chip-list>
-  <mat-chip-list aria-label="Fish selection">
+  <mat-chip-list aria-label="Stats">
     <mat-chip>
-      <mat-icon mat-list-icon>forward_to_inbox</mat-icon>
-      {{ numInvitadosEnviado }}
-    </mat-chip>
-    <mat-chip>
-      <mat-icon mat-list-icon>task_alt</mat-icon>
-      {{ numInvitadosConfirmado }}
-    </mat-chip>
-    <mat-chip>
-      <mat-icon mat-list-icon>highlight_off</mat-icon>
-      {{ numInvitacionesRechazadas }}
+      <mat-icon mat-list-icon color="primary">forward_to_inbox</mat-icon>
+      &nbsp;{{ numInvitadosEnviado }}&nbsp;
+      <mat-icon mat-list-icon class="text-success">task_alt</mat-icon>
+      &nbsp;{{ numInvitadosConfirmado }}&nbsp;
+      <mat-icon mat-list-icon color="warn">highlight_off</mat-icon>
+      &nbsp;{{ numInvitacionesRechazadas }}&nbsp;
     </mat-chip>
   </mat-chip-list>
 </div>
