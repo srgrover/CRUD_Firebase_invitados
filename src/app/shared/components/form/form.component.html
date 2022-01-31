@@ -20,9 +20,9 @@
     <mat-form-field class="w-100" appearance="fill">
       <mat-label>Parentesco</mat-label>
       <mat-select formControlName="parentesco" id="inputParentesco" [(ngModel)]="parentescoInvitado">
-        <mat-option *ngFor="let item of parentescoList" [value]="item">{{
-          item
-          }}</mat-option>
+        <mat-option *ngFor="let item of parentescoList" [value]="item">
+          {{item}}
+        </mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -125,18 +125,20 @@
   <mat-divider></mat-divider>
   <div class="col-12 mt-5">
     <button type="submit" mat-flat-button *ngIf="stateForm === states.new" color="primary">
+      <mat-icon mat-list-icon>add</mat-icon>
       Añadir invitado
-    </button>
-
-    <button type="submit" mat-flat-button *ngIf="stateForm === states.edit" color="accent">
-      Editar invitado
     </button>
   </div>
 
-  <div class="col-12 mt-3 mb-3">
-    <button type="button" mat-flat-button *ngIf="stateForm === states.edit" color="warn"
+  <div class="d-flex justify-content-between mt-3 mb-3">
+    <button type="button" mat-flat-button *ngIf="stateForm === states.edit" color="warn" class="mx-1"
       (click)="goToDelete(persona.id)">
+      <mat-icon mat-list-icon>delete_outline</mat-icon>
       Borrar invitado
+    </button>
+    <button type="submit" mat-flat-button *ngIf="stateForm === states.edit" color="primary" class="mx-1">
+      <mat-icon mat-list-icon>edit_outline</mat-icon>
+      Editar invitado
     </button>
   </div>
 </form>

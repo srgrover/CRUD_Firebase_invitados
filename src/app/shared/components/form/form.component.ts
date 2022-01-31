@@ -85,6 +85,9 @@ export class FormComponent implements OnInit {
         invitado.grupo = this.grupoInvitado;
         invitado.id = this.persona?.id || null
 
+        if(this.grupoSelected != undefined && this.grupoSelected?.persona == undefined || this.grupoSelected != undefined && !Array.isArray(this.grupoSelected?.persona))
+          this.grupoSelected.persona = [];
+        
         if(this.grupoSelected?.persona?.find(x => x.id == invitado.id) == undefined)
           this.grupoSelected?.persona?.push(invitado);
         
@@ -178,7 +181,8 @@ export class FormComponent implements OnInit {
   SelectGroup(gr: Grupo){
     this.grupoSelected = gr;
     this.grupoInvitado = gr.id;
-    this.persona.grupo = gr.id;
+    if(this.persona != undefined)
+      this.persona.grupo = gr.id;
   }
 
   async changeInvite(grupo: string, invite: boolean){
@@ -230,7 +234,8 @@ export class FormComponent implements OnInit {
       if(result !== undefined){
         this.grupoSelected = result;
         this.grupoInvitado = result.id;
-        this.persona.grupo = result.id;
+        if(this.persona != undefined)
+          this.persona.grupo = result.id;
       }
     });
   }
@@ -242,9 +247,12 @@ export class FormComponent implements OnInit {
 
     bottomSheet.afterDismissed().subscribe(result => {
       if(result !== undefined){
+        console.log("🚀 ~ file: form.component.ts ~ line 249 ~ FormComponent ~ bottomSheet.afterDismissed ~ result", result)
         this.grupoSelected = result;
+        console.log("🚀 ~ file: form.component.ts ~ line 253 ~ FormComponent ~ bottomSheet.afterDismissed ~ this.grupoSelected", this.grupoSelected)
         this.grupoInvitado = result.id;
-        this.persona.grupo = result.id;
+        if(this.persona != undefined)
+          this.persona.grupo = result.id;
       }
     });
   }
