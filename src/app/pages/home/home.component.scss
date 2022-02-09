@@ -15,6 +15,12 @@
   width: 100%;
 }
 
+.shadow-bar{
+  box-shadow: 0px 13px 10px -13px rgb(0 0 0 / 20%);
+  transition: box-shadow;
+  transition-duration: .2s;
+}
+
 .table-list {
   width: 100%;
 }
@@ -25,6 +31,25 @@ tr.mat-footer-row {
   &:hover {
     background: #f1f3f4;
   }
+}
+
+.search-icon{
+  font-size: 30px;
+  height: 30px;
+  width: 30px;
+  color: lighten($color: #000000, $amount: 70);
+}
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  border-radius: 10px !important;
+}
+
+::ng-deep .mat-form-field-wrapper{
+  padding: 1em !important;
+}
+
+::ng-deep .mat-form-field-underline {
+  display: none;
 }
 
 .avatar{

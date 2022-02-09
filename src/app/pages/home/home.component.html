@@ -1,39 +1,43 @@
-<form class="form-filter">
-  <mat-form-field
-    class="form-filter-full-width"
-    appearance="fill"
-    #formSearch
-    [class.sticky]="sticky"
-  >
-    <mat-label> Buscar invitado </mat-label>
-    <input
-      type="text"
-      placeholder="Invitado"
-      aria-label="Invitado"
-      matInput
-      [formControl]="myControl"
-      [matAutocomplete]="auto"
-    />
-    <mat-autocomplete
-      autocapitalize="true"
-      autoActiveFirstOption
-      #auto="matAutocomplete"
-      (optionSelected)="filterInvitados($event.option.value)"
-    >
-      <mat-option
-        *ngFor="let option of filteredOptions | async"
-        [value]="option.id"
-      >
-        {{ option.nombre }} {{ option.apellidos }}
-      </mat-option>
-    </mat-autocomplete>
-    <button mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
-</form>
+<h1 style="font-size: xx-large;" class="mt-2 p-3 pb-0">Lista de invitados</h1>
 
-<div class="p-2 d-flex justify-content-between" [class.mt-70]="sticky">
+<div class="d-flex justify-content-start align-items-center bg-white" #formSearchContainer style="padding-left: 10px;" [class.sticky]="sticky">
+  <mat-icon class="ml-3 search-icon">search</mat-icon>
+  <form class="form-filter w-100">
+    <mat-form-field
+      class="form-filter-full-width"
+      appearance="fill"
+      #formSearch
+    >
+      <mat-label> Buscar invitado </mat-label>
+      <input
+        type="text"
+        placeholder="Invitado"
+        aria-label="Invitado"
+        matInput
+        [formControl]="myControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete
+        autocapitalize="true"
+        autoActiveFirstOption
+        #auto="matAutocomplete"
+        (optionSelected)="filterInvitados($event.option.value)"
+      >
+        <mat-option
+          *ngFor="let option of filteredOptions | async"
+          [value]="option.id"
+        >
+          {{ option.nombre }} {{ option.apellidos }}
+        </mat-option>
+      </mat-autocomplete>
+      <button mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </form>
+</div>
+
+<div class="p-3 d-flex justify-content-between bg-white" [class.mt-70]="sticky" [class.sticky]="sticky" [class.shadow-bar]="sticky">
   <mat-chip-list aria-label="Count">
     <mat-chip>
       <mat-icon mat-list-icon>group_work</mat-icon>

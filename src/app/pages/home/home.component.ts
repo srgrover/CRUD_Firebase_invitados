@@ -19,6 +19,9 @@ export class HomeComponent implements OnInit {
   @ViewChild('formSearch')
   menuElement!: MatFormField;
 
+  @ViewChild('formSearchContainer')
+  formSearchContainer!: ElementRef;
+
   elementPosition: any;
   sticky: boolean = false;
 
@@ -43,6 +46,7 @@ export class HomeComponent implements OnInit {
   @HostListener('window:scroll', ['$event'])
   handleScroll(){
     const windowScroll = window.pageYOffset;
+    console.log("🚀 ~ file: home.component.ts ~ line 46 ~ HomeComponent ~ handleScroll ~ windowScroll", windowScroll)
     if(windowScroll >= this.elementPosition){
       this.sticky = true;
     } else {
@@ -55,7 +59,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngAfterViewInit(){
-    this.elementPosition = this.menuElement.underlineRef.nativeElement.offsetTop;
+    this.elementPosition = this.formSearchContainer.nativeElement.offsetTop;
+    console.log("🚀 ~ file: home.component.ts ~ line 60 ~ HomeComponent ~ ngAfterViewInit ~ this.menuElement.underlineRef.nativeElement.offsetTop", this.formSearchContainer)
   }
 
   async ngOnInit(): Promise<void> {
