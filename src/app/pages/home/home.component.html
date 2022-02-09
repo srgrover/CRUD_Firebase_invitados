@@ -1,4 +1,4 @@
-<h1 style="font-size: xx-large;" class="mt-2 p-3 pb-0">Lista de invitados</h1>
+<h1 style="font-size: xx-large;" class="mt-0 p-3 pb-0">Lista de invitados</h1>
 
 <div class="d-flex justify-content-start align-items-center bg-white" #formSearchContainer style="padding-left: 10px;" [class.sticky]="sticky">
   <mat-icon class="ml-3 search-icon">search</mat-icon>
@@ -60,7 +60,7 @@
   </mat-chip-list>
 </div>
 
-<mat-selection-list #persona [multiple]="false">
+<mat-selection-list #persona [multiple]="false" [class.mt-150]="sticky">
   <mat-divider></mat-divider>
   <div *ngFor="let invitado of invitados">
     <mat-list-option [value]="invitado" (click)="goToEdit(invitado)">
