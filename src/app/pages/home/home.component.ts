@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { DataService } from './../../shared/services/data.service';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
@@ -46,7 +47,7 @@ export class HomeComponent implements OnInit {
   @HostListener('window:scroll', ['$event'])
   handleScroll(){
     const windowScroll = window.pageYOffset;
-    console.log("🚀 ~ file: home.component.ts ~ line 46 ~ HomeComponent ~ handleScroll ~ windowScroll", windowScroll)
+    //console.log("🚀 ~ file: home.component.ts ~ line 46 ~ HomeComponent ~ handleScroll ~ windowScroll", windowScroll)
     if(windowScroll >= this.elementPosition){
       this.sticky = true;
     } else {
@@ -54,17 +55,23 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  constructor(private dataService: DataService, private router: Router) {
+  constructor(private dataService: DataService, private router: Router, private auth: AuthService) {
     this.grupos = Grupos;
   }
 
   ngAfterViewInit(){
     this.elementPosition = this.formSearchContainer.nativeElement.offsetTop;
-    console.log("🚀 ~ file: home.component.ts ~ line 60 ~ HomeComponent ~ ngAfterViewInit ~ this.menuElement.underlineRef.nativeElement.offsetTop", this.formSearchContainer)
+    //console.log("🚀 ~ file: home.component.ts ~ line 60 ~ HomeComponent ~ ngAfterViewInit ~ this.menuElement.underlineRef.nativeElement.offsetTop", this.formSearchContainer)
   }
 
   async ngOnInit(): Promise<void> {
     await this.getInvitados();
+
+    this.auth.updateCurrentUser("Test Hendricks", "https://cdn.arstechnica.net/wp-content/uploads/2017/04/HBO.SV_.1-800x533.jpeg")
+
+    //if(currentUser?.email == "test@gmail.com") currentUser.displayName = ""
+
+    //console.log(this.auth.getCurrentUser())
   }
 
   async getInvitados(){

@@ -1,0 +1,22 @@
+$googleColor:#DB4437;
+$facebookColor:#4267B2;
+
+.googleColorBackground{
+    background-color: $googleColor;
+}
+
+.facebookColorBackground{
+    background-color: $facebookColor;
+}
+
+.facebookColorBorder{
+    border: 1px solid $facebookColor;
+}
+
+.mt--2{
+    margin-top: -2px;
+}
+
+.letter-spacing-1{
+    letter-spacing: 1px;
+}

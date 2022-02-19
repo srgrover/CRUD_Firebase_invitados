@@ -1,0 +1,67 @@
+<div class="container justify-content-center">
+    <div class="col-auto">
+      <h1>Nuevo usuario</h1>
+      <form (ngSubmit)="register(registerForm.value)" [formGroup]="registerForm">
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input type="email" matInput formControlName="nombre" [errorStateMatcher]="matcher"
+              placeholder="Ex. Harry">
+            <mat-error *ngIf="registerForm.get('nombre')?.errors?.required">
+              Nombre es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Apellidos</mat-label>
+            <input type="email" matInput formControlName="apellidos" [errorStateMatcher]="matcher"
+              placeholder="Ex. Potter">
+          </mat-form-field>
+        <mat-form-field class="w-100" appearance="fill">
+          <mat-label>Email</mat-label>
+          <input type="email" matInput formControlName="email" [errorStateMatcher]="matcher"
+            placeholder="Ex. pat@example.com">
+          <mat-error *ngIf="registerForm.get('email')?.errors && !registerForm.get('email')?.errors?.required">
+            El email no es válido
+          </mat-error>
+          <mat-error *ngIf="registerForm.get('email')?.errors?.required">
+            Email es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field class="w-100"appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="pass">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="registerForm.get('pass')?.errors?.required">
+            Contraseña es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="submit" class="col-auto w-100 my-2 d-flex justify-content-center letter-spacing-1" [disabled]="!registerForm.valid">
+            Registrarse
+        </button>
+      </form>
+    </div>
+  </div>
+  
+  <div class="container justify-content-center">
+    <h4 class="text-muted text-center">O si lo prefieres</h4>
+  </div>
+  
+  <div class="container justify-content-center">
+    <div class="col-auto w-100">
+      <button mat-flat-button class="col-auto w-100 my-2 border d-flex justify-content-center letter-spacing-1">
+        <img src="https://luzdigital.cl/wp-content/uploads/2019/06/google-logo-png-open-2000.png" class="m--2" width="20" alt="Google logo">
+        Continuar con
+        <strong>Google</strong>
+      </button>
+      <button mat-flat-button color="primary" class="col-auto w-100 my-2 d-flex justify-content-center letter-spacing-1 facebookColorBackground facebookColorBorder">
+        <mat-icon class="mt--2">facebook</mat-icon>
+        Continuar con
+        <strong>
+          Facebook
+        </strong> 
+      </button>
+    </div>
+  </div>

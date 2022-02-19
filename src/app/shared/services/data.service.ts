@@ -102,7 +102,7 @@ export class DataService {
     this.ruta$.next(this.ruta);
   }
 
-  getRuta(): Observable<string>{
-    return this.ruta$.asObservable();
+  getRuta(){
+    return this.router.url;
   }
 }
