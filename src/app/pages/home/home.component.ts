@@ -67,7 +67,7 @@ export class HomeComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.getInvitados();
 
-    this.auth.updateCurrentUser("Test Hendricks", "https://cdn.arstechnica.net/wp-content/uploads/2017/04/HBO.SV_.1-800x533.jpeg")
+    //this.auth.updateCurrentUser("Test Hendricks", "https://cdn.arstechnica.net/wp-content/uploads/2017/04/HBO.SV_.1-800x533.jpeg")
 
     //if(currentUser?.email == "test@gmail.com") currentUser.displayName = ""
 
