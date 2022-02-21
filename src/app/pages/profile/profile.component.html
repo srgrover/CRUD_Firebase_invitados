@@ -1,0 +1,30 @@
+<div class="container justify-content-center">
+    <div class="col-auto">
+        <div class="border p-3" *ngIf="currentUser">
+            <div class="example-ripple-container d-flex justify-content-start min-height-48 py-2 px-2" matRipple role="button"
+                [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+                <span class="titleSpan">NOMBRE</span>
+                <span class="valueSpan">{{currentUser.displayName}}</span>
+            </div>
+
+            <div class="example-ripple-container d-flex justify-content-start min-height-48 py-2 px-2" matRipple role="button"
+                [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+                <span class="titleSpan">IMAGEN DE PERFIL</span>
+                <div class="d-flex">
+                    <div class="avatar" *ngIf="currentUser.photoURL">
+                        <img src="{{currentUser.photoURL}}" alt="Profile image">
+                    </div>
+                    
+                    <mat-icon *ngIf="!currentUser.photoURL">account_circle</mat-icon>
+                    <span class="valueSpan mx-2">Puedes personalizar tu cuenta con una foto de perfil</span>
+                </div>
+            </div>
+
+            <div class="example-ripple-container d-flex justify-content-start min-height-48 py-2 px-2" matRipple role="button"
+                [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+                <span class="titleSpan">CORREO ELECTRÓNICO</span>
+                <span class="valueSpan">{{currentUser.email}}</span>
+            </div>
+        </div>
+    </div>
+</div>

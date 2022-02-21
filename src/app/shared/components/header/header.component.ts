@@ -22,11 +22,7 @@ export class HeaderComponent implements OnInit {
     
   }
 
-  async ngOnInit() {
-    setInterval(() => {
-      this.getRuta(); 
-    }, 500);
-  }
+  async ngOnInit() {}
 
   goBack(){    
     this.router.navigate(['home']);
@@ -40,8 +36,8 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/register']);
   }
 
-  getRuta(){    
-    
+  goToProfile(){    
+    this.router.navigate(['/profile']);
   }
 
   logout(){

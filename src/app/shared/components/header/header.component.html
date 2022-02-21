@@ -18,6 +18,9 @@
   <mat-menu #beforeMenu="matMenu" xPosition="before">
     <span mat-menu-item *ngIf="!auth.getCurrentUser()?.displayName" disabled>{{auth.getCurrentUser()?.email}}</span>
     <span mat-menu-item *ngIf="auth.getCurrentUser()?.displayName" disabled>{{auth.getCurrentUser()?.displayName}}</span>
+    <button mat-menu-item (click)="goToProfile()" class="d-flex justify-content-between align-items-center">
+      Perfil
+    </button>
     <button mat-menu-item (click)="logout()" class="d-flex justify-content-between align-items-center">
       Salir
     </button>

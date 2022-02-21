@@ -15,37 +15,43 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () =>
       import('./pages/home/home.module').then((m) => m.HomeModule),
-      ...canActivate(redirectUnauthorizedToLogin),
+    ...canActivate(redirectUnauthorizedToLogin),
   },
 
   {
     path: 'new',
     loadChildren: () =>
       import('./pages/new/new.module').then((m) => m.NewModule),
-      ...canActivate(redirectUnauthorizedToLogin),
+    ...canActivate(redirectUnauthorizedToLogin),
   },
 
   {
     path: 'edit',
     loadChildren: () =>
       import('./pages/edit/edit.module').then((m) => m.EditModule),
-      ...canActivate(redirectUnauthorizedToLogin),
+    ...canActivate(redirectUnauthorizedToLogin),
   },
 
   {
     path: '',
     loadChildren: () =>
       import('./pages/login/login.module').then((m) => m.LoginModule),
-      ...canActivate(redirectLoggedInToHome),
+    ...canActivate(redirectLoggedInToHome),
   },
 
   {
     path: 'register',
     loadChildren: () =>
       import('./pages/register/register.module').then((m) => m.RegisterModule),
-      ...canActivate(redirectLoggedInToHome),
+    ...canActivate(redirectLoggedInToHome),
   },
-  
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('./pages/profile/profile.module').then((m) => m.ProfileModule),
+      ...canActivate(redirectUnauthorizedToLogin),
+  },
+
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
