@@ -1,3 +1,6 @@
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
@@ -15,7 +18,10 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     MatListModule,
     MatDialogModule,
-    MatIconModule
+    MatInputModule,
+    MatIconModule,
+    MatFormFieldModule,
+    FormsModule,
   ],
   exports: [InviteDialogConfirmComponent]
 })

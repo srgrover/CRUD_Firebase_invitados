@@ -19,7 +19,8 @@ import { MatListModule } from '@angular/material/list';
 import { DialogConfirmModule } from './shared/components/dialog-confirm/dialog-confirm.module';
 import { DialogAddModule } from './shared/components/dialog-add/dialog-add.module';
 import { SheetModule } from './shared/components/sheet/sheet.module';
-import { InviteDialogConfirmModule } from './shared/components/invite-dialog-confirm/invite-dialog-confirm.module'
+import { InviteDialogConfirmModule } from './shared/components/invite-dialog-confirm/invite-dialog-confirm.module';
+import { EditProfileDialogModule } from './shared/components/edit-profile-dialog/edit-profile-dialog.module'
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { InviteDialogConfirmModule } from './shared/components/invite-dialog-con
     DialogConfirmModule,
     DialogAddModule,
     SheetModule,
-    InviteDialogConfirmModule
+    InviteDialogConfirmModule,
+    EditProfileDialogModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent],

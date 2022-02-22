@@ -1,0 +1,42 @@
+<h2 mat-dialog-title class="d-flex align-items-center">
+    {{data.title}}
+</h2>
+<h3 class="p-text">
+    {{data.subtitle}}
+</h3>
+
+<div mat-dialog-content class="mb-5">
+    <mat-form-field appearance="fill">
+        <mat-label>Nombre para mostrar</mat-label>
+        <input matInput value="{{data.currentUser.displayName}}">
+    </mat-form-field>
+
+    <p class="p-text">Si añades una foto de perfil personalizada sabrás si has iniciado sesión en tu cuenta</p>
+
+    <div class="d-flex justify-content-center" *ngIf="data.currentUser.photoURL">
+        <div class="avatar">
+            <img src="{{data.currentUser.photoURL}}" alt="Imagen de perfil">
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center" *ngIf="!data.currentUser.photoURL">
+        <mat-icon>account_circle</mat-icon>
+    </div>
+
+    <mat-form-field appearance="fill" class="w-100 mb-2">
+        <mat-label>Foto de perfil</mat-label>
+        <input matInput value="{{data.currentUser.photoURL}}" class="w-100">
+    </mat-form-field>
+    <p class="p-text">Pega aquí la URL de la foto que quieras utilizar como tu foto de perfil. No es necesario subir documentos de momento.</p>
+</div>
+
+<div mat-dialog-actions class="row d-flex justify-content-between">
+    <button mat-stroked-button color="primary" class="col-6">
+        <mat-icon>close</mat-icon>
+        Cancelar
+    </button>
+    <button mat-stroked-button color="primary" cdkFocusInitial class="col-6">
+        <mat-icon>edit</mat-icon>
+        Cambiar
+    </button>
+</div>
