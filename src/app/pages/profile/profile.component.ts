@@ -25,6 +25,8 @@ export class ProfileComponent implements OnInit {
   editProfile(){
     const dialogRefDelete = this.dialog.open(EditProfileDialogComponent, {
       width: '400px',
+      height: '71.5vh',
+      minHeight: '71.5vh',
       data: {title: "Editar información", subtitle:"Edita tu información básica y así podrás reconocer tu cuenta mmas fácilmente. Elige un nombre para mostra y una imagen de perfil mediante URL", currentUser: this.currentUser},
     });
 

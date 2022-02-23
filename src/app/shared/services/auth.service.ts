@@ -1,8 +1,9 @@
 import { UpdateInfo } from './../models/updateInfo';
 import { Observable, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, User } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, User } from '@angular/fire/auth';
 import { LoginData } from '../models/LoginData';
+import { RegisterData } from '../models/RegisterData';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +23,19 @@ export class AuthService {
     .then(() => this.user$.next(this.getCurrentUser()));
   }
 
-  register({ email, password }: LoginData) {
-    return createUserWithEmailAndPassword(this.auth, email, password)
-    .then(() => this.user$.next(this.getCurrentUser()));
+  async register({nombre, email, password }: RegisterData): Promise<void>{
+    debugger
+    const credential = await createUserWithEmailAndPassword(
+      this.auth,
+      email,
+      password
+    );
+
+    await updateProfile(
+      credential.user, { displayName: nombre }
+    );
+
+    await sendEmailVerification(credential.user);
   }
 
   loginWithGoogle() {

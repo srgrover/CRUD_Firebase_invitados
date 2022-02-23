@@ -1,35 +1,63 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { LoginData } from 'src/app/shared/models/LoginData';
+import { RegisterData } from 'src/app/shared/models/RegisterData';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { MyErrorStateMatcher } from '../login/login.component';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
   registerForm = new FormGroup({
+    nombre: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
     pass: new FormControl('', [Validators.required]),
-    nombre: new FormControl('', [Validators.required]),
-    apellidos: new FormControl('', [Validators.required])
   });
 
   hide = true;
+  hideRepeat = true;
+  repeatPassFormControl = new FormControl('', [Validators.required]);
+  errorPasswords: boolean = false;
+
   matcher = new MyErrorStateMatcher();
 
-  constructor(private readonly authService: AuthService, private readonly router: Router) { }
+  constructor(
+    private readonly auth: AuthService,
+    private readonly router: Router,
+    private _snackBar: MatSnackBar
+  ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  register(data: RegisterData) {
+    this.errorPasswords = !this.checkPasswords();
+
+    if (!this.errorPasswords)
+      this.auth
+        .register(data)
+        .then(() => {
+          this.openSnackBar('Cuenta creada correctamente', 'Ok', 'bg-success');
+          this.router.navigate(['/login']);
+        })
+        .catch((e) => {
+          console.log(e.message);
+          this.openSnackBar(e.message, 'Ok', 'bg-danger')
+        });
+    else this.openSnackBar('Las contraseñas no coinciden', 'Ok', 'bg-danger');
   }
 
-  register(data: LoginData) {
-    this.authService
-      .register(data)
-      .then(() => this.router.navigate(['/login']))
-      .catch((e) => console.log(e.message));
+  checkPasswords() {
+    return this.registerForm.value.pass === this.repeatPassFormControl.value;
+  }
+
+  openSnackBar(message: string, action: string, type: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+      panelClass: [type],
+    });
   }
 }

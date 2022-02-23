@@ -1,34 +1,53 @@
 <div class="container justify-content-center">
     <div class="col-auto">
         <div class="border rounded" *ngIf="currentUser">
+            <header class="pt-3">
+                <h2 class="headerTitle">Información básica</h2>
+            </header>
             <div class="example-ripple-container justify-content-start min-height-48 px-2" matRipple role="button"
-            [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false" (click)="editProfile()">
-            <div class="d-flex justify-content-start min-height-48 py-2 px-2">
-                <span class="titleSpan">NOMBRE</span>
-                <span class="valueSpan" *ngIf="currentUser.displayName">{{currentUser.displayName}}</span>
-                <span class="valueSpan" *ngIf="!currentUser.displayName">No tienes un nombre para mostrar</span>
-            </div>
-            <mat-divider></mat-divider>
-            <div class="d-flex justify-content-start min-height-48 py-2 px-2">
-                <span class="titleSpan">IMAGEN DE PERFIL</span>
-                <div class="d-flex">
-                    <div class="avatar" *ngIf="currentUser.photoURL">
-                        <img src="{{currentUser.photoURL}}" alt="Profile image">
-                    </div>
-                    <div class="avatar d-flex">
-                        <mat-icon *ngIf="!currentUser.photoURL">account_circle</mat-icon>
-                    </div>
-                    
-                    <span class="valueSpan mx-2">Puedes personalizar tu cuenta con una foto de perfil</span>
+                [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false"
+                (click)="editProfile()">
+                
+                <div class="d-flex justify-content-start min-height-48 py-3 px-2 container-row">
+                    <span class="titleSpan">NOMBRE</span>
+                    <span class="valueSpan" *ngIf="currentUser.displayName">{{currentUser.displayName}}</span>
+                    <span class="valueSpan" *ngIf="!currentUser.displayName">No tienes un nombre para mostrar</span>
                 </div>
-            </div>
-            <mat-divider></mat-divider>
+                <mat-divider></mat-divider>
+                <div class="d-flex justify-content-start min-height-48 py-3 line-row">
+                    <span class="titleSpan">IMAGEN DE PERFIL</span>
+                    <div class="d-flex">
+                        <div class="avatar" *ngIf="currentUser.photoURL">
+                            <img src="{{currentUser.photoURL}}" alt="Profile image">
+                        </div>
+                        <div class="avatar d-flex" *ngIf="!currentUser.photoURL">
+                            <mat-icon>account_circle</mat-icon>
+                        </div>
+
+                        <span class="valueSpan mx-2">Puedes personalizar tu cuenta con una foto de perfil</span>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
 
             </div>
-            <div class="example-ripple-container d-flex justify-content-start min-height-48 py-2 px-3" matRipple role="button"
-                [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
+            <div class="example-ripple-container d-flex justify-content-start min-height-48 py-3 px-3 container-row" matRipple
+                role="button" [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
                 <span class="titleSpan">CORREO ELECTRÓNICO</span>
                 <span class="valueSpan">{{currentUser.email}}</span>
+            </div>
+        </div>
+
+        <div class="border rounded mt-4" *ngIf="currentUser">
+            <header class="pt-3">
+                <h2 class="headerTitle">Seguridad</h2>
+            </header>
+            <div class="example-ripple-container justify-content-start min-height-48 px-2" matRipple role="button"
+                [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false"
+                (click)="editProfile()">
+                <div class="d-flex justify-content-between align-items-center min-height-48 py-3 px-2">
+                    <span class="titleSpan" style="width: fit-content;">REESTABLECE TU CONTRASEÑA</span>
+                    <mat-icon color="primary">key</mat-icon>
+                </div>
             </div>
         </div>
     </div>

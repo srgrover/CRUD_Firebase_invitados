@@ -10,8 +10,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './edit-profile-dialog.component.html',
   styleUrls: ['./edit-profile-dialog.component.scss'],
 })
+
 export class EditProfileDialogComponent implements OnInit {
   public infoForm!: FormGroup;
+  public srcImage: string | null = null;
   
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -25,7 +27,7 @@ export class EditProfileDialogComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("EDIT", this.data);
-    //this.infoForm.setValue({this.data.currentUser.displayName,});
+    this.srcImage = this.data.currentUser.photoURL;
   }
 
   private initForm(): void {
@@ -59,4 +61,9 @@ export class EditProfileDialogComponent implements OnInit {
     });
   }
 
+  onChangeURL(e: any){
+    console.log("🚀 ~ file: edit-profile-dialog.component.ts ~ line 65 ~ EditProfileDialogComponent ~ onChangeURL ~ e", e)
+    this.srcImage = e.target.value;
+    console.log("🚀 ~ file: edit-profile-dialog.component.ts ~ line 67 ~ EditProfileDialogComponent ~ onChangeURL ~ his.srcImage", this.srcImage)
+  }
 }
