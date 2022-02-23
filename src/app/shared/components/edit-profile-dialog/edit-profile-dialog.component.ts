@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogAddComponent } from '../dialog-add/dialog-add.component';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-profile-dialog',
@@ -10,20 +11,32 @@ import { DialogAddComponent } from '../dialog-add/dialog-add.component';
   styleUrls: ['./edit-profile-dialog.component.scss'],
 })
 export class EditProfileDialogComponent implements OnInit {
+  public infoForm!: FormGroup;
+  
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<DialogAddComponent>,
     private _snackBar: MatSnackBar,
-    private auth: AuthService
-  ) {}
+    private auth: AuthService,
+    private fb: FormBuilder
+  ) {
+    this.initForm();
+  }
 
   ngOnInit(): void {
     console.log("EDIT", this.data);
-    
+    //this.infoForm.setValue({this.data.currentUser.displayName,});
   }
 
-  async addGrupo(){
-    await this.auth.updateCurrentUser(this.data.currentUser)
+  private initForm(): void {
+    this.infoForm = this.fb.group({
+      displayName: [this.data.currentUser.displayName],
+      photoURL: [this.data.currentUser.photoURL],
+    });
+  }
+
+  async updateInfo(){
+    await this.auth.updateCurrentUser(this.infoForm.value)
     .then(() => {
       this.openSnackBar('Información actualizada','Ok','bg-success');
       this.dialogRef.close(this.data.currentUser);

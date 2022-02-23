@@ -31,6 +31,14 @@ $widthAvatar: 60px;
     border-radius: 500px;
     height: $heightAvatar;
     width: $widthAvatar;
+
+    img{
+        height: $heightAvatar;
+    }
+
+    mat-icon{
+        font-size: $heightAvatar;
+    }
 }
 
 .avatar>img{

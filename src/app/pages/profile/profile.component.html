@@ -1,27 +1,31 @@
 <div class="container justify-content-center">
     <div class="col-auto">
-        <div class="border p-3" *ngIf="currentUser">
-            <div class="example-ripple-container justify-content-start min-height-48 py-2 px-2" matRipple role="button"
+        <div class="border rounded" *ngIf="currentUser">
+            <div class="example-ripple-container justify-content-start min-height-48 px-2" matRipple role="button"
             [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false" (click)="editProfile()">
             <div class="d-flex justify-content-start min-height-48 py-2 px-2">
                 <span class="titleSpan">NOMBRE</span>
-                <span class="valueSpan">{{currentUser.displayName}}</span>
+                <span class="valueSpan" *ngIf="currentUser.displayName">{{currentUser.displayName}}</span>
+                <span class="valueSpan" *ngIf="!currentUser.displayName">No tienes un nombre para mostrar</span>
             </div>
-
+            <mat-divider></mat-divider>
             <div class="d-flex justify-content-start min-height-48 py-2 px-2">
                 <span class="titleSpan">IMAGEN DE PERFIL</span>
                 <div class="d-flex">
                     <div class="avatar" *ngIf="currentUser.photoURL">
                         <img src="{{currentUser.photoURL}}" alt="Profile image">
                     </div>
+                    <div class="avatar d-flex">
+                        <mat-icon *ngIf="!currentUser.photoURL">account_circle</mat-icon>
+                    </div>
                     
-                    <mat-icon *ngIf="!currentUser.photoURL">account_circle</mat-icon>
                     <span class="valueSpan mx-2">Puedes personalizar tu cuenta con una foto de perfil</span>
                 </div>
             </div>
-            </div>
+            <mat-divider></mat-divider>
 
-            <div class="example-ripple-container d-flex justify-content-start min-height-48 py-2 px-2" matRipple role="button"
+            </div>
+            <div class="example-ripple-container d-flex justify-content-start min-height-48 py-2 px-3" matRipple role="button"
                 [matRippleCentered]="false" [matRippleDisabled]="false" [matRippleUnbounded]="false">
                 <span class="titleSpan">CORREO ELECTRÓNICO</span>
                 <span class="valueSpan">{{currentUser.email}}</span>

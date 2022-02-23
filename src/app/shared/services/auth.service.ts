@@ -1,3 +1,4 @@
+import { UpdateInfo } from './../models/updateInfo';
 import { Observable, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile, User } from '@angular/fire/auth';
@@ -45,12 +46,12 @@ export class AuthService {
     return this.getCurrentUser() != null;
   }
 
-  async updateCurrentUser(displayName?: string, photoUrl?: string){
+  async updateCurrentUser({displayName, photoURL}: UpdateInfo){
     var user = this.getCurrentUser();
 
     if(user)
       return await updateProfile(
-        user, { displayName: displayName, photoURL: photoUrl }
+        user, { displayName: displayName, photoURL: photoURL }
       ).catch((e) => {
         console.error(e.message)
       });

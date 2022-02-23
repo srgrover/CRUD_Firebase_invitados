@@ -1,5 +1,4 @@
 import {
-  AuthGuard,
   canActivate,
   redirectLoggedInTo,
   redirectUnauthorizedTo,
@@ -11,6 +10,20 @@ const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['']);
 const redirectLoggedInToHome = () => redirectLoggedInTo(['home']);
 
 const routes: Routes = [
+  {
+    path: '',
+    loadChildren: () =>
+      import('./pages/login/login.module').then((m) => m.LoginModule),
+    ...canActivate(redirectLoggedInToHome),
+  },
+
+  {
+    path: 'register',
+    loadChildren: () =>
+      import('./pages/register/register.module').then((m) => m.RegisterModule),
+    ...canActivate(redirectLoggedInToHome),
+  },
+
   {
     path: 'home',
     loadChildren: () =>
@@ -32,19 +45,6 @@ const routes: Routes = [
     ...canActivate(redirectUnauthorizedToLogin),
   },
 
-  {
-    path: '',
-    loadChildren: () =>
-      import('./pages/login/login.module').then((m) => m.LoginModule),
-    ...canActivate(redirectLoggedInToHome),
-  },
-
-  {
-    path: 'register',
-    loadChildren: () =>
-      import('./pages/register/register.module').then((m) => m.RegisterModule),
-    ...canActivate(redirectLoggedInToHome),
-  },
   {
     path: 'profile',
     loadChildren: () =>

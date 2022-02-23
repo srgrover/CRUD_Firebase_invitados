@@ -11,6 +11,12 @@ $widthAvatar: 172px;
     img{
         height: $heightAvatar;
     }
+
+    mat-icon{
+        height: $heightAvatar;
+        width: $widthAvatar;
+        font-size: $heightAvatar;
+    }
 }
 
 .p-text{
