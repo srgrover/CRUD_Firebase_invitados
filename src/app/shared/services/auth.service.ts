@@ -24,12 +24,12 @@ export class AuthService {
   }
 
   async register({nombre, email, password }: RegisterData): Promise<void>{
-    debugger
     const credential = await createUserWithEmailAndPassword(
       this.auth,
       email,
       password
     );
+    console.log("🚀 ~ file: auth.service.ts ~ line 32 ~ AuthService ~ register ~ credential", credential)
 
     await updateProfile(
       credential.user, { displayName: nombre }
@@ -70,6 +70,7 @@ export class AuthService {
 
   async resetPassword(email: string): Promise<any> {
     // sends reset password email
-    await sendPasswordResetEmail(this.auth, email);
+    var y = await sendPasswordResetEmail(this.auth, email);
+    console.log("🚀 ~ file: auth.service.ts ~ line 74 ~ AuthService ~ resetPassword ~ y", y)
   }
 }

@@ -1,47 +1,100 @@
+import { OpenBy } from './../../shared/Enum/OpenBy';
 import { EditProfileDialogComponent } from './../../shared/components/edit-profile-dialog/edit-profile-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from './../../shared/services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { User } from 'firebase/auth';
+import { DialogConfirmComponent } from 'src/app/shared/components/dialog-confirm/dialog-confirm.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  public currentUser!: User | null;
+  public currentUser!: any;
 
-  constructor(private auth: AuthService, public dialog: MatDialog,) { }
+  constructor(
+    private auth: AuthService,
+    public dialog: MatDialog,
+    private readonly router: Router,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.getCurrentUser();
+    console.log("USER", this.currentUser);
+    
   }
 
-  getCurrentUser(){
+  getCurrentUser() {
     this.currentUser = this.auth.getCurrentUser();
   }
 
-  editProfile(){
+  editProfile() {
     const dialogRefDelete = this.dialog.open(EditProfileDialogComponent, {
       width: '400px',
       height: '71.5vh',
       minHeight: '71.5vh',
-      data: {title: "Editar información", subtitle:"Edita tu información básica y así podrás reconocer tu cuenta mmas fácilmente. Elige un nombre para mostra y una imagen de perfil mediante URL", currentUser: this.currentUser},
+      data: {
+        title: 'Editar información',
+        subtitle:
+          'Edita tu información básica y así podrás reconocer tu cuenta mmas fácilmente. Elige un nombre para mostra y una imagen de perfil mediante URL',
+        currentUser: this.currentUser,
+      },
+    });
+  }
+
+  resetPassword() {
+    const dialogRefDelete = this.dialog.open(DialogConfirmComponent, {
+      width: '400px',
+      data: {
+        title: 'Recuperar contraseña',
+        subtitle: 'Se va a enviar un email a la dirección de correo electrónico que proporcionaste en tu resgistro. Pulsa sobre la URL que aparece en este email y cambia tu contraseña. Es necesario tener verificado el email',
+        openBy: OpenBy.resetPassword,
+        data: this.currentUser?.email,
+      },
     });
 
-    dialogRefDelete.afterClosed().subscribe(async result => {
-      if(result){
-        /*try {
-          await this.dataService.deleteInvitado(id);
+    dialogRefDelete.afterClosed().subscribe(async (result) => {
+      if (result) {
+        try {
+          if (
+            this.currentUser &&
+            this.currentUser.email &&
+            this.currentUser.emailVerified
+          ){
+            await this.auth.resetPassword(this.currentUser.email);
+            this.auth.logout();
+            this.openSnackBar('Email enviado correctamente. Vuelve a iniciar sesión', 'Ok', 'bg-success');
+            this.router.navigate(['/login']);
+          }
+          else
+            this.openSnackBar(
+              'Email enviado correctamente',
+              'Ok',
+              'bg-success'
+            );
           //Swal.fire('Invitado eliminado', 'Se ha eliminado el invitado correctamente', 'success');
-          this.openSnackBar('Invitado eliminado correctamente','Ok','bg-success');
-          this.router.navigate(['home']);
+          
+          //this.router.navigate(['home']);
         } catch (err) {
           //Swal.fire('Oops...', 'Hubo un error al eliminar al invitado', 'error');
-          this.openSnackBar('Oops...Hubo un error al eliminar el invitado','Ok','bg-danger');
-        } */
+          this.openSnackBar(
+            'Oops...Hubo un error al enviar el email de recuperación',
+            'Ok',
+            'bg-danger'
+          );
+        }
       }
-    });    
+    });
+  }
+
+  openSnackBar(message: string, action: string, type: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+      panelClass: [type],
+    });
   }
 }

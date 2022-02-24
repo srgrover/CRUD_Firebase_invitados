@@ -15,7 +15,7 @@ export class RegisterComponent implements OnInit {
   registerForm = new FormGroup({
     nombre: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
-    pass: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
   });
 
   hide = true;
@@ -45,13 +45,17 @@ export class RegisterComponent implements OnInit {
         })
         .catch((e) => {
           console.log(e.message);
-          this.openSnackBar(e.message, 'Ok', 'bg-danger')
+          this.openSnackBar(e.message, 'Ok', 'bg-danger');
         });
-    else this.openSnackBar('Las contraseñas no coinciden', 'Ok', 'bg-danger');
+    else {
+      this.openSnackBar('Las contraseñas no coinciden', 'Ok', 'bg-danger');
+      this.registerForm.controls['pass'].reset();
+      this.repeatPassFormControl.reset();
+    }
   }
 
   checkPasswords() {
-    return this.registerForm.value.pass === this.repeatPassFormControl.value;
+    return this.registerForm.value.password === this.repeatPassFormControl.value;
   }
 
   openSnackBar(message: string, action: string, type: string) {
@@ -59,5 +63,9 @@ export class RegisterComponent implements OnInit {
       duration: 2000,
       panelClass: [type],
     });
+  }
+
+  goLogin() {
+    this.router.navigate(['/']);
   }
 }
