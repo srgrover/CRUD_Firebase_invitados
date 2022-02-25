@@ -29,7 +29,6 @@ export class AuthService {
       email,
       password
     );
-    console.log("🚀 ~ file: auth.service.ts ~ line 32 ~ AuthService ~ register ~ credential", credential)
 
     await updateProfile(
       credential.user, { displayName: nombre }
@@ -72,5 +71,9 @@ export class AuthService {
     // sends reset password email
     var y = await sendPasswordResetEmail(this.auth, email);
     console.log("🚀 ~ file: auth.service.ts ~ line 74 ~ AuthService ~ resetPassword ~ y", y)
+  }
+
+  async sendEmailVerification(user: User){
+    await sendEmailVerification(user);
   }
 }

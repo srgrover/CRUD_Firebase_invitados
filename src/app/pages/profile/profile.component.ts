@@ -72,13 +72,11 @@ export class ProfileComponent implements OnInit {
           }
           else
             this.openSnackBar(
-              'Email enviado correctamente',
+              'El usuario no existe o tu dirección de email no está verificada',
               'Ok',
-              'bg-success'
+              'bg-danger'
             );
           //Swal.fire('Invitado eliminado', 'Se ha eliminado el invitado correctamente', 'success');
-          
-          //this.router.navigate(['home']);
         } catch (err) {
           //Swal.fire('Oops...', 'Hubo un error al eliminar al invitado', 'error');
           this.openSnackBar(
@@ -95,6 +93,20 @@ export class ProfileComponent implements OnInit {
     this._snackBar.open(message, action, {
       duration: 2000,
       panelClass: [type],
+    });
+  }
+
+  async sendEmailVerification(){
+    await this.auth.sendEmailVerification(this.currentUser)
+    .then(() => {
+      this.openSnackBar('Email enviado correctamente. Verifica tu email', 'Ok', 'bg-success');
+    })
+    .catch(() => {
+      this.openSnackBar(
+        'Oops...Hubo un error al enviar el email de verificación',
+        'Ok',
+        'bg-danger'
+      );
     });
   }
 }

@@ -1,3 +1,5 @@
+import { MatChipsModule } from '@angular/material/chips';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -21,7 +23,9 @@ import { MatRippleModule } from '@angular/material/core';
     MatListModule,
     MatRippleModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    MatButtonModule,
+    MatChipsModule
   ]
 })
 export class ProfileModule { }
