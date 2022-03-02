@@ -1,3 +1,5 @@
+import { SexoEnum } from './../../shared/Enum/SexoEnum';
+import { QueryEnum } from '../../shared/Enum/QueryEnum';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { DataService } from './../../shared/services/data.service';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
@@ -6,7 +8,6 @@ import { Persona } from 'src/app/shared/models/Persona';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { Grupos } from 'src/assets/grupos';
 import { MatFormField } from '@angular/material/form-field';
 
 @Component({
@@ -14,7 +15,12 @@ import { MatFormField } from '@angular/material/form-field';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
+
 export class HomeComponent implements OnInit {
+  public queryList = QueryEnum;
+
+  public tabList = ["Todos", "Hombres", "Mujeres", "Invitados", "Confirmados", "Rechazados"];
+
   myControl = new FormControl();
 
   @ViewChild('formSearch')
@@ -25,66 +31,70 @@ export class HomeComponent implements OnInit {
 
   elementPosition: any;
   sticky: boolean = false;
+  isSearching: boolean = false;
 
   options: Persona[] = [];
   filteredOptions!: Observable<Persona[]>;
 
   invitados!: Persona[];
+  invitadosFilter: Persona[] = [];
   grupos: any;
   numInvitados: number = 0;
-  numInvitadosHombre: number = 0;
-  numInvitadosMujer: number = 0;
-  numInvitadosEnviado: number = 0;
-  numInvitadosConfirmado: number = 0;
-  numInvitacionesRechazadas: number = 0;
+  invitadosHombre!: Persona[];
+  invitadosMujer!: Persona[];
+  invitadosEnviado!: Persona[];
+  invitadosConfirmado!: Persona[];
+  invitadosRechazado!: Persona[];
+
+  invitadosListTabs:any = []
+
   navExtras: NavigationExtras = {
     state: {
       persona: null
     }
   }
   
-
   @HostListener('window:scroll', ['$event'])
   handleScroll(){
     const windowScroll = window.pageYOffset;
     //console.log("🚀 ~ file: home.component.ts ~ line 46 ~ HomeComponent ~ handleScroll ~ windowScroll", windowScroll)
-    if(windowScroll >= this.elementPosition){
-      this.sticky = true;
-    } else {
-      this.sticky = false;
-    }
+    this.sticky = windowScroll >= this.elementPosition + 120;
   }
 
-  constructor(private dataService: DataService, private router: Router, private auth: AuthService) {
-    this.grupos = Grupos;
-  }
+  constructor(private dataService: DataService, private router: Router, private auth: AuthService) {}
 
   ngAfterViewInit(){
     this.elementPosition = this.formSearchContainer.nativeElement.offsetTop;
-    //console.log("🚀 ~ file: home.component.ts ~ line 60 ~ HomeComponent ~ ngAfterViewInit ~ this.menuElement.underlineRef.nativeElement.offsetTop", this.formSearchContainer)
+    //console.log("🚀 ~ file: home.component.ts ~ line 60 ~ HomeComponent ~ ngAfterViewInit ~ this.menuElement.underlineRef.nativeElement.offsetTop", this.formSearchContainer.nativeElement.offsetTop)
   }
 
   async ngOnInit(): Promise<void> {
     await this.getInvitados();
-
-    //this.auth.updateCurrentUser("Test Hendricks", "https://cdn.arstechnica.net/wp-content/uploads/2017/04/HBO.SV_.1-800x533.jpeg")
-
-    //if(currentUser?.email == "test@gmail.com") currentUser.displayName = ""
-
-    //console.log(this.auth.getCurrentUser())
   }
 
-  async getInvitados(){
-    await this.dataService.invitados.subscribe((invitados: Persona[]) => {
+  tabLoadTimes: Date[] = [];
+
+  getTimeLoaded(index: number) {
+    if (!this.tabLoadTimes[index]) {
+      this.tabLoadTimes[index] = new Date();
+    }
+
+    return this.tabLoadTimes[index];
+  }
+
+  getInvitados(){
+    this.dataService.invitados.subscribe((invitados: Persona[]) => {
       this.invitados = invitados;
       this.numInvitados = invitados.length;
-      this.numInvitadosHombre = invitados.filter(x => x.sexo == "Hombre").length;
-      this.numInvitadosMujer = invitados.filter(x => x.sexo == "Mujer").length;
-      this.numInvitadosEnviado = invitados.filter(x => x.invitado == true).length;
-      this.numInvitadosConfirmado = invitados.filter(x => x.confirmado == true).length;
-      this.numInvitacionesRechazadas = invitados.filter(x => x.rechazado == true).length;
+      this.invitadosHombre = invitados.filter(x => x.sexo == "Hombre");
+      this.invitadosMujer = invitados.filter(x => x.sexo == "Mujer");
+      this.invitadosEnviado = invitados.filter(x => x.invitado == true);
+      this.invitadosConfirmado = invitados.filter(x => x.confirmado == true);
+      this.invitadosRechazado = invitados.filter(x => x.rechazado == true);
 
-      this.options = invitados
+      this.invitadosListTabs = [this.invitados, this.invitadosHombre, this.invitadosMujer, this.invitadosEnviado, this.invitadosConfirmado, this.invitadosRechazado];
+
+      this.options = invitados;
       this.filteredOptions = this.myControl.valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value))
@@ -106,11 +116,35 @@ export class HomeComponent implements OnInit {
   }
 
   private _filter(value: string): Persona[] {
-    const filterValue = value.toLowerCase();   
+    const filterValue = value?.toLowerCase();   
     return this.invitados.filter(option => option.nombre.toLowerCase().includes(filterValue) || option.apellidos?.toLowerCase().includes(filterValue));
   }
 
   filterInvitados(e: any){
-    this.invitados = this.invitados.filter(x => x.id === e);
+    this.isSearching = true;
+    this.invitadosFilter = this.invitados.filter(x => x.id === e);
+  }
+
+  loadInvitados(e: any){
+    var query: string | undefined = undefined;
+    var value: any;
+
+    if(e.tab.textLabel == SexoEnum.hombre + "s" || e.tab.textLabel == SexoEnum.mujer + "es"){
+      query = QueryEnum.sexo;
+      value = e.tab.textLabel
+    } 
+    else if(e.tab.textLabel != 'Todos'){
+      query = e.tab.textLabel.toLowerCase();
+      value = true;
+    }
+    
+    this.dataService.getInvitados();
+    this.getInvitados();
+  }
+
+  clearSearch(){
+    this.isSearching = false;
+    this.invitadosFilter = [];
+    this.myControl.reset();
   }
 }

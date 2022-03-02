@@ -4,7 +4,7 @@
   <mat-icon class="ml-3 search-icon">search</mat-icon>
   <form class="form-filter w-100">
     <mat-form-field
-      class="form-filter-full-width"
+      class="form-filter-full-width field-search"
       appearance="fill"
       #formSearch
     >
@@ -25,84 +25,147 @@
       >
         <mat-option
           *ngFor="let option of filteredOptions | async"
-          [value]="option.id"
+          [value]="option.id" aria-label="option.nombre" class="p-3"
         >
-          {{ option.nombre }} {{ option.apellidos }}
+          {{ option.nombre }} {{ option.apellidos }} 
         </mat-option>
       </mat-autocomplete>
-      <button mat-icon-button matSuffix [attr.aria-label]="'Hide password'">
+      <button mat-icon-button matSuffix [attr.aria-label]="'Limpiar búsqueda'" type="button" (click)="clearSearch()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
   </form>
 </div>
 
-<div class="p-3 d-flex justify-content-between bg-white" [class.mt-70]="sticky" [class.sticky]="sticky" [class.shadow-bar]="sticky">
+<!--<div class="p-3 d-flex justify-content-between bg-white" [class.mt-70]="sticky" [class.sticky]="sticky" [class.shadow-bar]="sticky">
   <mat-chip-list aria-label="Count">
     <mat-chip>
       <mat-icon mat-list-icon>group_work</mat-icon>
       {{ numInvitados }}
       <mat-icon mat-list-icon color="warn">male</mat-icon>
-      {{ numInvitadosHombre }}
+      {{ invitadosHombre?.length }}
       <mat-icon mat-list-icon color="primary">female</mat-icon>
-      {{ numInvitadosMujer }}
+      {{ invitadosMujer?.length }}
     </mat-chip>
   </mat-chip-list>
   <mat-chip-list aria-label="Stats">
     <mat-chip>
       <mat-icon mat-list-icon color="primary">forward_to_inbox</mat-icon>
-      &nbsp;{{ numInvitadosEnviado }}&nbsp;
+      &nbsp;{{ invitadosEnviado?.length }}&nbsp;
       <mat-icon mat-list-icon class="text-success">task_alt</mat-icon>
-      &nbsp;{{ numInvitadosConfirmado }}&nbsp;
+      &nbsp;{{ invitadosConfirmado?.length }}&nbsp;
       <mat-icon mat-list-icon color="warn">highlight_off</mat-icon>
-      &nbsp;{{ numInvitacionesRechazadas }}&nbsp;
+      &nbsp;{{ invitadosRechazado?.length }}&nbsp;
     </mat-chip>
   </mat-chip-list>
-</div>
+</div>-->
 
-<mat-selection-list #persona [multiple]="false" [class.mt-150]="sticky">
-  <mat-divider></mat-divider>
-  <div *ngFor="let invitado of invitados">
-    <mat-list-option [value]="invitado" (click)="goToEdit(invitado)">
-      <mat-list-item>
-        <div mat-list-icon class="avatar">
-          {{ invitado.nombre[0] }}
-        </div>
-        <mat-icon
-          color="primary"
-          *ngIf="invitado.invitado && !invitado.confirmado && !invitado.rechazado">
-          forward_to_inbox
-        </mat-icon>
-        <mat-icon *ngIf="invitado.confirmado && !invitado.rechazado" class="text-success">task_alt</mat-icon>
-        <mat-icon *ngIf="invitado.rechazado" color="warn">highlight_off</mat-icon>
-        <div mat-line>{{ invitado.nombre }} {{ invitado.apellidos }}</div>
-        <div mat-line>
-          <mat-chip (click)="goToEdit(invitado)">{{
-            invitado.parentesco
-          }}</mat-chip>
-        </div>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-    </mat-list-option>
-    <ng-template #content>
+<div #tabSection>
+  <mat-tab-group *ngIf="!isSearching">
+    <mat-tab *ngFor="let tab of tabList; let i = index">
+      <ng-template mat-tab-label>
+        <span matBadge="{{invitadosListTabs[i]?.length}}" matBadgeOverlap="false">{{tab}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <mat-selection-list #persona [multiple]="false" [class.mt-150]="sticky">
+          <div *ngIf="invitadosListTabs[i].length <= 0" class="text-center">
+            <h1 class="no-results-title">Oops...</h1>
+            <h2 class="no-results-subtitle">No hemos encontrado ningún resultado</h2>
+            <img src="https://cdni.iconscout.com/illustration/premium/thumb/search-result-not-found-2130355-1800920.png" class="no-results-img" alt="Sin resultados">
+          </div>
+
+          <div *ngIf="invitadosListTabs[i].length > 0">
+            <div *ngFor="let invitado of invitadosListTabs[i]">
+              <mat-list-option [value]="invitado" (click)="goToEdit(invitado)">
+                <mat-list-item>
+                  <div mat-list-icon class="avatar">
+                    {{ invitado.nombre[0] }}
+                  </div>
+                  <mat-icon
+                    color="primary"
+                    *ngIf="invitado.invitado && !invitado.confirmado && !invitado.rechazado">
+                    forward_to_inbox
+                  </mat-icon>
+                  <mat-icon *ngIf="invitado.confirmado && !invitado.rechazado" class="text-success">task_alt</mat-icon>
+                  <mat-icon *ngIf="invitado.rechazado" color="warn">highlight_off</mat-icon>
+                  <div mat-line>{{ invitado.nombre }} {{ invitado.apellidos }}</div>
+                  <div mat-line>
+                    <mat-chip (click)="goToEdit(invitado)">{{
+                      invitado.parentesco
+                    }}</mat-chip>
+                  </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+              </mat-list-option>
+              <ng-template #content>
+                <mat-list-option [value]="invitado" (click)="goToEdit(invitado)">
+                  <mat-list-item>
+                    <mat-icon mat-list-icon *ngIf="invitado.invitado" class="text-info">
+                      forward_to_inbox
+                    </mat-icon>
+                    <mat-icon
+                      mat-list-icon
+                      *ngIf="invitado.confirmado"
+                      class="text-success"
+                      >verified</mat-icon
+                    >
+                    <div mat-line>{{ invitado.nombre }} {{ invitado.apellidos }}</div>
+                    <div mat-line>{{ invitado.parentesco }}</div>
+                  </mat-list-item>
+                  <mat-divider></mat-divider>
+                </mat-list-option>
+              </ng-template>
+            </div>  
+          </div>
+        </mat-selection-list>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>  
+
+  <!--Sección cuando se está buscando un invitado-->
+  <mat-selection-list #persona [multiple]="false" [class.mt-150]="sticky" *ngIf="isSearching">
+    <div *ngFor="let invitado of invitadosFilter">
       <mat-list-option [value]="invitado" (click)="goToEdit(invitado)">
         <mat-list-item>
-          <mat-icon mat-list-icon *ngIf="invitado.invitado" class="text-info">
+          <div mat-list-icon class="avatar">
+            {{ invitado.nombre[0] }}
+          </div>
+          <mat-icon
+            color="primary"
+            *ngIf="invitado.invitado && !invitado.confirmado && !invitado.rechazado">
             forward_to_inbox
           </mat-icon>
-          <mat-icon
-            mat-list-icon
-            *ngIf="invitado.confirmado"
-            class="text-success"
-            >verified</mat-icon
-          >
+          <mat-icon *ngIf="invitado.confirmado && !invitado.rechazado" class="text-success">task_alt</mat-icon>
+          <mat-icon *ngIf="invitado.rechazado" color="warn">highlight_off</mat-icon>
           <div mat-line>{{ invitado.nombre }} {{ invitado.apellidos }}</div>
-          <div mat-line>{{ invitado.parentesco }}</div>
+          <div mat-line>
+            <mat-chip (click)="goToEdit(invitado)">{{
+              invitado.parentesco
+            }}</mat-chip>
+          </div>
         </mat-list-item>
         <mat-divider></mat-divider>
       </mat-list-option>
-    </ng-template>
-  </div>
-</mat-selection-list>
+      <ng-template #content>
+        <mat-list-option [value]="invitado" (click)="goToEdit(invitado)">
+          <mat-list-item>
+            <mat-icon mat-list-icon *ngIf="invitado.invitado" class="text-info">
+              forward_to_inbox
+            </mat-icon>
+            <mat-icon
+              mat-list-icon
+              *ngIf="invitado.confirmado"
+              class="text-success"
+              >verified</mat-icon
+            >
+            <div mat-line>{{ invitado.nombre }} {{ invitado.apellidos }}</div>
+            <div mat-line>{{ invitado.parentesco }}</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </mat-list-option>
+      </ng-template>
+    </div>
+  </mat-selection-list>
+</div>
 
 <app-bottom-nav></app-bottom-nav>

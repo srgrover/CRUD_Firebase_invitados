@@ -12,6 +12,11 @@
     <mat-icon class="material-icons">history</mat-icon>
   </button>
 </mat-toolbar>-->
+<button mat-fab routerLinkActive="active-link" (click)="scrollToTop()" class="top-button" *ngIf="showButtonTop">
+  <mat-icon class="material-icons icon-top">
+    publish
+  </mat-icon>
+</button>
 
 <button mat-fab routerLinkActive="active-link" (click)="goToNew()" class="add-button" color="primary">
   <mat-icon class="material-icons icon-add">

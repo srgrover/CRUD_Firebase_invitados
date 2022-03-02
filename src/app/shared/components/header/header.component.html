@@ -6,7 +6,7 @@
     <a class="navbar-brand text-black">Invitados {{ruta}}</a>
   </span>
   <span class="example-spacer"></span>
-  <button *ngIf="auth.isLoggedIn() && dataService.getRuta() == '/home'" mat-icon-button class="example-icon favorite-icon" (click)="goBack()"
+  <button *ngIf="auth.isLoggedIn() && dataService.getRuta() == '/home'" mat-icon-button class="example-icon favorite-icon" (click)="refresh()"
     aria-label="Recargar">
     <mat-icon>refresh</mat-icon>
   </button>

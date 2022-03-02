@@ -28,6 +28,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['home']);
   }
 
+  refresh(){
+    this.dataService.getInvitados();
+  }
+
   goLogin(){    
     this.router.navigate(['/']);
   }

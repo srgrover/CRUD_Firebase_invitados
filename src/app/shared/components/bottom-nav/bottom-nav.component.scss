@@ -22,3 +22,13 @@ button.add-button {
   display: flex;
   justify-content: space-around;
 }
+
+button.top-button {
+  position: fixed;
+  bottom: 70px;
+  right: 0;
+  margin: 1.5em;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-around;
+}
