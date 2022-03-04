@@ -13,7 +13,8 @@ import { User } from 'firebase/auth';
 })
 export class HeaderComponent implements OnInit {
   //user: any;
-  isLogged: boolean = false
+  isLogged: boolean = false;
+  isLoading: boolean = false;
   ruta!: string;
   public user!: User | null;
 
@@ -29,7 +30,17 @@ export class HeaderComponent implements OnInit {
   }
 
   refresh(){
-    this.dataService.getInvitados();
+    this.isLoading = true;
+    setTimeout(() => {
+      this.dataService.getInvitados().then(() => {
+        this.isLoading = false;
+      }).catch((e) => {
+        console.error(e.message)
+        this.isLoading = false;
+      });
+
+    }, 500);
+    
   }
 
   goLogin(){    

@@ -1,0 +1,38 @@
+::ng-deep .list-invite-group .mat-list-item-content {
+  padding: 0 !important;
+}
+
+.mat-subheader {
+  padding: 0 !important;
+  display: contents !important;
+}
+
+.titleSpan {
+  letter-spacing: 0.07272727em;
+  font-size: 0.5875rem;
+  font-weight: 800;
+  hyphens: auto;
+  word-break: break-word;
+  word-wrap: break-word;
+  color: #5f6368;
+  margin: 0;
+  padding: 0;
+}
+
+.subTitleSpan {
+  letter-spacing: 0.07272727em;
+  font-size: 0.4875rem;
+  font-weight: 500;
+  hyphens: auto;
+  word-break: break-word;
+  word-wrap: break-word;
+  color: #8d939b;
+  margin: 0;
+  padding: 0.2rem;
+  display: inline-block !important;
+  border-radius: 5px;
+}
+
+.btn-dialog {
+  width: 48%;
+}

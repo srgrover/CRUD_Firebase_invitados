@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [HeaderComponent],
@@ -15,7 +16,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
     RouterModule,
     MatToolbarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatProgressBarModule
   ],
   exports: [HeaderComponent],
 })

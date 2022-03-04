@@ -18,6 +18,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -37,7 +38,8 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatDividerModule,
     MatChipsModule,
     MatTabsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatProgressBarModule
   ],
 })
 export class HomeModule {}

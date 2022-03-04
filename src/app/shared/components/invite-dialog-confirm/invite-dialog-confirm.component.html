@@ -1,18 +1,37 @@
-<h1 mat-dialog-title class="d-flex align-items-center">
-    Invitar al grupo
-  </h1>
+<h1 mat-dialog-title class="d-flex align-items-center m-0">
+  Invitar al grupo
+</h1>
+<span class="text-muted">{{data.personas.length}} personas en el grupo</span>
 
-  <mat-list>
-    <div mat-subheader>Se va a <span *ngIf="!data.invite">dejar de </span>invitar a las siguientes personas:</div>
-    <mat-list-item *ngFor="let persona of data.personas">
-      <mat-icon mat-list-icon>person</mat-icon>
-      <div mat-line>{{persona.nombre}} {{persona.apellidos}}</div>
-      <div mat-line>{{persona.parentesco}}</div>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-  </mat-list>
+<mat-list>
+  <div mat-subheader class="text-muted h4">Se va a <span *ngIf="!data.invite">dejar de </span>invitar a las siguientes personas:</div>
+  <mat-list-item *ngFor="let persona of data.personas" class="list-invite-group">
+    <div mat-line class="titleSpan">{{persona.nombre}} {{persona.apellidos}}</div>
+    <span mat-line class="subTitleSpan">{{persona.parentesco}}</span>
+  </mat-list-item>
+</mat-list>
 
-  <div mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="false">Cancelar</button>
-    <button mat-flat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial><span *ngIf="!data.invite">No </span>Invitar</button>
-  </div>
+<!--<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">Cancelar</button>
+  <button mat-flat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>
+    <span *ngIf="!data.invite">
+      No
+    </span>
+    Invitar
+  </button>
+</div>-->
+
+<div mat-dialog-actions class="row d-flex justify-content-between">
+  <button mat-stroked-button color="primary" [mat-dialog-close]="false" type="button" class="btn-dialog">
+      <mat-icon>close</mat-icon>
+      <span>Cancelar</span> 
+  </button>
+  <button mat-stroked-button *ngIf="data.invite" color="primary" [mat-dialog-close]="true" type="submit" cdkFocusInitial class="btn-dialog">
+      <mat-icon *ngIf="data.invite">add</mat-icon>
+      <span>Invitar</span> 
+  </button>
+  <button mat-stroked-button *ngIf="!data.invite" color="warn" [mat-dialog-close]="true" type="submit" cdkFocusInitial class="btn-dialog">
+    <mat-icon *ngIf="!data.invite">close</mat-icon>
+    <span>No Invitar</span> 
+</button>
+</div>

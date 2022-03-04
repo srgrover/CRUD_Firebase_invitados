@@ -234,7 +234,7 @@ export class FormComponent implements OnInit {
       invitadosGroup = invitados.filter((x) => x.grupo == grupo);
 
       let dialogRef = this.dialog.open(InviteDialogConfirmComponent, {
-        width: '300px',
+        width: '400px',
         data: { invite: invite, personas: invitadosGroup },
       });
 
@@ -277,7 +277,7 @@ export class FormComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddComponent, {
-      width: '250px',
+      width: '400px',
       data: { persona: this.persona },
     });
 

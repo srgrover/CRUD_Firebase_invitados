@@ -19,6 +19,8 @@ import { MatFormField } from '@angular/material/form-field';
 export class HomeComponent implements OnInit {
   public queryList = QueryEnum;
 
+  isLoading = false;
+
   public tabList = ["Todos", "Hombres", "Mujeres", "Invitados", "Confirmados", "Rechazados"];
 
   myControl = new FormControl();
@@ -83,6 +85,7 @@ export class HomeComponent implements OnInit {
   }
 
   getInvitados(){
+    this.isLoading = true;
     this.dataService.invitados.subscribe((invitados: Persona[]) => {
       this.invitados = invitados;
       this.numInvitados = invitados.length;
@@ -100,6 +103,7 @@ export class HomeComponent implements OnInit {
         map(value => this._filter(value))
       );
     });
+    this.isLoading = false;
   }
 
   goToNew(){
