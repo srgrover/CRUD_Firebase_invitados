@@ -1,5 +1,4 @@
 <h1 mat-dialog-title class="d-flex align-items-center">
-  <mat-icon mat-list-icon *ngIf="data.openBy === openBy.delete">delete</mat-icon> 
   <mat-icon mat-list-icon *ngIf="data.openBy === openBy.resetPassword">lock</mat-icon> 
   {{data.title}}
 </h1>
@@ -10,8 +9,8 @@
 <p class="mt-3 subtitleTex">{{data.subtitle}}</p>
 <div mat-dialog-actions align="end">
   <button mat-button [mat-dialog-close]="false">Cancelar</button>
-  <button mat-button color="warn" [mat-dialog-close]="true" cdkFocusInitial *ngIf="data.openBy === openBy.delete">Eliminar</button>
-  <button mat-flat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial *ngIf="data.openBy === openBy.resetPassword">
+  <button mat-stroked-button color="warn" [mat-dialog-close]="true" cdkFocusInitial *ngIf="data.openBy === openBy.delete">Eliminar</button>
+  <button mat-stroked-button color="primary" [mat-dialog-close]="true" cdkFocusInitial *ngIf="data.openBy === openBy.resetPassword">
     <mat-icon mat-list-icon>key</mat-icon> 
     <strong>
       Recuperar

@@ -102,8 +102,8 @@ export class HomeComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value))
       );
+      this.isLoading = false;
     });
-    this.isLoading = false;
   }
 
   goToNew(){

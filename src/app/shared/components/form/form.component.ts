@@ -13,6 +13,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { take } from 'rxjs/operators';
+import { OpenBy } from '../../Enum/OpenBy';
+import { Timestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-form',
@@ -34,7 +36,6 @@ export class FormComponent implements OnInit {
   persona: any;
   grupos: Grupo[] = [];
   grupoSelected: Grupo | undefined;
-
   panelOpenState = false;
   clasificacionList: string[];
 
@@ -94,6 +95,11 @@ export class FormComponent implements OnInit {
 
         invitado.grupo = this.grupoInvitado;
         invitado.id = this.persona?.id || null;
+
+        if (this.stateForm == this.states.new)
+          invitado.fechaCreacion = Timestamp.fromDate(new Date());
+        else 
+          invitado.fechaCreacion = this.persona.fechaCreacion;
 
         if (
           (this.grupoSelected != undefined &&
@@ -185,9 +191,10 @@ export class FormComponent implements OnInit {
       width: '400px',
       data: {
         title: 'Eliminar invitado',
-        subtitle: '¿Seguro que quieres eliminar este invitado? Esta acción no se puede deshacer',
-        isDelete: true,
-        data: this.persona.nombre + " " + this.persona.apellidos,
+        subtitle:
+          '¿Seguro que quieres eliminar este invitado? Esta acción no se puede deshacer',
+        openBy: OpenBy.delete,
+        data: this.persona.nombre + ' ' + this.persona.apellidos,
       },
     });
 
@@ -297,15 +304,7 @@ export class FormComponent implements OnInit {
 
     bottomSheet.afterDismissed().subscribe((result) => {
       if (result !== undefined) {
-        console.log(
-          '🚀 ~ file: form.component.ts ~ line 249 ~ FormComponent ~ bottomSheet.afterDismissed ~ result',
-          result
-        );
         this.grupoSelected = result;
-        console.log(
-          '🚀 ~ file: form.component.ts ~ line 253 ~ FormComponent ~ bottomSheet.afterDismissed ~ this.grupoSelected',
-          this.grupoSelected
-        );
         this.grupoInvitado = result.id;
         if (this.persona != undefined) this.persona.grupo = result.id;
       }

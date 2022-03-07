@@ -69,13 +69,13 @@
       </ng-template>
       <ng-template matTabContent>
         <mat-selection-list #persona [multiple]="false" [class.mt-150]="sticky">
-          <div *ngIf="invitadosListTabs[i].length <= 0" class="text-center">
+          <div *ngIf="invitadosListTabs[i]?.length <= 0" class="text-center">
             <h1 class="no-results-title">Oops...</h1>
             <h2 class="no-results-subtitle">No hemos encontrado ningún resultado</h2>
             <img src="https://cdni.iconscout.com/illustration/premium/thumb/search-result-not-found-2130355-1800920.png" class="no-results-img" alt="Sin resultados">
           </div>
 
-          <div *ngIf="invitadosListTabs[i].length > 0">
+          <div *ngIf="invitadosListTabs[i]?.length > 0">
             <div *ngFor="let invitado of invitadosListTabs[i]">
               <mat-list-option [value]="invitado" (click)="goToEdit(invitado)">
                 <mat-list-item>

@@ -1,13 +1,14 @@
-<h1 mat-dialog-title class="d-flex align-items-center m-0">
-  Invitar al grupo
-</h1>
-<span class="text-muted">{{data.personas.length}} personas en el grupo</span>
+<div class="d-flex align-items-center justify-content-between mb-2">
+  <span class="h4 m-0">Invitar al grupo</span>
+  <span class="subTitleSpan font-size-10 bg-primary-material">{{data.personas.length}} personas</span>
+</div>
 
 <mat-list>
   <div mat-subheader class="text-muted h4">Se va a <span *ngIf="!data.invite">dejar de </span>invitar a las siguientes personas:</div>
+  <div class="mb-3"></div>
   <mat-list-item *ngFor="let persona of data.personas" class="list-invite-group">
     <div mat-line class="titleSpan">{{persona.nombre}} {{persona.apellidos}}</div>
-    <span mat-line class="subTitleSpan">{{persona.parentesco}}</span>
+    <span mat-line class="subTitleSpan font-size-70-rem">{{persona.parentesco}}</span>
   </mat-list-item>
 </mat-list>
 
