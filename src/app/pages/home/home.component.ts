@@ -17,6 +17,10 @@ import { MatFormField } from '@angular/material/form-field';
 })
 
 export class HomeComponent implements OnInit {
+//Administración -------------------
+  public debug: boolean = true;
+//----------------------------------
+
   public queryList = QueryEnum;
 
   isLoading = false;
@@ -43,7 +47,13 @@ export class HomeComponent implements OnInit {
   grupos: any;
   numInvitados: number = 0;
   invitadosHombre!: Persona[];
+  invitadosHombreAdultoLength: number = 0;
+  invitadosHombreJovenLength: number = 0;
+  invitadosHombreInfanteLength: number = 0;
   invitadosMujer!: Persona[];
+  invitadosMujerInfanteLength: number = 0;
+  invitadosMujerJovenLength: number = 0;
+  invitadosMujerAdultoLength: number = 0;
   invitadosEnviado!: Persona[];
   invitadosConfirmado!: Persona[];
   invitadosRechazado!: Persona[];
@@ -59,7 +69,7 @@ export class HomeComponent implements OnInit {
   @HostListener('window:scroll', ['$event'])
   handleScroll(){
     const windowScroll = window.pageYOffset;
-    //console.log("🚀 ~ file: home.component.ts ~ line 46 ~ HomeComponent ~ handleScroll ~ windowScroll", windowScroll)
+    //if(this.debug) console.log("windowScroll", windowScroll)
     this.sticky = windowScroll >= this.elementPosition + 120;
   }
 
@@ -67,7 +77,7 @@ export class HomeComponent implements OnInit {
 
   ngAfterViewInit(){
     this.elementPosition = this.formSearchContainer.nativeElement.offsetTop;
-    //console.log("🚀 ~ file: home.component.ts ~ line 60 ~ HomeComponent ~ ngAfterViewInit ~ this.menuElement.underlineRef.nativeElement.offsetTop", this.formSearchContainer.nativeElement.offsetTop)
+    //if(this.debug) console.log("offsetTop", this.formSearchContainer.nativeElement.offsetTop)
   }
 
   async ngOnInit(): Promise<void> {
@@ -87,13 +97,40 @@ export class HomeComponent implements OnInit {
   getInvitados(){
     this.isLoading = true;
     this.dataService.invitados.subscribe((invitados: Persona[]) => {
-      this.invitados = invitados;
+      this.invitados    = invitados;
       this.numInvitados = invitados.length;
+
+      //Hombres
       this.invitadosHombre = invitados.filter(x => x.sexo == "Hombre");
+      this.invitadosHombreAdultoLength  = this.invitadosHombre.filter(x => x.clasificacion == "Adulto").length;
+      this.invitadosHombreJovenLength   = this.invitadosHombre.filter(x => x.clasificacion == "Joven").length;
+      this.invitadosHombreInfanteLength = this.invitadosHombre.filter(x => x.clasificacion == "Niño").length;
+
+      //Mujeres
       this.invitadosMujer = invitados.filter(x => x.sexo == "Mujer");
-      this.invitadosEnviado = invitados.filter(x => x.invitado == true);
+      this.invitadosMujerAdultoLength  = this.invitadosMujer.filter(x => x.clasificacion == "Adulto").length;
+      this.invitadosMujerJovenLength   = this.invitadosMujer.filter(x => x.clasificacion == "Joven").length;
+      this.invitadosMujerInfanteLength = this.invitadosMujer.filter(x => x.clasificacion == "Niño").length;
+
+      //Debug
+      if(this.debug){ // Recuento hombres
+        console.log("🚀 Hombres 🚀")
+        console.log("Adultos", this.invitadosHombreAdultoLength)
+        console.log("Jóvenes", this.invitadosHombreJovenLength)
+        console.log("Niños", this.invitadosHombreInfanteLength)
+      }
+
+      if(this.debug){ //Recuento mujeres
+        console.log("🚀 Mujeres 🚀")
+        console.log("Adultas", this.invitadosMujerAdultoLength)
+        console.log("Jóvenes", this.invitadosMujerJovenLength)
+        console.log("Niñas", this.invitadosMujerInfanteLength)
+      }
+
+      //Generales
+      this.invitadosEnviado    = invitados.filter(x => x.invitado == true);
       this.invitadosConfirmado = invitados.filter(x => x.confirmado == true);
-      this.invitadosRechazado = invitados.filter(x => x.rechazado == true);
+      this.invitadosRechazado  = invitados.filter(x => x.rechazado == true);
 
       this.invitadosListTabs = [this.invitados, this.invitadosHombre, this.invitadosMujer, this.invitadosEnviado, this.invitadosConfirmado, this.invitadosRechazado];
 

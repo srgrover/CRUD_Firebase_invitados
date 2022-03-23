@@ -1,3 +1,5 @@
+$primaryColor: #673ab7;
+
 .form-filter-full-width {
   width: 100%;
   background-color: #fff;
@@ -59,12 +61,12 @@ tr.mat-footer-row {
   height: 40px !important;
   width: 40px !important;
   border-radius: 50px;
-  border: 2px solid #673ab7;
+  border: 2px solid $primaryColor;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #673ab7;
-  background-color: lighten($color: #673ab7, $amount: 48);
+  color: $primaryColor;
+  background-color: lighten($color: $primaryColor, $amount: 48);
 }
 .mat-list-base .mat-list-item .mat-list-item-content-reverse,
 .mat-list-base .mat-list-option .mat-list-item-content-reverse {
@@ -119,6 +121,15 @@ tr.mat-footer-row {
   background-color: #e1e1e1;
   border-radius: 10px;
   color: #797979;
+}
+
+.desglose-chip{
+  //background-color: $primaryColor;
+  border-radius: 100px;
+  color: $primaryColor;
+  border: 2px solid $primaryColor;
+  padding: 0.2em 0.7em;
+  margin: 0 0.2em;
 }
 
 ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content-reverse, .mat-list-base .mat-list-option .mat-list-item-content-reverse{

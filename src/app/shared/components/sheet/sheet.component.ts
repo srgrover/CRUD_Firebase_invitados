@@ -10,6 +10,9 @@ import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bott
 })
 
 export class SheetComponent implements OnInit {
+//Administración -------------------
+  public debug: boolean = true;
+//----------------------------------
 
   public grupos?: Grupo[];
 
@@ -28,6 +31,7 @@ export class SheetComponent implements OnInit {
   async getGrupos(){
     await this.dataService.grupos.subscribe(grupos => {
       this.grupos = grupos;
+      if(this.debug) console.log("🚀 Total Grupos", grupos.length)
     })
   }
 }

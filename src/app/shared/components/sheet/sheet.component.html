@@ -1,7 +1,10 @@
+<div class="d-flex">
+  <h4 style="margin-right: auto;">Selecciona un grupo</h4>
+  <h4><strong>{{grupos?.length}}</strong> Grupos</h4>
+</div>
 
-
-    <mat-selection-list #groups [multiple]="false">
-        <mat-list-option *ngFor="let gr of grupos" [value]="gr.id" (click)="selectGroup(gr)">
-          {{gr.descripcion}}
-        </mat-list-option>
-      </mat-selection-list>
+<mat-selection-list #groups [multiple]="false">
+  <mat-list-option *ngFor="let gr of grupos" [value]="gr.id" (click)="selectGroup(gr)">
+    {{gr.descripcion}}
+  </mat-list-option>
+</mat-selection-list>
