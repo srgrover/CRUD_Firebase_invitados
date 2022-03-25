@@ -20,7 +20,9 @@ import { DialogConfirmModule } from './shared/components/dialog-confirm/dialog-c
 import { DialogAddModule } from './shared/components/dialog-add/dialog-add.module';
 import { SheetModule } from './shared/components/sheet/sheet.module';
 import { InviteDialogConfirmModule } from './shared/components/invite-dialog-confirm/invite-dialog-confirm.module';
-import { EditProfileDialogModule } from './shared/components/edit-profile-dialog/edit-profile-dialog.module'
+import { EditProfileDialogModule } from './shared/components/edit-profile-dialog/edit-profile-dialog.module';
+import { DialogViewInviteListComponent } from './shared/components/dialog-view-invite-list/dialog-view-invite-list.component';
+import { DialogViewInviteListModule } from './shared/components/dialog-view-invite-list/dialog-view-invite-list.module'
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import { EditProfileDialogModule } from './shared/components/edit-profile-dialog
     DialogAddModule,
     SheetModule,
     InviteDialogConfirmModule,
-    EditProfileDialogModule
+    EditProfileDialogModule,
+    DialogViewInviteListModule
   ],
   providers: [AngularFirestore],
   bootstrap: [AppComponent],

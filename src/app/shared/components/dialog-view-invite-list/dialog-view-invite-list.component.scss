@@ -1,0 +1,13 @@
+$primaryColor: #673ab7;
+
+.person-count-rounded{
+    border-radius: 7px;
+    background: $primaryColor;
+    padding: 0.1rem 0.6rem;
+    text-align: center;
+    color: #FFF;
+    font-size: 11px;
+    vertical-align: middle;
+    margin: 0 0.5rem;
+    text-transform: uppercase;
+}

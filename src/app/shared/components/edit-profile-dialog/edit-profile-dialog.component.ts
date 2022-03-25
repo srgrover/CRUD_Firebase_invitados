@@ -12,6 +12,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 
 export class EditProfileDialogComponent implements OnInit {
+//Administración -------------------
+  public debug: boolean = true;
+//----------------------------------
+
   public infoForm!: FormGroup;
   public srcImage: string | null = null;
   
@@ -26,7 +30,7 @@ export class EditProfileDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("EDIT", this.data);
+    if(this.debug) console.log("EDIT", this.data);
     this.srcImage = this.data.currentUser.photoURL;
   }
 

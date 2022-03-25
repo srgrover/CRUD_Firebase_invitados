@@ -1,0 +1,11 @@
+<h2>
+    <span>{{data.title}}</span>
+    <small class="person-count-rounded"><strong>{{data.list.length}}</strong> personas</small>
+</h2>
+<h4>{{data.subtitle}}</h4>
+
+<mat-selection-list #persons [multiple]="false">
+    <mat-list-option *ngFor="let person of data.list" [value]="person" (click)="selectPerson(person)">
+        {{person.nombre}} {{person.apellidos}}
+    </mat-list-option>
+</mat-selection-list>

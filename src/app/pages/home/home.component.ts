@@ -1,3 +1,4 @@
+import { DialogViewInviteListComponent } from './../../shared/components/dialog-view-invite-list/dialog-view-invite-list.component';
 import { SexoEnum } from './../../shared/Enum/SexoEnum';
 import { QueryEnum } from '../../shared/Enum/QueryEnum';
 import { AuthService } from 'src/app/shared/services/auth.service';
@@ -9,6 +10,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatFormField } from '@angular/material/form-field';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-home',
@@ -46,14 +48,17 @@ export class HomeComponent implements OnInit {
   invitadosFilter: Persona[] = [];
   grupos: any;
   numInvitados: number = 0;
+
   invitadosHombre!: Persona[];
-  invitadosHombreAdultoLength: number = 0;
-  invitadosHombreJovenLength: number = 0;
-  invitadosHombreInfanteLength: number = 0;
+  invitadosHombreAdulto!: Persona[];
+  invitadosHombreJoven!: Persona[];
+  invitadosHombreInfante!: Persona[];
+
   invitadosMujer!: Persona[];
-  invitadosMujerInfanteLength: number = 0;
-  invitadosMujerJovenLength: number = 0;
-  invitadosMujerAdultoLength: number = 0;
+  invitadosMujerInfante!: Persona[];
+  invitadosMujerJoven!: Persona[];
+  invitadosMujerAdulto!: Persona[];
+
   invitadosEnviado!: Persona[];
   invitadosConfirmado!: Persona[];
   invitadosRechazado!: Persona[];
@@ -73,7 +78,7 @@ export class HomeComponent implements OnInit {
     this.sticky = windowScroll >= this.elementPosition + 120;
   }
 
-  constructor(private dataService: DataService, private router: Router, private auth: AuthService) {}
+  constructor(private dataService: DataService, private router: Router, private auth: AuthService, public dialog: MatDialog,) {}
 
   ngAfterViewInit(){
     this.elementPosition = this.formSearchContainer.nativeElement.offsetTop;
@@ -102,29 +107,29 @@ export class HomeComponent implements OnInit {
 
       //Hombres
       this.invitadosHombre = invitados.filter(x => x.sexo == "Hombre");
-      this.invitadosHombreAdultoLength  = this.invitadosHombre.filter(x => x.clasificacion == "Adulto").length;
-      this.invitadosHombreJovenLength   = this.invitadosHombre.filter(x => x.clasificacion == "Joven").length;
-      this.invitadosHombreInfanteLength = this.invitadosHombre.filter(x => x.clasificacion == "Niño").length;
+      this.invitadosHombreAdulto  = this.invitadosHombre.filter(x => x.clasificacion == "Adulto");
+      this.invitadosHombreJoven   = this.invitadosHombre.filter(x => x.clasificacion == "Joven");
+      this.invitadosHombreInfante = this.invitadosHombre.filter(x => x.clasificacion == "Niño");
 
       //Mujeres
       this.invitadosMujer = invitados.filter(x => x.sexo == "Mujer");
-      this.invitadosMujerAdultoLength  = this.invitadosMujer.filter(x => x.clasificacion == "Adulto").length;
-      this.invitadosMujerJovenLength   = this.invitadosMujer.filter(x => x.clasificacion == "Joven").length;
-      this.invitadosMujerInfanteLength = this.invitadosMujer.filter(x => x.clasificacion == "Niño").length;
+      this.invitadosMujerAdulto  = this.invitadosMujer.filter(x => x.clasificacion == "Adulto");
+      this.invitadosMujerJoven   = this.invitadosMujer.filter(x => x.clasificacion == "Joven");
+      this.invitadosMujerInfante = this.invitadosMujer.filter(x => x.clasificacion == "Niño");
 
       //Debug
       if(this.debug){ // Recuento hombres
         console.log("🚀 Hombres 🚀")
-        console.log("Adultos", this.invitadosHombreAdultoLength)
-        console.log("Jóvenes", this.invitadosHombreJovenLength)
-        console.log("Niños", this.invitadosHombreInfanteLength)
+        console.log("Adultos", this.invitadosHombreAdulto)
+        console.log("Jóvenes", this.invitadosHombreJoven)
+        console.log("Niños", this.invitadosHombreInfante)
       }
 
       if(this.debug){ //Recuento mujeres
         console.log("🚀 Mujeres 🚀")
-        console.log("Adultas", this.invitadosMujerAdultoLength)
-        console.log("Jóvenes", this.invitadosMujerJovenLength)
-        console.log("Niñas", this.invitadosMujerInfanteLength)
+        console.log("Adultas", this.invitadosMujerAdulto)
+        console.log("Jóvenes", this.invitadosMujerJoven)
+        console.log("Niñas", this.invitadosMujerInfante)
       }
 
       //Generales
@@ -187,5 +192,25 @@ export class HomeComponent implements OnInit {
     this.isSearching = false;
     this.invitadosFilter = [];
     this.myControl.reset();
+  }
+
+  goToListInviteClasification(list: Persona[], title: string){
+    const dialogRefDelete = this.dialog.open(DialogViewInviteListComponent, {
+      width: '400px',
+      height: '71.5vh',
+      maxHeight: '71.5vh',
+      minHeight: '60.5vh',
+      data: {
+        title: title,
+        subtitle: 'Selecciona uno para editarlo',
+        list: list,
+      },
+    });
+
+    dialogRefDelete.afterClosed().subscribe(async (persona) => {
+      if (persona) {
+        this.goToEdit(persona);
+      }
+    });
   }
 }
