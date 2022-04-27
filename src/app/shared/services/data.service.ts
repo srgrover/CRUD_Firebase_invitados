@@ -27,7 +27,8 @@ export class DataService {
     this.ruta$ = new Subject();
     this.invitadoCollection = afs.collection<Persona>('personas', (ref) =>
     ref.orderBy('fechaCreacion', 'desc'));
-    this.grupoCollection = afs.collection<Grupo>('grupos');
+    this.grupoCollection = afs.collection<Grupo>('grupos', (ref) =>
+    ref.orderBy('descripcion', 'asc'));
 
     this.setRuta();
     this.getGrupos();

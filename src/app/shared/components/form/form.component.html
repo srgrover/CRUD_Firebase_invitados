@@ -62,11 +62,12 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon>groups</mat-icon>
+            <span *ngIf="grupoSelected != undefined" class="align-self-center mx-2">{{ grupoSelected.descripcion }}</span>
+            <span *ngIf="grupoSelected == undefined" class="align-self-center mx-2">Selecciona un grupo</span>
           </mat-panel-title>
 
           <mat-panel-description>
-            <span *ngIf="grupoSelected != undefined">{{ grupoSelected.descripcion }}</span>
-            <span *ngIf="grupoSelected == undefined">Selecciona un grupo</span>
+            
           </mat-panel-description>
         </mat-expansion-panel-header>
 
