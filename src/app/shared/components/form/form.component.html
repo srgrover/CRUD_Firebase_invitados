@@ -122,6 +122,28 @@
     <mat-slide-toggle formControlName="rechazado" color="warn"></mat-slide-toggle>
   </div>
 
+  <mat-divider *ngIf="stateForm === states.edit && persona.grupo != 'hUNpRRMnt5nL3kuz0yiK'"></mat-divider>
+  <div class="col-12 m-2 d-flex justify-content-between" *ngIf="stateForm === states.edit && persona.grupo != 'hUNpRRMnt5nL3kuz0yiK'">
+    <h3 class="m-0 p-0 align-self-center">Rechazar a todo el grupo</h3>
+    <button
+      type="button"
+      mat-stroked-button
+      (click)="changeRejected(persona.grupo, true)">
+      Rechazar
+    </button>
+  </div>
+
+  <mat-divider *ngIf="stateForm === states.edit && persona.grupo != 'hUNpRRMnt5nL3kuz0yiK'"></mat-divider>
+  <div class="col-12 m-2 d-flex justify-content-between" *ngIf="stateForm === states.edit && persona.grupo != 'hUNpRRMnt5nL3kuz0yiK'">
+    <h3 class="m-0 p-0 align-self-center">Quitar rechazo al grupo</h3>
+    <button
+      type="button"
+      mat-stroked-button
+      (click)="changeRejected(persona.grupo, false)">
+      Quitar Rechazo
+    </button>
+  </div>
+
   <mat-divider></mat-divider>
   <div class="col-12 mt-5">
     <button type="submit" mat-flat-button *ngIf="stateForm === states.new" color="primary">

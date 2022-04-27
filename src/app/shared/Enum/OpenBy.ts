@@ -1,4 +1,6 @@
 export enum OpenBy{
   delete = 1,
-  resetPassword = 2
+  resetPassword = 2,
+  reject = 3,
+  invite = 4
 }

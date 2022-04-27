@@ -1,10 +1,14 @@
 <div class="d-flex align-items-center justify-content-between mb-2">
-  <span class="h4 m-0">Invitar al grupo</span>
+  <span class="h4 m-0" *ngIf="data.openBy == openBy.reject">Rechazar al grupo</span>
+  <span class="h4 m-0" *ngIf="data.openBy == openBy.invite">Invitar al grupo</span>
   <span class="subTitleSpan font-size-10 bg-primary-material">{{data.personas.length}} personas</span>
 </div>
 
 <mat-list>
-  <div mat-subheader class="text-muted h4">Se va a <span *ngIf="!data.invite">dejar de </span>invitar a las siguientes personas:</div>
+  <div mat-subheader class="text-muted h4" *ngIf="data.openBy == openBy.reject">Se va a <span *ngIf="!data.action">dejar
+      de </span><strong>rechazar </strong>a las siguientes personas:</div>
+  <div mat-subheader class="text-muted h4" *ngIf="data.openBy == openBy.invite">Se va a <span *ngIf="!data.action">dejar
+      de </span><strong>invitar </strong>a las siguientes personas:</div>
   <div class="mb-3"></div>
   <mat-list-item *ngFor="let persona of data.personas" class="list-invite-group">
     <div mat-line class="titleSpan">{{persona.nombre}} {{persona.apellidos}}</div>
@@ -15,7 +19,7 @@
 <!--<div mat-dialog-actions align="end">
   <button mat-button [mat-dialog-close]="false">Cancelar</button>
   <button mat-flat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>
-    <span *ngIf="!data.invite">
+    <span *ngIf="!data.action">
       No
     </span>
     Invitar
@@ -24,15 +28,28 @@
 
 <div mat-dialog-actions class="row d-flex justify-content-between">
   <button mat-stroked-button color="primary" [mat-dialog-close]="false" type="button" class="btn-dialog">
-      <mat-icon>close</mat-icon>
-      <span>Cancelar</span> 
+    <mat-icon>close</mat-icon>
+    <span>Cancelar</span>
   </button>
-  <button mat-stroked-button *ngIf="data.invite" color="primary" [mat-dialog-close]="true" type="submit" cdkFocusInitial class="btn-dialog">
-      <mat-icon *ngIf="data.invite">add</mat-icon>
-      <span>Invitar</span> 
+  <button mat-stroked-button *ngIf="data.openBy == openBy.invite && data.action" color="primary"
+    [mat-dialog-close]="true" type="submit" cdkFocusInitial class="btn-dialog">
+    <mat-icon *ngIf="data.openBy == openBy.invite && data.action">add</mat-icon>
+    <span>Invitar</span>
   </button>
-  <button mat-stroked-button *ngIf="!data.invite" color="warn" [mat-dialog-close]="true" type="submit" cdkFocusInitial class="btn-dialog">
-    <mat-icon *ngIf="!data.invite">close</mat-icon>
-    <span>No Invitar</span> 
-</button>
+  <button mat-stroked-button *ngIf="data.openBy == openBy.invite && !data.action" color="warn" [mat-dialog-close]="true"
+    type="submit" cdkFocusInitial class="btn-dialog">
+    <mat-icon *ngIf="!data.action">close</mat-icon>
+    <span>No Invitar</span>
+  </button>
+
+  <button mat-stroked-button *ngIf="data.openBy == openBy.reject && data.action" color="warn"
+    [mat-dialog-close]="true" type="submit" cdkFocusInitial class="btn-dialog">
+    <mat-icon *ngIf="data.openBy == openBy.reject && data.action">close</mat-icon>
+    <span>Rechazar</span>
+  </button>
+  <button mat-stroked-button *ngIf="data.openBy == openBy.reject && !data.action" color="primary" [mat-dialog-close]="true"
+    type="submit" cdkFocusInitial class="btn-dialog">
+    <mat-icon *ngIf="!data.action">add</mat-icon>
+    <span>Quitar Rechazo</span>
+  </button>
 </div>

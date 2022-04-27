@@ -282,6 +282,58 @@ export class FormComponent implements OnInit {
     });
   }
 
+  async changeRejected(grupo: string, invite: boolean) {
+    var invitadosGroup!: Persona[];
+
+    this.dataService.invitados.pipe(take(1)).subscribe((invitados) => {
+      invitadosGroup = invitados.filter((x) => x.grupo == grupo);
+
+      let dialogRef = this.dialog.open(InviteDialogConfirmComponent, {
+        width: '400px',
+        data: { 
+          openBy: OpenBy.reject,
+          action: invite, 
+          personas: invitadosGroup 
+        },
+      });
+
+      dialogRef
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((result) => {
+          if (result) {
+            try {
+              this.persona.rechazado = invite;
+              this.invitadoForm.controls['rechazado'].setValue(invite);
+              invitadosGroup.forEach(async (inviGr) => {
+                try {
+                  inviGr.rechazado = invite;
+                  await this.dataService.addInvitado(inviGr);
+                } catch (e) {
+                  this.openSnackBar(
+                    'Oops...Hubo un error al actualizar el estado rechazado de ' +
+                      inviGr.nombre +
+                      ' ' +
+                      inviGr.apellidos,
+                    'Ok',
+                    'bg-danger'
+                  );
+                }
+              });
+            } catch (err) {
+              //Swal.fire('Oops...', 'Hubo un error al eliminar al invitado', 'error');
+              console.error(err);
+              this.openSnackBar(
+                'Oops...Hubo un error al editar el invitado',
+                'Ok',
+                'bg-danger'
+              );
+            }
+          }
+        });
+    });
+  }
+
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddComponent, {
       width: '400px',
