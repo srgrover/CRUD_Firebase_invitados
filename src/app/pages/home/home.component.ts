@@ -20,7 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 export class HomeComponent implements OnInit {
 //Administración -------------------
-  public debug: boolean = true;
+  public debug: boolean = false;
 //----------------------------------
 
   public queryList = QueryEnum;
@@ -107,13 +107,13 @@ export class HomeComponent implements OnInit {
 
       //Hombres
       this.invitadosHombre = invitados.filter(x => x.sexo == "Hombre");
-      this.invitadosHombreAdulto  = this.invitadosHombre.filter(x => x.clasificacion == "Adulto");
+      this.invitadosHombreAdulto  = this.invitadosHombre.filter(x => x.clasificacion != "Niño");
       this.invitadosHombreJoven   = this.invitadosHombre.filter(x => x.clasificacion == "Joven");
       this.invitadosHombreInfante = this.invitadosHombre.filter(x => x.clasificacion == "Niño");
 
       //Mujeres
       this.invitadosMujer = invitados.filter(x => x.sexo == "Mujer");
-      this.invitadosMujerAdulto  = this.invitadosMujer.filter(x => x.clasificacion == "Adulto");
+      this.invitadosMujerAdulto  = this.invitadosMujer.filter(x => x.clasificacion != "Niño");
       this.invitadosMujerJoven   = this.invitadosMujer.filter(x => x.clasificacion == "Joven");
       this.invitadosMujerInfante = this.invitadosMujer.filter(x => x.clasificacion == "Niño");
 

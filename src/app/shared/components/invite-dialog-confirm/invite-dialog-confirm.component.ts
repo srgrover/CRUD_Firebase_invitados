@@ -9,10 +9,14 @@ import { DialogAddComponent } from '../dialog-add/dialog-add.component';
   styleUrls: ['./invite-dialog-confirm.component.scss']
 })
 export class InviteDialogConfirmComponent implements OnInit {
+  //Administración -------------------
+  public debug: boolean = false;
+  //----------------------------------
   openBy: any;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<DialogAddComponent>) {
     this.openBy = OpenBy;
-    console.log(this.openBy)
+    if(this.debug) console.log(this.openBy)
+    if(this.debug) console.log(this.data)
   }
 
   ngOnInit(): void {

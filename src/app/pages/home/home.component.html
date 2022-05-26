@@ -64,13 +64,11 @@
           <div *ngIf="invitadosListTabs[i]?.length > 0">
             <div class="d-flex px-4 py-2" *ngIf="i == 1">
               <span class="desglose-chip" style="cursor: pointer;" (click)="goToListInviteClasification(invitadosHombreAdulto, 'Hombres adultos')"> <strong>{{ invitadosHombreAdulto.length }}</strong> Adultos</span>
-              <span class="desglose-chip" style="cursor: pointer;" (click)="goToListInviteClasification(invitadosHombreJoven, 'Hombres jóvenes')"> <strong>{{ invitadosHombreJoven.length }}</strong> Jóvenes</span>
               <span class="desglose-chip" style="cursor: pointer;" (click)="goToListInviteClasification(invitadosHombreInfante, 'Hombres niños')"> <strong>{{ invitadosHombreInfante.length }}</strong> Niños</span>
             </div>
 
             <div class="d-flex px-4 py-2" *ngIf="i == 2">
               <span class="desglose-chip" style="cursor: pointer;" (click)="goToListInviteClasification(invitadosMujerAdulto, 'Mujeres adultas')"> <strong>{{ invitadosMujerAdulto.length }}</strong> Adultas</span>
-              <span class="desglose-chip" style="cursor: pointer;" (click)="goToListInviteClasification(invitadosMujerJoven, 'Mujeres jóvenes')"> <strong>{{ invitadosMujerJoven.length }}</strong> Jóvenes</span>
               <span class="desglose-chip" style="cursor: pointer;" (click)="goToListInviteClasification(invitadosMujerInfante, 'Mujeres niñas')"> <strong>{{ invitadosMujerInfante.length }}</strong> Niñas</span>
             </div>
 

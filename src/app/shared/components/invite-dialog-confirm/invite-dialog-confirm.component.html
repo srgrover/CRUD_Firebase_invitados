@@ -1,6 +1,12 @@
 <div class="d-flex align-items-center justify-content-between mb-2">
-  <span class="h4 m-0" *ngIf="data.openBy == openBy.reject">Rechazar al grupo</span>
-  <span class="h4 m-0" *ngIf="data.openBy == openBy.invite">Invitar al grupo</span>
+  <span class="h4 m-0" *ngIf="data.openBy == openBy.reject">
+    <span *ngIf="data.openBy == openBy.reject && !data.action">Quitar rechazo</span>
+    <span *ngIf="data.openBy == openBy.reject && data.action">Rechazar al grupo</span>
+  </span>
+  <span class="h4 m-0" *ngIf="data.openBy == openBy.invite">
+    <span *ngIf="data.openBy == openBy.invite && data.action">Invitar al grupo</span>
+    <span *ngIf="data.openBy == openBy.invite && !data.action">Quitar Invitación</span>
+  </span>
   <span class="subTitleSpan font-size-10 bg-primary-material">{{data.personas.length}} personas</span>
 </div>
 
@@ -15,16 +21,6 @@
     <span mat-line class="subTitleSpan font-size-70-rem">{{persona.parentesco}}</span>
   </mat-list-item>
 </mat-list>
-
-<!--<div mat-dialog-actions align="end">
-  <button mat-button [mat-dialog-close]="false">Cancelar</button>
-  <button mat-flat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>
-    <span *ngIf="!data.action">
-      No
-    </span>
-    Invitar
-  </button>
-</div>-->
 
 <div mat-dialog-actions class="row d-flex justify-content-between">
   <button mat-stroked-button color="primary" [mat-dialog-close]="false" type="button" class="btn-dialog">

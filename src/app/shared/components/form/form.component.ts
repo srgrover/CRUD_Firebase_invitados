@@ -242,7 +242,11 @@ export class FormComponent implements OnInit {
 
       let dialogRef = this.dialog.open(InviteDialogConfirmComponent, {
         width: '400px',
-        data: { invite: invite, personas: invitadosGroup },
+        data: { 
+          openBy: OpenBy.invite,
+          action: invite, 
+          personas: invitadosGroup 
+        },
       });
 
       dialogRef
