@@ -1,5 +1,8 @@
 <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
-<h1 style="font-size: xx-large;" class="mt-0 p-3 pb-0">Lista de invitados</h1>
+<h1 style="font-size: xx-large;" class="mt-0 p-3 pb-0">
+  Lista de invitados
+</h1>
+<small style="font-size: 18px;" class="mt-0 p-3 pb-0 totalInviText"><span class="totalInvi">{{ gruposCount + sinGrupoCount }}</span> Invitaciones totales</small>
 
 <div class="d-flex justify-content-start align-items-center bg-white" #formSearchContainer style="padding-left: 10px;"
   [class.sticky]="sticky">

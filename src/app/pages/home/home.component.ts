@@ -20,7 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 export class HomeComponent implements OnInit {
 //Administración -------------------
-  public debug: boolean = false;
+  public debug: boolean = true;
 //----------------------------------
 
   public queryList = QueryEnum;
@@ -64,6 +64,8 @@ export class HomeComponent implements OnInit {
   invitadosRechazado!: Persona[];
 
   invitadosListTabs:any = []
+  gruposCount: number = 0;
+  sinGrupoCount: number = 0;
 
   navExtras: NavigationExtras = {
     state: {
@@ -87,6 +89,7 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.getInvitados();
+    await this.dataService.getGruposCount().subscribe( (count: number) => this.gruposCount = count-1);
   }
 
   tabLoadTimes: Date[] = [];
@@ -136,6 +139,12 @@ export class HomeComponent implements OnInit {
       this.invitadosEnviado    = invitados.filter(x => x.invitado == true);
       this.invitadosConfirmado = invitados.filter(x => x.confirmado == true);
       this.invitadosRechazado  = invitados.filter(x => x.rechazado == true);
+      console.log("🚀 ~ file: home.component.ts ~ line 142 ~ HomeComponent ~ this.dataService.invitados.subscribe ~ this.invitadosRechazado", this.invitadosRechazado)
+
+      this.sinGrupoCount = invitados.filter(x => x.grupo === "hUNpRRMnt5nL3kuz0yiK" && x.rechazado === false).length;
+      
+      if(this.debug) console.log("SIN GRUPO", invitados.filter(x => x.grupo === "hUNpRRMnt5nL3kuz0yiK"));
+      if(this.debug) console.log("COUNT SIN GRUPO", this.sinGrupoCount)
 
       this.invitadosListTabs = [this.invitados, this.invitadosHombre, this.invitadosMujer, this.invitadosEnviado, this.invitadosConfirmado, this.invitadosRechazado];
 

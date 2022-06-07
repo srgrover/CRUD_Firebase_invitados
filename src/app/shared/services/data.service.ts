@@ -20,11 +20,13 @@ export class DataService {
   private ruta$!: Subject<string>;
   invitados!: Observable<Persona[]>;
   grupos!: Observable<Grupo[]>;
+  private gruposCount$!: Subject<number>;
   private invitadoCollection!: AngularFirestoreCollection<Persona>;
   private grupoCollection!: AngularFirestoreCollection<Grupo>;
 
   constructor(private readonly afs: AngularFirestore, private router: Router) {
     this.ruta$ = new Subject();
+    this.gruposCount$ = new Subject();
     this.invitadoCollection = afs.collection<Persona>('personas', (ref) =>
     ref.orderBy('fechaCreacion', 'desc'));
     this.grupoCollection = afs.collection<Grupo>('grupos', (ref) =>
@@ -100,6 +102,9 @@ export class DataService {
       .pipe(
         map((actions) => actions.map((a) => a.payload.doc.data() as Grupo))
       );
+      this.grupos.subscribe(grupos => {
+        this.gruposCount$.next(grupos.length);
+      });
   }
 
   deleteGrupo(id: string): Promise<void> {
@@ -120,5 +125,9 @@ export class DataService {
 
   getRuta() {
     return this.router.url;
+  }
+
+  getGruposCount(): Observable<number>{
+    return this.gruposCount$.asObservable();
   }
 }

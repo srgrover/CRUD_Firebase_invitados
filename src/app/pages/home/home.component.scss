@@ -135,3 +135,13 @@ tr.mat-footer-row {
 ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content-reverse, .mat-list-base .mat-list-option .mat-list-item-content-reverse{
   padding: 0 !important;
 }
+.totalInviText{
+  font-size: 18px;
+  color: darkgrey;
+
+  .totalInvi{
+    color: $primaryColor;
+    font-weight: 800;
+  }
+}
+
