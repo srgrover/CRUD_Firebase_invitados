@@ -23,14 +23,13 @@ export class DataService {
   private gruposCount$!: Subject<number>;
   private invitadoCollection!: AngularFirestoreCollection<Persona>;
   private grupoCollection!: AngularFirestoreCollection<Grupo>;
+  private grupoByIdCollection!: AngularFirestoreCollection<Grupo>;
 
   constructor(private readonly afs: AngularFirestore, private router: Router) {
     this.ruta$ = new Subject();
     this.gruposCount$ = new Subject();
-    this.invitadoCollection = afs.collection<Persona>('personas', (ref) =>
-    ref.orderBy('fechaCreacion', 'desc'));
-    this.grupoCollection = afs.collection<Grupo>('grupos', (ref) =>
-    ref.orderBy('descripcion', 'asc'));
+    this.invitadoCollection = afs.collection<Persona>('personas', (ref) => ref.orderBy('fechaCreacion', 'desc'));
+    this.grupoCollection = afs.collection<Grupo>('grupos', (ref) => ref.orderBy('descripcion', 'asc'));
 
     this.setRuta();
     this.getGrupos();
@@ -83,8 +82,6 @@ export class DataService {
   }
 
   addGrupo(grupo: Grupo): Promise<void> {
-    console.log(grupo);
-
     return new Promise(async (resolve, reject) => {
       try {
         grupo.id = grupo.id || this.afs.createId();

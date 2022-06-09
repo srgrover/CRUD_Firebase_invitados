@@ -3,4 +3,5 @@ export interface Grupo {
   id?: string;
   descripcion: string;
   persona?: Persona[];
+  rechazado: boolean;
 }

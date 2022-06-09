@@ -31,7 +31,7 @@ export class SheetComponent implements OnInit {
   async getGrupos(){
     await this.dataService.grupos.subscribe(grupos => {
       this.grupos = grupos;
-      if(this.debug) console.log("🚀 Total Grupos", grupos.length)
+      if(this.debug) console.log("🚀 Total Grupos", grupos.length);
     })
   }
 }

@@ -1,3 +1,4 @@
+import { Grupo } from './../../shared/models/Grupo';
 import { DialogViewInviteListComponent } from './../../shared/components/dialog-view-invite-list/dialog-view-invite-list.component';
 import { SexoEnum } from './../../shared/Enum/SexoEnum';
 import { QueryEnum } from '../../shared/Enum/QueryEnum';
@@ -8,7 +9,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { Persona } from 'src/app/shared/models/Persona';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, take } from 'rxjs/operators';
 import { MatFormField } from '@angular/material/form-field';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -20,7 +21,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 export class HomeComponent implements OnInit {
 //Administración -------------------
-  public debug: boolean = true;
+  public debug: boolean = false;
 //----------------------------------
 
   public queryList = QueryEnum;
@@ -47,6 +48,7 @@ export class HomeComponent implements OnInit {
   invitados!: Persona[];
   invitadosFilter: Persona[] = [];
   grupos: any;
+  gruposRechazados: Grupo[] = [];
   numInvitados: number = 0;
 
   invitadosHombre!: Persona[];
@@ -139,12 +141,16 @@ export class HomeComponent implements OnInit {
       this.invitadosEnviado    = invitados.filter(x => x.invitado == true);
       this.invitadosConfirmado = invitados.filter(x => x.confirmado == true);
       this.invitadosRechazado  = invitados.filter(x => x.rechazado == true);
-      console.log("🚀 ~ file: home.component.ts ~ line 142 ~ HomeComponent ~ this.dataService.invitados.subscribe ~ this.invitadosRechazado", this.invitadosRechazado)
 
       this.sinGrupoCount = invitados.filter(x => x.grupo === "hUNpRRMnt5nL3kuz0yiK" && x.rechazado === false).length;
       
       if(this.debug) console.log("SIN GRUPO", invitados.filter(x => x.grupo === "hUNpRRMnt5nL3kuz0yiK"));
-      if(this.debug) console.log("COUNT SIN GRUPO", this.sinGrupoCount)
+      if(this.debug) console.log("COUNT SIN GRUPO", this.sinGrupoCount);
+
+      
+      this.dataService.grupos.pipe(take(1)).subscribe((gr: Grupo[]) => {
+        this.gruposRechazados = gr.filter((x) => x.rechazado);
+      })
 
       this.invitadosListTabs = [this.invitados, this.invitadosHombre, this.invitadosMujer, this.invitadosEnviado, this.invitadosConfirmado, this.invitadosRechazado];
 

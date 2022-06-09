@@ -98,8 +98,7 @@ export class FormComponent implements OnInit {
 
         if (this.stateForm == this.states.new)
           invitado.fechaCreacion = Timestamp.fromDate(new Date());
-        else 
-          invitado.fechaCreacion = this.persona.fechaCreacion;
+        else invitado.fechaCreacion = this.persona.fechaCreacion;
 
         if (
           (this.grupoSelected != undefined &&
@@ -242,10 +241,10 @@ export class FormComponent implements OnInit {
 
       let dialogRef = this.dialog.open(InviteDialogConfirmComponent, {
         width: '400px',
-        data: { 
+        data: {
           openBy: OpenBy.invite,
-          action: invite, 
-          personas: invitadosGroup 
+          action: invite,
+          personas: invitadosGroup,
         },
       });
 
@@ -294,10 +293,10 @@ export class FormComponent implements OnInit {
 
       let dialogRef = this.dialog.open(InviteDialogConfirmComponent, {
         width: '400px',
-        data: { 
+        data: {
           openBy: OpenBy.reject,
-          action: invite, 
-          personas: invitadosGroup 
+          action: invite,
+          personas: invitadosGroup,
         },
       });
 
@@ -324,6 +323,16 @@ export class FormComponent implements OnInit {
                   );
                 }
               });
+              var grupoModificar: Grupo | undefined;
+              this.dataService.grupos.pipe(take(1)).subscribe(async (gr) => {
+                
+                grupoModificar = gr.find(f => f.id === grupo);
+                if(grupoModificar != undefined){
+                  grupoModificar.rechazado = invite;
+                  await this.dataService.addGrupo(grupoModificar);
+                }
+              })
+              //
             } catch (err) {
               //Swal.fire('Oops...', 'Hubo un error al eliminar al invitado', 'error');
               console.error(err);
