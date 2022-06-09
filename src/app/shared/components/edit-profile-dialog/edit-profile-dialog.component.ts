@@ -66,8 +66,6 @@ export class EditProfileDialogComponent implements OnInit {
   }
 
   onChangeURL(e: any){
-    console.log("🚀 ~ file: edit-profile-dialog.component.ts ~ line 65 ~ EditProfileDialogComponent ~ onChangeURL ~ e", e)
     this.srcImage = e.target.value;
-    console.log("🚀 ~ file: edit-profile-dialog.component.ts ~ line 67 ~ EditProfileDialogComponent ~ onChangeURL ~ his.srcImage", this.srcImage)
   }
 }

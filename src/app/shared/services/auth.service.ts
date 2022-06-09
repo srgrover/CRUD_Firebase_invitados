@@ -9,6 +9,10 @@ import { RegisterData } from '../models/RegisterData';
   providedIn: 'root'
 })
 export class AuthService {
+//Administración -------------------
+  public debug: boolean = false;
+//----------------------------------
+
   //public user: User | null;
   public user$: Subject<User | null>;
 
@@ -70,7 +74,7 @@ export class AuthService {
   async resetPassword(email: string): Promise<any> {
     // sends reset password email
     var y = await sendPasswordResetEmail(this.auth, email);
-    console.log("🚀 ~ file: auth.service.ts ~ line 74 ~ AuthService ~ resetPassword ~ y", y)
+    if(this.debug)console.log("🚀 ~ file: auth.service.ts ~ line 74 ~ AuthService ~ resetPassword ~ y", y)
   }
 
   async sendEmailVerification(user: User){

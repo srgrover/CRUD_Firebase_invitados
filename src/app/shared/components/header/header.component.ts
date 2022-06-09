@@ -12,6 +12,9 @@ import { User } from 'firebase/auth';
   providers: [AuthService]
 })
 export class HeaderComponent implements OnInit {
+//Administración -------------------
+  public debug: boolean = false;
+//----------------------------------
   //user: any;
   isLogged: boolean = false;
   isLoading: boolean = false;
@@ -19,8 +22,7 @@ export class HeaderComponent implements OnInit {
   public user!: User | null;
 
   constructor(public dataService: DataService, private router: Router, public auth: AuthService) {
-    console.log(auth.getCurrentUser());
-    
+    if(this.debug)console.log(auth.getCurrentUser());
   }
 
   async ngOnInit() {}
@@ -58,6 +60,6 @@ export class HeaderComponent implements OnInit {
   logout(){
     this.auth.logout()
     .then(() => this.router.navigate(['/']))
-    .catch((e) => console.log(e.message));
+    .catch((e) => console.error(e.message));
   }
 }

@@ -13,6 +13,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
+//Administración -------------------
+  public debug: boolean = false;
+//----------------------------------
   public currentUser!: any;
 
   constructor(
@@ -24,7 +27,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCurrentUser();
-    console.log("USER", this.currentUser);
+    if(this.debug)console.log("USER", this.currentUser);
     
   }
 

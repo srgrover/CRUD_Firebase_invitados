@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit {
           this.router.navigate(['/login']);
         })
         .catch((e) => {
-          console.log(e.message);
+          console.error(e.message);
           this.openSnackBar(e.message, 'Ok', 'bg-danger');
         });
     else {
