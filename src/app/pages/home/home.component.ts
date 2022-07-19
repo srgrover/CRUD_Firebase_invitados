@@ -51,16 +51,27 @@ export class HomeComponent implements OnInit {
   gruposRechazados: Grupo[] = [];
   numInvitados: number = 0;
 
+  // Personas hombres en lista
   invitadosHombre!: Persona[];
   invitadosHombreAdulto!: Persona[];
   invitadosHombreJoven!: Persona[];
   invitadosHombreInfante!: Persona[];
 
+  // Personas mujeres en lista
   invitadosMujer!: Persona[];
   invitadosMujerInfante!: Persona[];
   invitadosMujerJoven!: Persona[];
   invitadosMujerAdulto!: Persona[];
 
+  // Count personas rechazados no incluidos
+  invitadosHombreInfanteCount!: number;
+  invitadosHombreJovenCount!: number;
+  invitadosHombreAdultoCount!: number;
+  invitadosMujerInfanteCount!: number;
+  invitadosMujerJovenCount!: number;
+  invitadosMujerAdultoCount!: number;
+
+  // Personas con modificadores de estado
   invitadosEnviado!: Persona[];
   invitadosConfirmado!: Persona[];
   invitadosRechazado!: Persona[];
@@ -112,13 +123,17 @@ export class HomeComponent implements OnInit {
 
       //Hombres
       this.invitadosHombre = invitados.filter(x => x.sexo == "Hombre");
-      this.invitadosHombreAdulto  = this.invitadosHombre.filter(x => x.clasificacion != "Niño");
+      this.invitadosHombreAdulto  = this.invitadosHombre.filter(x => x.clasificacion == "Adulto");
       this.invitadosHombreJoven   = this.invitadosHombre.filter(x => x.clasificacion == "Joven");
       this.invitadosHombreInfante = this.invitadosHombre.filter(x => x.clasificacion == "Niño");
 
+      this.invitadosHombreAdultoCount = this.invitadosHombreAdulto.length - this.invitadosHombreAdulto.filter(x => x.rechazado == true).length;
+      this.invitadosHombreJovenCount = this.invitadosHombreJoven.length - this.invitadosHombreJoven.filter(x => x.rechazado == true).length;
+      this.invitadosHombreInfanteCount = this.invitadosHombreInfante.length - this.invitadosHombreInfante.filter(x => x.rechazado == true).length;
+
       //Mujeres
       this.invitadosMujer = invitados.filter(x => x.sexo == "Mujer");
-      this.invitadosMujerAdulto  = this.invitadosMujer.filter(x => x.clasificacion != "Niño");
+      this.invitadosMujerAdulto  = this.invitadosMujer.filter(x => x.clasificacion == "Adulto");
       this.invitadosMujerJoven   = this.invitadosMujer.filter(x => x.clasificacion == "Joven");
       this.invitadosMujerInfante = this.invitadosMujer.filter(x => x.clasificacion == "Niño");
 
