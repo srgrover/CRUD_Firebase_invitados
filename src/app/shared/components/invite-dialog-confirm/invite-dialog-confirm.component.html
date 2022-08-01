@@ -7,6 +7,10 @@
     <span *ngIf="data.openBy == openBy.invite && data.action">Invitar al grupo</span>
     <span *ngIf="data.openBy == openBy.invite && !data.action">Quitar Invitación</span>
   </span>
+  <span class="h4 m-0" *ngIf="data.openBy == openBy.confirm">
+    <span *ngIf="data.openBy == openBy.confirm && data.action">Confirmar al grupo</span>
+    <span *ngIf="data.openBy == openBy.confirm && !data.action">Quitar Confirmación</span>
+  </span>
   <span class="subTitleSpan font-size-10 bg-primary-material">{{data.personas.length}} personas</span>
 </div>
 
@@ -15,6 +19,8 @@
       de </span><strong>rechazar </strong>a las siguientes personas:</div>
   <div mat-subheader class="text-muted h4" *ngIf="data.openBy == openBy.invite">Se va a <span *ngIf="!data.action">dejar
       de </span><strong>invitar </strong>a las siguientes personas:</div>
+  <div mat-subheader class="text-muted h4" *ngIf="data.openBy == openBy.confirm">Se va a <span *ngIf="!data.action">dejar
+      de </span><strong>confirmar </strong>a las siguientes personas:</div>
   <div class="mb-3"></div>
   <mat-list-item *ngFor="let persona of data.personas" class="list-invite-group">
     <div mat-line class="titleSpan">{{persona.nombre}} {{persona.apellidos}}</div>
@@ -47,5 +53,16 @@
     type="submit" cdkFocusInitial class="btn-dialog">
     <mat-icon *ngIf="!data.action">add</mat-icon>
     <span>Quitar Rechazo</span>
+  </button>
+
+  <button mat-stroked-button *ngIf="data.openBy == openBy.confirm && data.action" color="primary"
+    [mat-dialog-close]="true" type="submit" cdkFocusInitial class="btn-dialog">
+    <mat-icon *ngIf="data.openBy == openBy.confirm && data.action">check</mat-icon>
+    <span>Confirmar</span>
+  </button>
+  <button mat-stroked-button *ngIf="data.openBy == openBy.confirm && !data.action" color="warn" [mat-dialog-close]="true"
+    type="submit" cdkFocusInitial class="btn-dialog">
+    <mat-icon *ngIf="!data.action">close</mat-icon>
+    <span>Quitar Confirmación</span>
   </button>
 </div>
