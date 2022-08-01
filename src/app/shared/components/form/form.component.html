@@ -84,27 +84,6 @@
     </mat-accordion>
   </div>
 
-  <div class="col-12 m-2 d-flex justify-content-between" *ngIf="stateForm === states.edit && persona.grupo != 'hUNpRRMnt5nL3kuz0yiK'">
-    <h3 class="m-0 p-0 align-self-center">Invitar a todo el grupo</h3>
-    <button
-      type="button"
-      mat-stroked-button
-      (click)="changeInvite(persona.grupo, true)">
-      Invitar
-    </button>
-  </div>
-
-  <mat-divider *ngIf="stateForm === states.edit && persona.grupo != 'hUNpRRMnt5nL3kuz0yiK'"></mat-divider>
-  <div class="col-12 m-2 d-flex justify-content-between" *ngIf="stateForm === states.edit && persona.grupo != 'hUNpRRMnt5nL3kuz0yiK'">
-    <h3 class="m-0 p-0 align-self-center">Quitar invitación al grupo</h3>
-    <button
-      type="button"
-      mat-stroked-button
-      (click)="changeInvite(persona.grupo, false)">
-      No invitar
-    </button>
-  </div>
-
   <mat-divider></mat-divider>
   <div class="col-12 m-2 d-flex justify-content-between">
     <h3 class="m-0 p-0">Invitado</h3>
@@ -123,26 +102,54 @@
     <mat-slide-toggle formControlName="rechazado" color="warn"></mat-slide-toggle>
   </div>
 
-  <mat-divider *ngIf="stateForm === states.edit && persona.grupo != 'hUNpRRMnt5nL3kuz0yiK'"></mat-divider>
+  <mat-divider></mat-divider>
   <div class="col-12 m-2 d-flex justify-content-between" *ngIf="stateForm === states.edit && persona.grupo != 'hUNpRRMnt5nL3kuz0yiK'">
-    <h3 class="m-0 p-0 align-self-center">Rechazar a todo el grupo</h3>
-    <button
+    <h3 class="m-0 p-0">Administrar</h3>
+    <button mat-button type="button" 
+    [matMenuTriggerFor]="menu" 
+    aria-label="Example icon-button with a menu">
+      Más acciones
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item 
       type="button"
-      mat-stroked-button
+      (click)="changeInvite(persona.grupo, true)">
+        <mat-icon>group_add</mat-icon>
+        <span>Invitar al grupo</span>
+      </button>
+      <button mat-menu-item 
+      type="button"
+      (click)="changeInvite(persona.grupo, false)">
+        <mat-icon>group_off</mat-icon>
+        <span>No invitar al grupo</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item 
+      type="button"
       (click)="changeRejected(persona.grupo, true)">
-      Rechazar
-    </button>
-  </div>
-
-  <mat-divider *ngIf="stateForm === states.edit && persona.grupo != 'hUNpRRMnt5nL3kuz0yiK'"></mat-divider>
-  <div class="col-12 m-2 d-flex justify-content-between" *ngIf="stateForm === states.edit && persona.grupo != 'hUNpRRMnt5nL3kuz0yiK'">
-    <h3 class="m-0 p-0 align-self-center">Quitar rechazo al grupo</h3>
-    <button
+        <mat-icon>cancel</mat-icon>
+        <span>Rechazar al grupo</span>
+      </button>
+      <button mat-menu-item 
       type="button"
-      mat-stroked-button
       (click)="changeRejected(persona.grupo, false)">
-      Quitar Rechazo
-    </button>
+        <mat-icon>flaky</mat-icon>
+        <span>No rechazar al grupo</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item 
+      type="button"
+      (click)="changeConfirm(persona.grupo, true)">
+        <mat-icon>add_task</mat-icon>
+        <span>Confirmar al grupo</span>
+      </button>
+      <button mat-menu-item 
+      type="button"
+      (click)="changeConfirm(persona.grupo, false)">
+        <mat-icon>unpublished</mat-icon>
+        <span>No confirmar al grupo</span>
+      </button>
+    </mat-menu>
   </div>
 
   <mat-divider></mat-divider>

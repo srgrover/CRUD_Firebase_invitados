@@ -17,6 +17,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [FormComponent],
@@ -34,9 +35,10 @@ import { MatDividerModule } from '@angular/material/divider';
     MatListModule,
     MatDialogModule,
     MatBottomSheetModule,
-    MatDividerModule
+    MatDividerModule,
+    MatMenuModule
   ],
   providers: [FormGuard, MatSnackBarModule],
   exports: [FormComponent],
 })
-export class FormModule {}
+export class FormModule { }

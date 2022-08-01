@@ -158,8 +158,8 @@ export class FormComponent implements OnInit {
     return !validatedField?.valid && validatedField?.touched
       ? 'is-invalid'
       : validatedField?.touched
-      ? 'is-valid'
-      : '';
+        ? 'is-valid'
+        : '';
   }
 
   notRequiredHasValue(field: string): string {
@@ -263,9 +263,9 @@ export class FormComponent implements OnInit {
                 } catch (e) {
                   this.openSnackBar(
                     'Oops...Hubo un error al invitar a ' +
-                      inviGr.nombre +
-                      ' ' +
-                      inviGr.apellidos,
+                    inviGr.nombre +
+                    ' ' +
+                    inviGr.apellidos,
                     'Ok',
                     'bg-danger'
                   );
@@ -276,6 +276,58 @@ export class FormComponent implements OnInit {
               console.error(err);
               this.openSnackBar(
                 'Oops...Hubo un error al eliminar el invitado',
+                'Ok',
+                'bg-danger'
+              );
+            }
+          }
+        });
+    });
+  }
+
+  async changeConfirm(grupo: string, confirm: boolean) {
+    var invitadosGroup!: Persona[];
+
+    this.dataService.invitados.pipe(take(1)).subscribe((invitados) => {
+      invitadosGroup = invitados.filter((x) => x.grupo == grupo);
+
+      let dialogRef = this.dialog.open(InviteDialogConfirmComponent, {
+        width: '400px',
+        data: {
+          openBy: OpenBy.confirm,
+          action: confirm,
+          personas: invitadosGroup,
+        },
+      });
+
+      dialogRef
+        .afterClosed()
+        .pipe(take(1))
+        .subscribe((result) => {
+          if (result) {
+            try {
+              this.persona.confirmado = confirm;
+              this.invitadoForm.controls['confirmado'].setValue(confirm);
+              invitadosGroup.forEach(async (inviGr) => {
+                try {
+                  inviGr.confirmado = confirm;
+                  await this.dataService.addInvitado(inviGr);
+                } catch (e) {
+                  this.openSnackBar(
+                    'Oops...Hubo un error al confirmar a ' +
+                    inviGr.nombre +
+                    ' ' +
+                    inviGr.apellidos,
+                    'Ok',
+                    'bg-danger'
+                  );
+                }
+              });
+            } catch (err) {
+              //Swal.fire('Oops...', 'Hubo un error al eliminar al invitado', 'error');
+              console.error(err);
+              this.openSnackBar(
+                'Oops...Hubo un error al confirmar el invitado',
                 'Ok',
                 'bg-danger'
               );
@@ -315,9 +367,9 @@ export class FormComponent implements OnInit {
                 } catch (e) {
                   this.openSnackBar(
                     'Oops...Hubo un error al actualizar el estado rechazado de ' +
-                      inviGr.nombre +
-                      ' ' +
-                      inviGr.apellidos,
+                    inviGr.nombre +
+                    ' ' +
+                    inviGr.apellidos,
                     'Ok',
                     'bg-danger'
                   );
@@ -325,9 +377,9 @@ export class FormComponent implements OnInit {
               });
               var grupoModificar: Grupo | undefined;
               this.dataService.grupos.pipe(take(1)).subscribe(async (gr) => {
-                
+
                 grupoModificar = gr.find(f => f.id === grupo);
-                if(grupoModificar != undefined){
+                if (grupoModificar != undefined) {
                   grupoModificar.rechazado = invite;
                   await this.dataService.addGrupo(grupoModificar);
                 }
